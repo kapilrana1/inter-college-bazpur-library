@@ -102,8 +102,44 @@ digitalbooks/
 ├── index.html          # Main HTML file
 ├── style.css           # Styling
 ├── script.js           # JavaScript functionality
-└── README.md           # Documentation
+├── books/              # PDF files folder (GitHub served)
+│   ├── README.md       # Instructions for adding books
+│   └── .gitkeep        # Keeps folder in git
+├── README.md           # Documentation
+└── .gitignore          # Git ignore file
 ```
+
+## 📤 How to Add Books to Library
+
+### Method 1: Upload PDFs to books/ folder (Recommended)
+
+1. **Add PDF file** to `books/` folder:
+   ```bash
+   # Copy your PDF to books folder
+   cp your-book.pdf books/Mathematics_Class_6.pdf
+   ```
+
+2. **Commit and push**:
+   ```bash
+   git add books/Mathematics_Class_6.pdf
+   git commit -m "Added Mathematics Class 6 book"
+   git push
+   ```
+
+3. **Use URL in Admin Panel**:
+   ```
+   https://kapilrana1.github.io/inter-college-bazpur-library/books/Mathematics_Class_6.pdf
+   ```
+
+### Method 2: Use External Links
+
+Use URLs from:
+- NCERT official website
+- Google Drive (public links)
+- Dropbox (public links)
+- Any public PDF URL
+
+## 📁 Project Structure
 
 ## 🛠️ Technologies Used
 

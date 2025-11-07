@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inter College Bazpur - Digital Library</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>🎓 Inter College Bazpur</h1>
+            <p class="subtitle">Digital Library System</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Tab Navigation -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('student')">Student Section</button>
+            <button class="tab-btn" onclick="showTab('admin')">Admin Login</button>
+        </div>
+
+        <!-- Student Section (Default) -->
+        <div id="student-section" class="tab-content active">
+            <h2>📚 Available Books</h2>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search books by title, author, or category..." onkeyup="searchBooks()">
+            </div>
+            <div id="booksList" class="books-grid">
+                <!-- Books will be displayed here -->
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="admin-section" class="tab-content">
+            <!-- Admin Login -->
+            <div id="adminLogin" class="login-form">
+                <h2>🔐 Admin Login</h2>
+                <form onsubmit="adminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminEmail">Email ID:</label>
+                        <input type="email" id="adminEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password:</label>
+                        <input type="password" id="adminPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <p class="error-msg" id="loginError"></p>
+                </form>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div id="adminDashboard" class="admin-dashboard" style="display: none;">
+                <div class="admin-header">
+                    <h2>Admin Dashboard</h2>
+                    <button onclick="adminLogout()" class="btn btn-secondary">Logout</button>
+                </div>
+
+                <!-- Add Book Form -->
+                <div class="add-book-section">
+                    <h3>➕ Add New Book</h3>
+                    <form onsubmit="addBook(event)" id="addBookForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookTitle">Book Title:</label>
+                                <input type="text" id="bookTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookAuthor">Author:</label>
+                                <input type="text" id="bookAuthor" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="bookCategory">Category:</label>
+                                <input type="text" id="bookCategory" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bookYear">Publication Year:</label>
+                                <input type="number" id="bookYear" min="1900" max="2025" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookDescription">Description:</label>
+                            <textarea id="bookDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bookCover">Cover Image URL:</label>
+                            <input type="url" id="bookCover" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Book</button>
+                    </form>
+                </div>
+
+                <!-- Manage Books -->
+                <div class="manage-books-section">
+                    <h3>📖 Manage Books</h3>
+                    <div id="adminBooksList" class="admin-books-list">
+                        <!-- Admin books list will be displayed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Inter College Bazpur. All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -745,10 +745,10 @@ function displayBooks(filteredBooks = null) {
             ${book.pdfUrl ? `
                 <div class="book-actions">
                     <button onclick="openPdfViewer('${book.pdfUrl.replace(/'/g, "\\'")}', '${book.title.replace(/'/g, "\\'")}', event)" class="btn btn-read">
-                        📖 Read Online
+                        ${book.pdfUrl.endsWith('.zip') ? '� Open NCERT' : '�📖 Read Online'}
                     </button>
-                    <a href="${book.pdfUrl}" download="${book.title}.zip" class="btn btn-download">
-                        ⬇️ Download PDF
+                    <a href="${book.pdfUrl}" download="${book.title}.${book.pdfUrl.endsWith('.zip') ? 'zip' : 'pdf'}" class="btn btn-download">
+                        ⬇️ Download ${book.pdfUrl.endsWith('.zip') ? 'ZIP' : 'PDF'}
                     </a>
                 </div>
             ` : '<p class="no-pdf">PDF not available</p>'}
@@ -795,7 +795,14 @@ function openPdfViewer(pdfUrl, bookTitle, event) {
     // Set title
     title.textContent = bookTitle;
     
-    // Use Google Docs Viewer for better PDF viewing
+    // Check if URL is a ZIP file
+    if (pdfUrl.endsWith('.zip')) {
+        // For ZIP files, open in new tab as they need to be downloaded and extracted
+        window.open(pdfUrl, '_blank');
+        return;
+    }
+    
+    // For PDF files, use Google Docs Viewer for better PDF viewing
     const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
     viewer.src = viewerUrl;
     

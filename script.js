@@ -66,7 +66,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 7',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/gemh1dd.zip'
     },
     {
         id: 7,
@@ -75,7 +76,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Science',
         year: 2024,
         description: 'NCERT Science textbook for Class 7',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/gesc1dd.zip'
     },
     {
         id: 8,
@@ -84,7 +86,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Social Science',
         year: 2024,
         description: 'NCERT Social Science textbook for Class 7',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/gess1dd.zip'
     },
     {
         id: 9,
@@ -93,7 +96,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Vasant Part 2 for Class 7',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/gehn1dd.zip'
     },
     {
         id: 10,
@@ -102,7 +106,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook Honeycomb for Class 7',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/geep1dd.zip'
     },
     
     // Class 8 NCERT Books
@@ -113,7 +118,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 8',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/hemh1dd.zip'
     },
     {
         id: 12,
@@ -122,7 +128,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Science',
         year: 2024,
         description: 'NCERT Science textbook for Class 8',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/hesc1dd.zip'
     },
     {
         id: 13,
@@ -131,7 +138,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Social Science',
         year: 2024,
         description: 'NCERT Social Science textbook for Class 8',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/hess1dd.zip'
     },
     {
         id: 14,
@@ -140,7 +148,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Vasant Part 3 for Class 8',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/hehn1dd.zip'
     },
     {
         id: 15,
@@ -149,7 +158,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook Honeydew for Class 8',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/heep1dd.zip'
     },
     
     // Class 9 NCERT Books
@@ -160,7 +170,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 9',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/iemh1dd.zip'
     },
     {
         id: 17,
@@ -169,7 +180,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Science',
         year: 2024,
         description: 'NCERT Science textbook for Class 9',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/iesc1dd.zip'
     },
     {
         id: 18,
@@ -178,7 +190,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Social Science',
         year: 2024,
         description: 'NCERT Social Science - India and Contemporary World for Class 9',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/iess1dd.zip'
     },
     {
         id: 19,
@@ -187,7 +200,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Kshitij Part 1 for Class 9',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/iehn1dd.zip'
     },
     {
         id: 20,
@@ -196,7 +210,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook Beehive for Class 9',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/ieep1dd.zip'
     },
     
     // Class 10 NCERT Books
@@ -207,7 +222,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 10',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/jemh1dd.zip'
     },
     {
         id: 22,
@@ -216,7 +232,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Science',
         year: 2024,
         description: 'NCERT Science textbook for Class 10',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/jesc1dd.zip'
     },
     {
         id: 23,
@@ -225,7 +242,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Social Science',
         year: 2024,
         description: 'NCERT Social Science - India and Contemporary World II for Class 10',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/jess1dd.zip'
     },
     {
         id: 24,
@@ -234,7 +252,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Kshitij Part 2 for Class 10',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/jehn1dd.zip'
     },
     {
         id: 25,
@@ -243,7 +262,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook First Flight for Class 10',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/jeep1dd.zip'
     },
     
     // Class 11 NCERT Books
@@ -254,7 +274,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kemh1dd.zip'
     },
     {
         id: 27,
@@ -263,7 +284,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Physics',
         year: 2024,
         description: 'NCERT Physics textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/keph1dd.zip'
     },
     {
         id: 28,
@@ -272,7 +294,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Chemistry',
         year: 2024,
         description: 'NCERT Chemistry textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kech1dd.zip'
     },
     {
         id: 29,
@@ -281,7 +304,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Biology',
         year: 2024,
         description: 'NCERT Biology textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kebo1dd.zip'
     },
     {
         id: 30,
@@ -290,7 +314,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'History',
         year: 2024,
         description: 'NCERT History textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kehs1dd.zip'
     },
     {
         id: 31,
@@ -299,7 +324,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Geography',
         year: 2024,
         description: 'NCERT Geography textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kegy1dd.zip'
     },
     {
         id: 32,
@@ -308,7 +334,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Economics',
         year: 2024,
         description: 'NCERT Economics textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/keec1dd.zip'
     },
     {
         id: 33,
@@ -317,7 +344,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Accountancy',
         year: 2024,
         description: 'NCERT Accountancy textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/keac1dd.zip'
     },
     {
         id: 34,
@@ -326,7 +354,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Business Studies',
         year: 2024,
         description: 'NCERT Business Studies textbook for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kebs1dd.zip'
     },
     {
         id: 35,
@@ -335,7 +364,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Aroh Part 1 for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/kehn1dd.zip'
     },
     {
         id: 36,
@@ -344,7 +374,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook Hornbill for Class 11',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/keeh1dd.zip'
     },
     
     // Class 12 NCERT Books
@@ -355,7 +386,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lemh1dd.zip'
     },
     {
         id: 38,
@@ -364,7 +396,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Physics',
         year: 2024,
         description: 'NCERT Physics textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/leph1dd.zip'
     },
     {
         id: 39,
@@ -373,7 +406,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Chemistry',
         year: 2024,
         description: 'NCERT Chemistry textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lech1dd.zip'
     },
     {
         id: 40,
@@ -382,7 +416,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Biology',
         year: 2024,
         description: 'NCERT Biology textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lebo1dd.zip'
     },
     {
         id: 41,
@@ -391,7 +426,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'History',
         year: 2024,
         description: 'NCERT History textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lehs1dd.zip'
     },
     {
         id: 42,
@@ -400,7 +436,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Geography',
         year: 2024,
         description: 'NCERT Geography textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/legy1dd.zip'
     },
     {
         id: 43,
@@ -409,7 +446,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Economics',
         year: 2024,
         description: 'NCERT Economics textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/leec1dd.zip'
     },
     {
         id: 44,
@@ -418,7 +456,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Accountancy',
         year: 2024,
         description: 'NCERT Accountancy textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/leac1dd.zip'
     },
     {
         id: 45,
@@ -427,7 +466,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Business Studies',
         year: 2024,
         description: 'NCERT Business Studies textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lebs1dd.zip'
     },
     {
         id: 46,
@@ -436,7 +476,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Political Science',
         year: 2024,
         description: 'NCERT Political Science textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/leps1dd.zip'
     },
     {
         id: 47,
@@ -445,7 +486,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Sociology',
         year: 2024,
         description: 'NCERT Sociology textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lesy1dd.zip'
     },
     {
         id: 48,
@@ -454,7 +496,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Psychology',
         year: 2024,
         description: 'NCERT Psychology textbook for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/leps2dd.zip'
     },
     {
         id: 49,
@@ -463,7 +506,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Aroh Part 2 for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lehn1dd.zip'
     },
     {
         id: 50,
@@ -472,7 +516,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook Flamingo for Class 12',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/lefl1dd.zip'
     }
 ];
 

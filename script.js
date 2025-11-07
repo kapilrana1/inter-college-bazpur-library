@@ -481,11 +481,72 @@ let isAdminLoggedIn = sessionStorage.getItem('adminLoggedIn') === 'true';
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
+    populateCategoryFilter();
     displayBooks();
     if (isAdminLoggedIn) {
         showAdminDashboard();
     }
 });
+
+// Populate category filter dropdown
+function populateCategoryFilter() {
+    const categories = [...new Set(books.map(book => book.category))].sort();
+    const categoryFilter = document.getElementById('categoryFilter');
+    
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+
+// Filter books by class, category, and search
+function filterBooks() {
+    const classFilter = document.getElementById('classFilter').value;
+    const categoryFilter = document.getElementById('categoryFilter').value;
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    
+    let filteredBooks = books;
+    
+    // Filter by class
+    if (classFilter !== 'all') {
+        filteredBooks = filteredBooks.filter(book => 
+            book.title.toLowerCase().includes(`class ${classFilter}`) ||
+            book.title.toLowerCase().includes(`कक्षा ${classFilter}`)
+        );
+    }
+    
+    // Filter by category
+    if (categoryFilter !== 'all') {
+        filteredBooks = filteredBooks.filter(book => 
+            book.category === categoryFilter
+        );
+    }
+    
+    // Filter by search term
+    if (searchTerm) {
+        filteredBooks = filteredBooks.filter(book => 
+            book.title.toLowerCase().includes(searchTerm) ||
+            book.author.toLowerCase().includes(searchTerm) ||
+            book.category.toLowerCase().includes(searchTerm) ||
+            book.description.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    displayBooks(filteredBooks);
+    updateBookCount(filteredBooks.length, books.length);
+}
+
+// Update book count display
+function updateBookCount(filtered, total) {
+    const bookCount = document.getElementById('bookCount');
+    if (filtered === total) {
+        bookCount.textContent = `Showing all ${total} books`;
+    } else {
+        bookCount.textContent = `Showing ${filtered} of ${total} books`;
+    }
+}
 
 // Tab switching
 function showTab(tabName) {
@@ -565,6 +626,7 @@ function addBook(event) {
     books.push(newBook);
     saveBooks();
     displayAdminBooks();
+    populateCategoryFilter(); // Update category filter
     displayBooks();
     
     // Reset form
@@ -580,6 +642,7 @@ function deleteBook(bookId) {
         books = books.filter(book => book.id !== bookId);
         saveBooks();
         displayAdminBooks();
+        populateCategoryFilter(); // Update category filter
         displayBooks();
     }
 }
@@ -619,7 +682,7 @@ function displayBooks(filteredBooks = null) {
     const booksToDisplay = filteredBooks || books;
 
     if (booksToDisplay.length === 0) {
-        booksList.innerHTML = '<div class="no-books">No books available</div>';
+        booksList.innerHTML = '<div class="no-books">No books found matching your criteria</div>';
         return;
     }
 
@@ -646,6 +709,11 @@ function displayBooks(filteredBooks = null) {
             ` : '<p class="no-pdf">PDF not available</p>'}
         </div>
     `).join('');
+    
+    // Update count if not filtered
+    if (!filteredBooks) {
+        updateBookCount(books.length, books.length);
+    }
 }
 
 // Display books for admin
@@ -666,18 +734,4 @@ function displayAdminBooks() {
             <button onclick="deleteBook(${book.id})" class="btn btn-danger">Delete</button>
         </div>
     `).join('');
-}
-
-// Search books
-function searchBooks() {
-    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    
-    const filteredBooks = books.filter(book => 
-        book.title.toLowerCase().includes(searchTerm) ||
-        book.author.toLowerCase().includes(searchTerm) ||
-        book.category.toLowerCase().includes(searchTerm) ||
-        book.description.toLowerCase().includes(searchTerm)
-    );
-
-    displayBooks(filteredBooks);
 }

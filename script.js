@@ -14,7 +14,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Mathematics',
         year: 2024,
         description: 'NCERT Mathematics textbook for Class 6 with comprehensive explanations',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/femh1dd.zip'
     },
     {
         id: 2,
@@ -23,7 +24,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Science',
         year: 2024,
         description: 'NCERT Science textbook for Class 6 covering Physics, Chemistry and Biology',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/fesc1dd.zip'
     },
     {
         id: 3,
@@ -32,7 +34,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Social Science',
         year: 2024,
         description: 'NCERT Social Science textbook for Class 6 - History, Geography, Civics',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/fess1dd.zip'
     },
     {
         id: 4,
@@ -41,7 +44,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'Hindi',
         year: 2024,
         description: 'NCERT Hindi textbook Vasant Part 1 for Class 6',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/fehn1dd.zip'
     },
     {
         id: 5,
@@ -50,7 +54,8 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
         category: 'English',
         year: 2024,
         description: 'NCERT English textbook Honeysuckle for Class 6',
-        cover: ''
+        cover: '',
+        pdfUrl: 'https://ncert.nic.in/textbook/pdf/feep1dd.zip'
     },
     
     // Class 7 NCERT Books
@@ -553,7 +558,8 @@ function addBook(event) {
         category: document.getElementById('bookCategory').value,
         year: parseInt(document.getElementById('bookYear').value),
         description: document.getElementById('bookDescription').value,
-        cover: document.getElementById('bookCover').value || ''
+        cover: document.getElementById('bookCover').value || '',
+        pdfUrl: document.getElementById('bookPdf').value || ''
     };
 
     books.push(newBook);
@@ -604,6 +610,16 @@ function displayBooks(filteredBooks = null) {
             <span class="book-category">${book.category}</span>
             <p class="book-year">📅 ${book.year}</p>
             <p class="book-description">${book.description}</p>
+            ${book.pdfUrl ? `
+                <div class="book-actions">
+                    <a href="${book.pdfUrl}" target="_blank" class="btn btn-read">
+                        📖 Read Online
+                    </a>
+                    <a href="${book.pdfUrl}" download class="btn btn-download">
+                        ⬇️ Download PDF
+                    </a>
+                </div>
+            ` : '<p class="no-pdf">PDF not available</p>'}
         </div>
     `).join('');
 }

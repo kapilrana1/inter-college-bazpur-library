@@ -744,10 +744,10 @@ function displayBooks(filteredBooks = null) {
             <p class="book-description">${book.description}</p>
             ${book.pdfUrl ? `
                 <div class="book-actions">
-                    <a href="${book.pdfUrl}" target="_blank" class="btn btn-read">
+                    <button onclick="openPdfViewer('${book.pdfUrl.replace(/'/g, "\\'")}', '${book.title.replace(/'/g, "\\'")}', event)" class="btn btn-read">
                         📖 Read Online
-                    </a>
-                    <a href="${book.pdfUrl}" download class="btn btn-download">
+                    </button>
+                    <a href="${book.pdfUrl}" download="${book.title}.zip" class="btn btn-download">
                         ⬇️ Download PDF
                     </a>
                 </div>
@@ -780,3 +780,54 @@ function displayAdminBooks() {
         </div>
     `).join('');
 }
+
+// Open PDF Viewer
+function openPdfViewer(pdfUrl, bookTitle, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    
+    const modal = document.getElementById('pdfModal');
+    const viewer = document.getElementById('pdfViewer');
+    const title = document.getElementById('pdfTitle');
+    
+    // Set title
+    title.textContent = bookTitle;
+    
+    // Use Google Docs Viewer for better PDF viewing
+    const viewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(pdfUrl)}&embedded=true`;
+    viewer.src = viewerUrl;
+    
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+// Close PDF Viewer
+function closePdfViewer() {
+    const modal = document.getElementById('pdfModal');
+    const viewer = document.getElementById('pdfViewer');
+    
+    // Clear iframe
+    viewer.src = '';
+    
+    // Hide modal
+    modal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('pdfModal');
+    if (event.target === modal) {
+        closePdfViewer();
+    }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        closePdfViewer();
+    }
+});

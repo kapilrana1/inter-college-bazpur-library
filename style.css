@@ -244,6 +244,9 @@ header {
     font-size: 0.9em;
     font-weight: 600;
     transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
 }
 
 .btn-read {
@@ -448,6 +451,80 @@ footer {
     color: white;
     text-align: center;
     padding: 15px;
+}
+
+/* PDF Modal */
+.pdf-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    animation: fadeIn 0.3s;
+}
+
+.pdf-modal.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-modal-content {
+    background: white;
+    width: 95%;
+    height: 95%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.pdf-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.pdf-modal-header h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.btn-close {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2em;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+    line-height: 1;
+}
+
+.btn-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.pdf-viewer-container {
+    flex: 1;
+    width: 100%;
+    background: #525659;
+}
+
+.pdf-viewer-container iframe {
+    width: 100%;
+    height: 100%;
 }
 
 /* Responsive Design */

@@ -589,6 +589,30 @@ function saveBooks() {
     localStorage.setItem('libraryBooks', JSON.stringify(books));
 }
 
+// Get icon based on category
+function getCategoryIcon(category) {
+    const icons = {
+        'Mathematics': '🔢',
+        'Science': '🔬',
+        'Physics': '⚛️',
+        'Chemistry': '🧪',
+        'Biology': '🧬',
+        'Social Science': '🌍',
+        'History': '📜',
+        'Geography': '🗺️',
+        'Economics': '💰',
+        'Political Science': '🏛️',
+        'Sociology': '👥',
+        'Psychology': '🧠',
+        'Accountancy': '💼',
+        'Business Studies': '📊',
+        'Hindi': '📝',
+        'English': '📖',
+        'Language': '📚'
+    };
+    return icons[category] || '📚';
+}
+
 // Display books for students
 function displayBooks(filteredBooks = null) {
     const booksList = document.getElementById('booksList');
@@ -602,8 +626,8 @@ function displayBooks(filteredBooks = null) {
     booksList.innerHTML = booksToDisplay.map(book => `
         <div class="book-card">
             ${book.cover 
-                ? `<img src="${book.cover}" alt="${book.title}" class="book-cover" onerror="this.outerHTML='<div class=\\'book-cover\\'>📚</div>'">`
-                : '<div class="book-cover">📚</div>'
+                ? `<img src="${book.cover}" alt="${book.title}" class="book-cover" onerror="this.outerHTML='<div class=\\'book-cover\\'>${getCategoryIcon(book.category)}</div>'">`
+                : `<div class="book-cover">${getCategoryIcon(book.category)}</div>`
             }
             <h3>${book.title}</h3>
             <p class="book-author">👤 ${book.author}</p>

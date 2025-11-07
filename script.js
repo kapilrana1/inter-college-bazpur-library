@@ -6,31 +6,467 @@ const ADMIN_CREDENTIALS = {
 
 // Initialize books from localStorage or use default
 let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
+    // Class 6 NCERT Books
     {
         id: 1,
-        title: 'भारत का इतिहास',
-        author: 'डॉ. राजेश कुमार',
-        category: 'History',
-        year: 2023,
-        description: 'भारतीय इतिहास की व्यापक जानकारी',
+        title: 'गणित - कक्षा 6',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 6 with comprehensive explanations',
         cover: ''
     },
     {
         id: 2,
-        title: 'Physics Fundamentals',
-        author: 'Dr. A.K. Singh',
+        title: 'विज्ञान - कक्षा 6',
+        author: 'NCERT',
         category: 'Science',
         year: 2024,
-        description: 'Complete guide to physics for intermediate students',
+        description: 'NCERT Science textbook for Class 6 covering Physics, Chemistry and Biology',
         cover: ''
     },
     {
         id: 3,
-        title: 'अंग्रेजी व्याकरण',
-        author: 'प्रोफ. सुनीता वर्मा',
-        category: 'Language',
-        year: 2023,
-        description: 'English grammar in Hindi for better understanding',
+        title: 'सामाजिक विज्ञान - कक्षा 6',
+        author: 'NCERT',
+        category: 'Social Science',
+        year: 2024,
+        description: 'NCERT Social Science textbook for Class 6 - History, Geography, Civics',
+        cover: ''
+    },
+    {
+        id: 4,
+        title: 'हिंदी - वसंत भाग 1',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Vasant Part 1 for Class 6',
+        cover: ''
+    },
+    {
+        id: 5,
+        title: 'English - Honeysuckle',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook Honeysuckle for Class 6',
+        cover: ''
+    },
+    
+    // Class 7 NCERT Books
+    {
+        id: 6,
+        title: 'गणित - कक्षा 7',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 7',
+        cover: ''
+    },
+    {
+        id: 7,
+        title: 'विज्ञान - कक्षा 7',
+        author: 'NCERT',
+        category: 'Science',
+        year: 2024,
+        description: 'NCERT Science textbook for Class 7',
+        cover: ''
+    },
+    {
+        id: 8,
+        title: 'सामाजिक विज्ञान - कक्षा 7',
+        author: 'NCERT',
+        category: 'Social Science',
+        year: 2024,
+        description: 'NCERT Social Science textbook for Class 7',
+        cover: ''
+    },
+    {
+        id: 9,
+        title: 'हिंदी - वसंत भाग 2',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Vasant Part 2 for Class 7',
+        cover: ''
+    },
+    {
+        id: 10,
+        title: 'English - Honeycomb',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook Honeycomb for Class 7',
+        cover: ''
+    },
+    
+    // Class 8 NCERT Books
+    {
+        id: 11,
+        title: 'गणित - कक्षा 8',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 8',
+        cover: ''
+    },
+    {
+        id: 12,
+        title: 'विज्ञान - कक्षा 8',
+        author: 'NCERT',
+        category: 'Science',
+        year: 2024,
+        description: 'NCERT Science textbook for Class 8',
+        cover: ''
+    },
+    {
+        id: 13,
+        title: 'सामाजिक विज्ञान - कक्षा 8',
+        author: 'NCERT',
+        category: 'Social Science',
+        year: 2024,
+        description: 'NCERT Social Science textbook for Class 8',
+        cover: ''
+    },
+    {
+        id: 14,
+        title: 'हिंदी - वसंत भाग 3',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Vasant Part 3 for Class 8',
+        cover: ''
+    },
+    {
+        id: 15,
+        title: 'English - Honeydew',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook Honeydew for Class 8',
+        cover: ''
+    },
+    
+    // Class 9 NCERT Books
+    {
+        id: 16,
+        title: 'गणित - कक्षा 9',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 9',
+        cover: ''
+    },
+    {
+        id: 17,
+        title: 'विज्ञान - कक्षा 9',
+        author: 'NCERT',
+        category: 'Science',
+        year: 2024,
+        description: 'NCERT Science textbook for Class 9',
+        cover: ''
+    },
+    {
+        id: 18,
+        title: 'सामाजिक विज्ञान - कक्षा 9',
+        author: 'NCERT',
+        category: 'Social Science',
+        year: 2024,
+        description: 'NCERT Social Science - India and Contemporary World for Class 9',
+        cover: ''
+    },
+    {
+        id: 19,
+        title: 'हिंदी - क्षितिज भाग 1',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Kshitij Part 1 for Class 9',
+        cover: ''
+    },
+    {
+        id: 20,
+        title: 'English - Beehive',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook Beehive for Class 9',
+        cover: ''
+    },
+    
+    // Class 10 NCERT Books
+    {
+        id: 21,
+        title: 'गणित - कक्षा 10',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 10',
+        cover: ''
+    },
+    {
+        id: 22,
+        title: 'विज्ञान - कक्षा 10',
+        author: 'NCERT',
+        category: 'Science',
+        year: 2024,
+        description: 'NCERT Science textbook for Class 10',
+        cover: ''
+    },
+    {
+        id: 23,
+        title: 'सामाजिक विज्ञान - कक्षा 10',
+        author: 'NCERT',
+        category: 'Social Science',
+        year: 2024,
+        description: 'NCERT Social Science - India and Contemporary World II for Class 10',
+        cover: ''
+    },
+    {
+        id: 24,
+        title: 'हिंदी - क्षितिज भाग 2',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Kshitij Part 2 for Class 10',
+        cover: ''
+    },
+    {
+        id: 25,
+        title: 'English - First Flight',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook First Flight for Class 10',
+        cover: ''
+    },
+    
+    // Class 11 NCERT Books
+    {
+        id: 26,
+        title: 'गणित - कक्षा 11',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 27,
+        title: 'भौतिक विज्ञान - कक्षा 11',
+        author: 'NCERT',
+        category: 'Physics',
+        year: 2024,
+        description: 'NCERT Physics textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 28,
+        title: 'रसायन विज्ञान - कक्षा 11',
+        author: 'NCERT',
+        category: 'Chemistry',
+        year: 2024,
+        description: 'NCERT Chemistry textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 29,
+        title: 'जीव विज्ञान - कक्षा 11',
+        author: 'NCERT',
+        category: 'Biology',
+        year: 2024,
+        description: 'NCERT Biology textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 30,
+        title: 'इतिहास - विश्व इतिहास के कुछ विषय',
+        author: 'NCERT',
+        category: 'History',
+        year: 2024,
+        description: 'NCERT History textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 31,
+        title: 'भूगोल - भौतिक भूगोल के मूल सिद्धांत',
+        author: 'NCERT',
+        category: 'Geography',
+        year: 2024,
+        description: 'NCERT Geography textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 32,
+        title: 'अर्थशास्त्र - कक्षा 11',
+        author: 'NCERT',
+        category: 'Economics',
+        year: 2024,
+        description: 'NCERT Economics textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 33,
+        title: 'लेखाशास्त्र - कक्षा 11',
+        author: 'NCERT',
+        category: 'Accountancy',
+        year: 2024,
+        description: 'NCERT Accountancy textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 34,
+        title: 'व्यवसाय अध्ययन - कक्षा 11',
+        author: 'NCERT',
+        category: 'Business Studies',
+        year: 2024,
+        description: 'NCERT Business Studies textbook for Class 11',
+        cover: ''
+    },
+    {
+        id: 35,
+        title: 'हिंदी - आरोह भाग 1',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Aroh Part 1 for Class 11',
+        cover: ''
+    },
+    {
+        id: 36,
+        title: 'English - Hornbill',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook Hornbill for Class 11',
+        cover: ''
+    },
+    
+    // Class 12 NCERT Books
+    {
+        id: 37,
+        title: 'गणित - कक्षा 12',
+        author: 'NCERT',
+        category: 'Mathematics',
+        year: 2024,
+        description: 'NCERT Mathematics textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 38,
+        title: 'भौतिक विज्ञान - कक्षा 12',
+        author: 'NCERT',
+        category: 'Physics',
+        year: 2024,
+        description: 'NCERT Physics textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 39,
+        title: 'रसायन विज्ञान - कक्षा 12',
+        author: 'NCERT',
+        category: 'Chemistry',
+        year: 2024,
+        description: 'NCERT Chemistry textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 40,
+        title: 'जीव विज्ञान - कक्षा 12',
+        author: 'NCERT',
+        category: 'Biology',
+        year: 2024,
+        description: 'NCERT Biology textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 41,
+        title: 'इतिहास - भारतीय इतिहास के कुछ विषय भाग 3',
+        author: 'NCERT',
+        category: 'History',
+        year: 2024,
+        description: 'NCERT History textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 42,
+        title: 'भूगोल - मानव भूगोल के मूल सिद्धांत',
+        author: 'NCERT',
+        category: 'Geography',
+        year: 2024,
+        description: 'NCERT Geography textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 43,
+        title: 'अर्थशास्त्र - कक्षा 12',
+        author: 'NCERT',
+        category: 'Economics',
+        year: 2024,
+        description: 'NCERT Economics textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 44,
+        title: 'लेखाशास्त्र - कक्षा 12',
+        author: 'NCERT',
+        category: 'Accountancy',
+        year: 2024,
+        description: 'NCERT Accountancy textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 45,
+        title: 'व्यवसाय अध्ययन - कक्षा 12',
+        author: 'NCERT',
+        category: 'Business Studies',
+        year: 2024,
+        description: 'NCERT Business Studies textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 46,
+        title: 'राजनीति विज्ञान - समकालीन विश्व राजनीति',
+        author: 'NCERT',
+        category: 'Political Science',
+        year: 2024,
+        description: 'NCERT Political Science textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 47,
+        title: 'समाजशास्त्र - भारतीय समाज',
+        author: 'NCERT',
+        category: 'Sociology',
+        year: 2024,
+        description: 'NCERT Sociology textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 48,
+        title: 'मनोविज्ञान - कक्षा 12',
+        author: 'NCERT',
+        category: 'Psychology',
+        year: 2024,
+        description: 'NCERT Psychology textbook for Class 12',
+        cover: ''
+    },
+    {
+        id: 49,
+        title: 'हिंदी - आरोह भाग 2',
+        author: 'NCERT',
+        category: 'Hindi',
+        year: 2024,
+        description: 'NCERT Hindi textbook Aroh Part 2 for Class 12',
+        cover: ''
+    },
+    {
+        id: 50,
+        title: 'English - Flamingo',
+        author: 'NCERT',
+        category: 'English',
+        year: 2024,
+        description: 'NCERT English textbook Flamingo for Class 12',
         cover: ''
     }
 ];

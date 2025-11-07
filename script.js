@@ -9,7 +9,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 6 NCERT Books
     {
         id: 1,
-        title: 'गणित - कक्षा 6',
+        title: 'Mathematics - Class 6',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -18,7 +18,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 2,
-        title: 'विज्ञान - कक्षा 6',
+        title: 'Science - Class 6',
         author: 'NCERT',
         category: 'Science',
         year: 2024,
@@ -27,7 +27,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 3,
-        title: 'सामाजिक विज्ञान - कक्षा 6',
+        title: 'Social Science - Class 6',
         author: 'NCERT',
         category: 'Social Science',
         year: 2024,
@@ -36,7 +36,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 4,
-        title: 'हिंदी - वसंत भाग 1',
+        title: 'Hindi - Vasant Part 1',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,
@@ -56,7 +56,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 7 NCERT Books
     {
         id: 6,
-        title: 'गणित - कक्षा 7',
+        title: 'Mathematics - Class 7',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -65,7 +65,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 7,
-        title: 'विज्ञान - कक्षा 7',
+        title: 'Science - Class 7',
         author: 'NCERT',
         category: 'Science',
         year: 2024,
@@ -74,7 +74,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 8,
-        title: 'सामाजिक विज्ञान - कक्षा 7',
+        title: 'Social Science - Class 7',
         author: 'NCERT',
         category: 'Social Science',
         year: 2024,
@@ -83,7 +83,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 9,
-        title: 'हिंदी - वसंत भाग 2',
+        title: 'Hindi - Vasant Part 2',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,
@@ -103,7 +103,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 8 NCERT Books
     {
         id: 11,
-        title: 'गणित - कक्षा 8',
+        title: 'Mathematics - Class 8',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -112,7 +112,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 12,
-        title: 'विज्ञान - कक्षा 8',
+        title: 'Science - Class 8',
         author: 'NCERT',
         category: 'Science',
         year: 2024,
@@ -121,7 +121,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 13,
-        title: 'सामाजिक विज्ञान - कक्षा 8',
+        title: 'Social Science - Class 8',
         author: 'NCERT',
         category: 'Social Science',
         year: 2024,
@@ -130,7 +130,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 14,
-        title: 'हिंदी - वसंत भाग 3',
+        title: 'Hindi - Vasant Part 3',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,
@@ -150,7 +150,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 9 NCERT Books
     {
         id: 16,
-        title: 'गणित - कक्षा 9',
+        title: 'Mathematics - Class 9',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -159,7 +159,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 17,
-        title: 'विज्ञान - कक्षा 9',
+        title: 'Science - Class 9',
         author: 'NCERT',
         category: 'Science',
         year: 2024,
@@ -168,7 +168,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 18,
-        title: 'सामाजिक विज्ञान - कक्षा 9',
+        title: 'Social Science - Class 9',
         author: 'NCERT',
         category: 'Social Science',
         year: 2024,
@@ -177,7 +177,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 19,
-        title: 'हिंदी - क्षितिज भाग 1',
+        title: 'Hindi - Kshitij Part 1',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,
@@ -197,7 +197,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 10 NCERT Books
     {
         id: 21,
-        title: 'गणित - कक्षा 10',
+        title: 'Mathematics - Class 10',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -206,7 +206,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 22,
-        title: 'विज्ञान - कक्षा 10',
+        title: 'Science - Class 10',
         author: 'NCERT',
         category: 'Science',
         year: 2024,
@@ -215,7 +215,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 23,
-        title: 'सामाजिक विज्ञान - कक्षा 10',
+        title: 'Social Science - Class 10',
         author: 'NCERT',
         category: 'Social Science',
         year: 2024,
@@ -224,7 +224,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 24,
-        title: 'हिंदी - क्षितिज भाग 2',
+        title: 'Hindi - Kshitij Part 2',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,
@@ -244,7 +244,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 11 NCERT Books
     {
         id: 26,
-        title: 'गणित - कक्षा 11',
+        title: 'Mathematics - Class 11',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -253,7 +253,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 27,
-        title: 'भौतिक विज्ञान - कक्षा 11',
+        title: 'Physics - Class 11',
         author: 'NCERT',
         category: 'Physics',
         year: 2024,
@@ -262,7 +262,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 28,
-        title: 'रसायन विज्ञान - कक्षा 11',
+        title: 'Chemistry - Class 11',
         author: 'NCERT',
         category: 'Chemistry',
         year: 2024,
@@ -271,7 +271,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 29,
-        title: 'जीव विज्ञान - कक्षा 11',
+        title: 'Biology - Class 11',
         author: 'NCERT',
         category: 'Biology',
         year: 2024,
@@ -280,7 +280,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 30,
-        title: 'इतिहास - विश्व इतिहास के कुछ विषय',
+        title: 'History - Themes in World History',
         author: 'NCERT',
         category: 'History',
         year: 2024,
@@ -289,7 +289,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 31,
-        title: 'भूगोल - भौतिक भूगोल के मूल सिद्धांत',
+        title: 'Geography - Fundamentals of Physical Geography',
         author: 'NCERT',
         category: 'Geography',
         year: 2024,
@@ -298,7 +298,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 32,
-        title: 'अर्थशास्त्र - कक्षा 11',
+        title: 'Economics - Class 11',
         author: 'NCERT',
         category: 'Economics',
         year: 2024,
@@ -307,7 +307,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 33,
-        title: 'लेखाशास्त्र - कक्षा 11',
+        title: 'Accountancy - Class 11',
         author: 'NCERT',
         category: 'Accountancy',
         year: 2024,
@@ -316,7 +316,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 34,
-        title: 'व्यवसाय अध्ययन - कक्षा 11',
+        title: 'Business Studies - Class 11',
         author: 'NCERT',
         category: 'Business Studies',
         year: 2024,
@@ -325,7 +325,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 35,
-        title: 'हिंदी - आरोह भाग 1',
+        title: 'Hindi - Aroh Part 1',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,
@@ -345,7 +345,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     // Class 12 NCERT Books
     {
         id: 37,
-        title: 'गणित - कक्षा 12',
+        title: 'Mathematics - Class 12',
         author: 'NCERT',
         category: 'Mathematics',
         year: 2024,
@@ -354,7 +354,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 38,
-        title: 'भौतिक विज्ञान - कक्षा 12',
+        title: 'Physics - Class 12',
         author: 'NCERT',
         category: 'Physics',
         year: 2024,
@@ -363,7 +363,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 39,
-        title: 'रसायन विज्ञान - कक्षा 12',
+        title: 'Chemistry - Class 12',
         author: 'NCERT',
         category: 'Chemistry',
         year: 2024,
@@ -372,7 +372,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 40,
-        title: 'जीव विज्ञान - कक्षा 12',
+        title: 'Biology - Class 12',
         author: 'NCERT',
         category: 'Biology',
         year: 2024,
@@ -381,7 +381,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 41,
-        title: 'इतिहास - भारतीय इतिहास के कुछ विषय भाग 3',
+        title: 'History - Themes in Indian History Part 3',
         author: 'NCERT',
         category: 'History',
         year: 2024,
@@ -390,7 +390,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 42,
-        title: 'भूगोल - मानव भूगोल के मूल सिद्धांत',
+        title: 'Geography - Fundamentals of Human Geography',
         author: 'NCERT',
         category: 'Geography',
         year: 2024,
@@ -399,7 +399,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 43,
-        title: 'अर्थशास्त्र - कक्षा 12',
+        title: 'Economics - Class 12',
         author: 'NCERT',
         category: 'Economics',
         year: 2024,
@@ -408,7 +408,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 44,
-        title: 'लेखाशास्त्र - कक्षा 12',
+        title: 'Accountancy - Class 12',
         author: 'NCERT',
         category: 'Accountancy',
         year: 2024,
@@ -417,7 +417,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 45,
-        title: 'व्यवसाय अध्ययन - कक्षा 12',
+        title: 'Business Studies - Class 12',
         author: 'NCERT',
         category: 'Business Studies',
         year: 2024,
@@ -426,7 +426,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 46,
-        title: 'राजनीति विज्ञान - समकालीन विश्व राजनीति',
+        title: 'Political Science - Contemporary World Politics',
         author: 'NCERT',
         category: 'Political Science',
         year: 2024,
@@ -435,7 +435,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 47,
-        title: 'समाजशास्त्र - भारतीय समाज',
+        title: 'Sociology - Indian Society',
         author: 'NCERT',
         category: 'Sociology',
         year: 2024,
@@ -444,7 +444,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 48,
-        title: 'मनोविज्ञान - कक्षा 12',
+        title: 'Psychology - Class 12',
         author: 'NCERT',
         category: 'Psychology',
         year: 2024,
@@ -453,7 +453,7 @@ let books = JSON.parse(localStorage.getItem('libraryBooks')) || [
     },
     {
         id: 49,
-        title: 'हिंदी - आरोह भाग 2',
+        title: 'Hindi - Aroh Part 2',
         author: 'NCERT',
         category: 'Hindi',
         year: 2024,

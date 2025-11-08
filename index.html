@@ -5,156 +5,198 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inter College Bazpur - Digital Library</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1>🎓 Inter College Bazpur</h1>
-            <p class="subtitle">Digital Library System</p>
-        </div>
-    </header>
-
-    <div class="container">
-        <!-- Tab Navigation -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('student')">Student Section</button>
-            <button class="tab-btn" onclick="showTab('admin')">Admin Login</button>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-container">
+        <div class="animated-background">
+            <div class="orb orb1"></div>
+            <div class="orb orb2"></div>
+            <div class="orb orb3"></div>
         </div>
 
-        <!-- Student Section (Default) -->
-        <div id="student-section" class="tab-content active">
-            <h2>📚 Available Books</h2>
-            
-            <!-- Filter Section -->
-            <div class="filter-section">
-                <div class="filter-group">
-                    <label for="classFilter">Filter by Class:</label>
-                    <select id="classFilter" onchange="filterBooks()">
-                        <option value="all">All Classes</option>
-                        <option value="6">Class 6</option>
-                        <option value="7">Class 7</option>
-                        <option value="8">Class 8</option>
-                        <option value="9">Class 9</option>
-                        <option value="10">Class 10</option>
-                        <option value="11">Class 11</option>
-                        <option value="12">Class 12</option>
-                    </select>
+        <div class="login-content">
+            <!-- Header -->
+            <div class="login-header">
+                <div class="logo-container">
+                    <i data-lucide="library" class="logo-icon"></i>
                 </div>
-                <div class="filter-group">
-                    <label for="categoryFilter">Filter by Subject:</label>
-                    <select id="categoryFilter" onchange="filterBooks()">
-                        <option value="all">All Subjects</option>
-                    </select>
+                <h1 class="college-title">Inter College Bazpur</h1>
+                <h2 class="library-title">Digital Library</h2>
+                <p class="welcome-text">Welcome to our digital collection</p>
+            </div>
+
+            <!-- Login Options Card -->
+            <div id="loginOptions" class="login-card">
+                <h3 class="card-title">Select Login Type</h3>
+                
+                <div class="button-container">
+                    <!-- Student Login Button -->
+                    <button onclick="studentLogin()" class="login-btn student-btn">
+                        <i data-lucide="graduation-cap"></i>
+                        <span>Student Login</span>
+                    </button>
+
+                    <!-- Teacher Login Button -->
+                    <button onclick="showTeacherForm()" class="login-btn teacher-btn">
+                        <i data-lucide="book-open"></i>
+                        <span>Teacher Login</span>
+                    </button>
+
+                    <!-- Admin Login Button -->
+                    <button onclick="showAdminForm()" class="login-btn admin-btn">
+                        <i data-lucide="users"></i>
+                        <span>Admin Login</span>
+                    </button>
+                </div>
+
+                <div class="info-box">
+                    <p><strong>Students:</strong> Click "Student Login" to access the library directly</p>
+                    <p><strong>Teachers:</strong> Login to view analytics and manage student progress</p>
                 </div>
             </div>
 
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Search books by title, author, or category..." onkeyup="filterBooks()">
-            </div>
-            
-            <div id="bookCount" class="book-count"></div>
-            
-            <div id="booksList" class="books-grid">
-                <!-- Books will be displayed here -->
-            </div>
-        </div>
-
-        <!-- Admin Section -->
-        <div id="admin-section" class="tab-content">
-            <!-- Admin Login -->
-            <div id="adminLogin" class="login-form">
-                <h2>🔐 Admin Login</h2>
-                <form onsubmit="adminLogin(event)">
-                    <div class="form-group">
-                        <label for="adminEmail">Email ID:</label>
-                        <input type="email" id="adminEmail" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminPassword">Password:</label>
-                        <input type="password" id="adminPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                    <p class="error-msg" id="loginError"></p>
-                </form>
-            </div>
-
-            <!-- Admin Dashboard -->
-            <div id="adminDashboard" class="admin-dashboard" style="display: none;">
-                <div class="admin-header">
-                    <h2>Admin Dashboard</h2>
-                    <button onclick="adminLogout()" class="btn btn-secondary">Logout</button>
+            <!-- Admin Login Form -->
+            <div id="adminLoginForm" class="login-card" style="display: none;">
+                <div class="form-header">
+                    <h3>Admin Login</h3>
+                    <button onclick="backToOptions()" class="back-btn">← Back</button>
                 </div>
 
-                <!-- Add Book Form -->
-                <div class="add-book-section">
-                    <h3>➕ Add New Book</h3>
-                    <form onsubmit="addBook(event)" id="addBookForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="bookTitle">Book Title:</label>
-                                <input type="text" id="bookTitle" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bookAuthor">Author:</label>
-                                <input type="text" id="bookAuthor" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="bookCategory">Category:</label>
-                                <input type="text" id="bookCategory" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bookYear">Publication Year:</label>
-                                <input type="number" id="bookYear" min="1900" max="2025" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="bookDescription">Description:</label>
-                            <textarea id="bookDescription" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="bookCover">Cover Image URL:</label>
-                            <input type="url" id="bookCover" placeholder="https://example.com/image.jpg">
-                        </div>
-                        <div class="form-group">
-                            <label for="bookPdf">PDF URL:</label>
-                            <input type="url" id="bookPdf" placeholder="https://example.com/book.pdf">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Book</button>
-                    </form>
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                <!-- Demo Credentials Info -->
+                <div class="demo-credentials">
+                    <p class="demo-title">Demo Admin Credentials:</p>
+                    <p>Email: admin@bazpur.edu</p>
+                    <p>Password: admin123</p>
                 </div>
 
-                <!-- Manage Books -->
-                <div class="manage-books-section">
-                    <h3>📖 Manage Books</h3>
-                    <div id="adminBooksList" class="admin-books-list">
-                        <!-- Admin books list will be displayed here -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i data-lucide="mail" class="input-icon"></i>
+                        <input type="email" id="adminEmail" placeholder="Admin Email" class="form-input">
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i data-lucide="lock" class="input-icon"></i>
+                        <input type="password" id="adminPassword" placeholder="Password" class="form-input">
+                        <button type="button" onclick="togglePassword()" class="password-toggle">
+                            <i data-lucide="eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="adminLogin()" class="submit-btn">Login as Admin</button>
+            </div>
+
+            <!-- Teacher Login Form -->
+            <div id="teacherLoginForm" class="login-card" style="display: none;">
+                <div class="form-header">
+                    <h3>Teacher Login</h3>
+                    <button onclick="backToOptions()" class="back-btn">← Back</button>
+                </div>
+
+                <div id="teacherErrorMessage" class="error-message" style="display: none;"></div>
+
+                <!-- Demo Credentials Info -->
+                <div class="demo-credentials">
+                    <p class="demo-title">Demo Teacher Credentials:</p>
+                    <p>Email: teacher@bazpur.edu</p>
+                    <p>Password: teacher123</p>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i data-lucide="mail" class="input-icon"></i>
+                        <input type="email" id="teacherEmail" placeholder="Teacher Email" class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i data-lucide="lock" class="input-icon"></i>
+                        <input type="password" id="teacherPassword" placeholder="Password" class="form-input">
+                        <button type="button" onclick="toggleTeacherPassword()" class="password-toggle">
+                            <i data-lucide="eye" id="teacherEyeIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button onclick="teacherLogin()" class="submit-btn">Login as Teacher</button>
             </div>
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2025 Inter College Bazpur. All Rights Reserved.</p>
-    </footer>
-
-    <!-- PDF Viewer Modal -->
-    <div id="pdfModal" class="pdf-modal">
-        <div class="pdf-modal-content">
-            <div class="pdf-modal-header">
-                <h3 id="pdfTitle">Book PDF</h3>
-                <button onclick="closePdfViewer()" class="btn-close">&times;</button>
-            </div>
-            <div class="pdf-viewer-container">
-                <div id="pdfMessage" class="pdf-message">
-                    <div class="loading-spinner">📚</div>
-                    <p>Loading PDF viewer...</p>
+    <!-- Library Main Page -->
+    <div id="libraryPage" class="library-container" style="display: none;">
+        <!-- Header -->
+        <header class="library-header">
+            <div class="header-content">
+                <div class="header-left">
+                    <i data-lucide="library" class="header-icon"></i>
+                    <div>
+                        <h1 class="header-title">Inter College Bazpur</h1>
+                        <p class="header-subtitle">Digital Library</p>
+                        <p class="user-welcome">Welcome, <span id="userName"></span>! 👋 (<span id="userRole"></span>)</p>
+                    </div>
                 </div>
-                <iframe id="pdfViewer" title="PDF Viewer" frameborder="0"></iframe>
+                <div class="header-right">
+                    <div class="book-count">
+                        <p>Total Books: <span id="totalBooks">0</span></p>
+                    </div>
+                    <button onclick="logout()" class="logout-btn">
+                        <i data-lucide="log-out"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
             </div>
-        </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="library-main">
+            <!-- Search and Add Section -->
+            <div class="toolbar">
+                <div class="search-container">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Book, Author, ya Genre search karein..." class="search-input">
+                </div>
+                <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn" style="display: none;">
+                    <i data-lucide="plus"></i>
+                    <span>Add New Book</span>
+                </button>
+            </div>
+
+            <!-- Add Book Form -->
+            <div id="addBookForm" class="add-book-form" style="display: none;">
+                <h2 class="form-title">
+                    <i data-lucide="book-open"></i>
+                    <span>Add New Book</span>
+                </h2>
+                <div class="form-grid">
+                    <input type="text" id="bookTitle" placeholder="Book ka Title" class="form-input">
+                    <input type="text" id="bookAuthor" placeholder="Author ka Naam" class="form-input">
+                    <input type="text" id="bookYear" placeholder="Publication Year" class="form-input">
+                    <input type="text" id="bookGenre" placeholder="Genre (Fiction, Non-Fiction, etc.)" class="form-input">
+                    <div class="rating-input">
+                        <label>Rating:</label>
+                        <input type="number" id="bookRating" min="1" max="5" value="5" class="form-input">
+                    </div>
+                    <textarea id="bookDescription" placeholder="Book ka description" class="form-textarea"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button onclick="saveBook()" class="save-btn">Book Save Karein</button>
+                    <button onclick="toggleAddForm()" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
+            <!-- Books Grid -->
+            <div id="booksGrid" class="books-grid"></div>
+        </main>
     </div>
 
     <script src="script.js"></script>

@@ -165,6 +165,13 @@
                     <i data-lucide="search" class="search-icon"></i>
                     <input type="text" id="searchInput" placeholder="Book, Author, ya Genre search karein..." class="search-input">
                 </div>
+                
+                <!-- NCERT Books Button - Visible to All Users -->
+                <button id="ncertBooksBtn" onclick="toggleNCERTBooks()" class="add-btn ncert-btn">
+                    <i data-lucide="graduation-cap"></i>
+                    <span>NCERT Books</span>
+                </button>
+                
                 <div class="admin-toolbar-buttons" id="adminToolbar" style="display: none;">
                     <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn">
                         <i data-lucide="book-plus"></i>
@@ -174,6 +181,105 @@
                         <i data-lucide="file-text"></i>
                         <span>Add Notes</span>
                     </button>
+                </div>
+            </div>
+
+            <!-- NCERT Books Section -->
+            <div id="ncertBooksSection" class="ncert-section" style="display: none;">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <i data-lucide="graduation-cap"></i>
+                        <span>NCERT Books - Class 6 to 12</span>
+                    </h2>
+                    <button onclick="toggleNCERTBooks()" class="close-form-btn">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                
+                <div class="ncert-grid">
+                    <!-- Class 6 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 6</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?fess1=1-15" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
+
+                    <!-- Class 7 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 7</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?gess1=1-18" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
+
+                    <!-- Class 8 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 8</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?hess1=1-18" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
+
+                    <!-- Class 9 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 9</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?iess1=1-17" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
+
+                    <!-- Class 10 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 10</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?jess1=1-16" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
+
+                    <!-- Class 11 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 11</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?kess1=0-15" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
+
+                    <!-- Class 12 -->
+                    <div class="ncert-class-card">
+                        <div class="ncert-class-header">
+                            <i data-lucide="book-open"></i>
+                            <h3>Class 12</h3>
+                        </div>
+                        <a href="https://ncert.nic.in/textbook.php?less1=0-14" target="_blank" class="ncert-link">
+                            <i data-lucide="external-link"></i>
+                            <span>View Books</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 

@@ -522,6 +522,16 @@ body {
     box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
+.ncert-btn {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+}
+
+.ncert-btn:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+}
+
 .add-btn i {
     width: 20px;
     height: 20px;
@@ -1014,6 +1024,81 @@ body {
 .no-books-text {
     color: #e9d5ff;
     font-size: 1.25rem;
+}
+
+/* NCERT Books Section */
+.ncert-section {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ncert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.ncert-class-card {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.1) 100%);
+    border: 2px solid rgba(245, 158, 11, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+}
+
+.ncert-class-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+    border-color: rgba(245, 158, 11, 0.5);
+}
+
+.ncert-class-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.ncert-class-header i {
+    width: 32px;
+    height: 32px;
+    color: #fbbf24;
+}
+
+.ncert-class-header h3 {
+    font-size: 1.5rem;
+    color: #fbbf24;
+    margin: 0;
+}
+
+.ncert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s;
+    width: 100%;
+    justify-content: center;
+}
+
+.ncert-link:hover {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.ncert-link i {
+    width: 18px;
+    height: 18px;
 }
 
 /* Responsive Design */

@@ -244,8 +244,26 @@ function logout() {
     document.getElementById('libraryPage').style.display = 'none';
     document.getElementById('loginPage').style.display = 'flex';
     document.getElementById('addBookForm').style.display = 'none';
+    document.getElementById('addNoteForm').style.display = 'none';
+    document.getElementById('ncertBooksSection').style.display = 'none';
     document.getElementById('searchInput').value = '';
     backToOptions();
+}
+
+// NCERT Books Toggle Function
+function toggleNCERTBooks() {
+    const ncertSection = document.getElementById('ncertBooksSection');
+    const addBookForm = document.getElementById('addBookForm');
+    const addNoteForm = document.getElementById('addNoteForm');
+    
+    if (ncertSection.style.display === 'none' || ncertSection.style.display === '') {
+        ncertSection.style.display = 'block';
+        addBookForm.style.display = 'none';
+        addNoteForm.style.display = 'none';
+    } else {
+        ncertSection.style.display = 'none';
+    }
+    lucide.createIcons();
 }
 
 // Book Management Functions

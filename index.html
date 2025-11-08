@@ -67,13 +67,6 @@
 
                 <div id="errorMessage" class="error-message" style="display: none;"></div>
 
-                <!-- Demo Credentials Info -->
-                <div class="demo-credentials">
-                    <p class="demo-title">Demo Admin Credentials:</p>
-                    <p>Email: admin@bazpur.edu</p>
-                    <p>Password: admin123</p>
-                </div>
-
                 <div class="form-group">
                     <div class="input-wrapper">
                         <i data-lucide="mail" class="input-icon"></i>
@@ -102,13 +95,6 @@
                 </div>
 
                 <div id="teacherErrorMessage" class="error-message" style="display: none;"></div>
-
-                <!-- Demo Credentials Info -->
-                <div class="demo-credentials">
-                    <p class="demo-title">Demo Teacher Credentials:</p>
-                    <p>Email: teacher@bazpur.edu</p>
-                    <p>Password: teacher123</p>
-                </div>
 
                 <div class="form-group">
                     <div class="input-wrapper">
@@ -494,6 +480,36 @@
             </div>
         </main>
     </div>
+<!-- Book Reader Modal -->
+<div id="bookReaderModal" class="reader-modal" style="display: none;">
+    <div class="reader-container">
+        <div class="reader-header">
+            <div class="reader-title-section">
+                <i data-lucide="book-open"></i>
+                <h2 id="readerBookTitle">Book Title</h2>
+            </div>
+            <button onclick="closeBookReader()" class="reader-close-btn">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="reader-content">
+            <div class="reader-info">
+                <p><strong>Author:</strong> <span id="readerAuthor"></span></p>
+                <p><strong>Year:</strong> <span id="readerYear"></span></p>
+                <p><strong>Genre:</strong> <span id="readerGenre"></span></p>
+            </div>
+            <div class="reader-description">
+                <h3>About this book</h3>
+                <p id="readerDescription"></p>
+            </div>
+            <div class="reader-text" id="readerText">
+                <!-- Book content will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
     <script src="script.js"></script>
 </body>

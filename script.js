@@ -1363,19 +1363,29 @@ function updateRating(bookId, newRating) {
 
 function displayBooks(searchQuery = '') {
     const grid = document.getElementById('booksGrid');
-    document.getElementById('totalBooks').textContent = books.length;
     
     // Filter books based on search query and user role
     const filteredBooks = books.filter(book => {
-        // Admin can see all books, other roles only see books assigned to them
-        const isAssigned = currentUser.role === 'admin' || !book.assignedTo || book.assignedTo.includes(currentUser.role);
-        if (!isAssigned) return false;
+        // Admin can see all books
+        // Students can only see books assigned to them
+        // Teachers can only see books assigned to them
+        if (currentUser.role === 'admin') {
+            // Admin sees all books
+        } else {
+            // Students and Teachers only see assigned books
+            if (!book.assignedTo || !book.assignedTo.includes(currentUser.role)) {
+                return false;
+            }
+        }
         
         const query = searchQuery.toLowerCase();
         return book.title.toLowerCase().includes(query) ||
                book.author.toLowerCase().includes(query) ||
                (book.genre && book.genre.toLowerCase().includes(query));
     });
+    
+    // Update total books count based on what user can see
+    document.getElementById('totalBooks').textContent = filteredBooks.length;
     
     if (filteredBooks.length === 0) {
         grid.innerHTML = `
@@ -1389,7 +1399,7 @@ function displayBooks(searchQuery = '') {
     }
     
     grid.innerHTML = filteredBooks.map(book => `
-        <div class="book-card">
+        <div class="book-card" onclick="openBookReader(${book.id})">
             <div class="book-header">
                 <div class="book-header-left">
                     <i data-lucide="book-open" class="book-icon"></i>
@@ -1397,7 +1407,7 @@ function displayBooks(searchQuery = '') {
                         ${currentUser.role === 'admin' ? 
                             Array(5).fill(0).map((_, index) => `
                                 <i data-lucide="star" class="star-icon ${index < book.rating ? 'filled' : ''}" 
-                                   onclick="updateRating(${book.id}, ${index + 1})"></i>
+                                   onclick="event.stopPropagation(); updateRating(${book.id}, ${index + 1})"></i>
                             `).join('') :
                             Array(book.rating).fill('<i data-lucide="star" class="star-icon filled"></i>').join('')
                         }
@@ -1405,10 +1415,10 @@ function displayBooks(searchQuery = '') {
                 </div>
                 ${currentUser.role === 'admin' ? `
                     <div class="admin-actions">
-                        <button class="edit-btn" onclick="editBook(${book.id})">
+                        <button class="edit-btn" onclick="event.stopPropagation(); editBook(${book.id})">
                             <i data-lucide="edit"></i>
                         </button>
-                        <button class="delete-btn" onclick="deleteBook(${book.id})">
+                        <button class="delete-btn" onclick="event.stopPropagation(); deleteBook(${book.id})">
                             <i data-lucide="trash-2"></i>
                         </button>
                     </div>
@@ -1431,7 +1441,7 @@ function displayBooks(searchQuery = '') {
             ${book.description ? `<p class="book-description">${book.description}</p>` : ''}
             ${book.pdfUrl ? `
                 <div class="book-pdf-link">
-                    <a href="${book.pdfUrl}" target="_blank" class="pdf-btn">
+                    <a href="${book.pdfUrl}" target="_blank" class="pdf-btn" onclick="event.stopPropagation()">
                         <i data-lucide="external-link"></i>
                         <span>View PDF</span>
                     </a>
@@ -1450,6 +1460,67 @@ function displayBooks(searchQuery = '') {
     `).join('');
     
     lucide.createIcons();
+}
+
+// Book Reader Functions
+function openBookReader(bookId) {
+    const book = books.find(b => b.id === bookId);
+    if (!book) return;
+    
+    // Set book details
+    document.getElementById('readerBookTitle').textContent = book.title;
+    document.getElementById('readerAuthor').textContent = book.author;
+    document.getElementById('readerYear').textContent = book.year;
+    document.getElementById('readerGenre').textContent = book.genre || 'N/A';
+    document.getElementById('readerDescription').textContent = book.description;
+    
+    // Generate sample book content (you can replace this with actual book text)
+    const bookContent = generateBookContent(book);
+    document.getElementById('readerText').innerHTML = bookContent;
+    
+    // Show modal
+    document.getElementById('bookReaderModal').style.display = 'flex';
+    lucide.createIcons();
+}
+
+function closeBookReader() {
+    document.getElementById('bookReaderModal').style.display = 'none';
+}
+
+function generateBookContent(book) {
+    // Sample book content - replace with actual book text from database/API
+    return `
+        <h3>Chapter 1: Introduction</h3>
+        <p>
+            Welcome to "${book.title}" by ${book.author}. This ${book.genre} masterpiece, published in ${book.year}, 
+            takes readers on an unforgettable journey through its pages.
+        </p>
+        <p>
+            ${book.description} The narrative unfolds with compelling characters and intricate plotlines 
+            that have captivated readers for generations.
+        </p>
+        
+        <h3>Chapter 2: The Story Begins</h3>
+        <p>
+            As the story opens, we are introduced to a world filled with wonder and intrigue. 
+            The author's masterful storytelling brings every scene to life with vivid descriptions 
+            and deep character development.
+        </p>
+        <p>
+            Each page turns with anticipation as the plot thickens and the characters face 
+            challenges that test their resolve and shape their destinies.
+        </p>
+        
+        <h3>Chapter 3: Development</h3>
+        <p>
+            The narrative continues to build momentum, weaving together various plot threads 
+            into a tapestry of literary excellence. Readers find themselves immersed in the 
+            world created by ${book.author}.
+        </p>
+        <p>
+            <em>Note: This is a sample preview. The full book content would be loaded from your database or book repository.</em>
+        </p>
+    `;
 }
 
 // Notes Management Functions
@@ -1603,8 +1674,15 @@ function displayNotes() {
     
     // Filter notes based on user role
     const filteredNotes = notes.filter(note => {
-        const isAssigned = currentUser.role === 'admin' || !note.assignedTo || note.assignedTo.includes(currentUser.role);
-        return isAssigned;
+        // Admin can see all notes
+        if (currentUser.role === 'admin') {
+            return true;
+        }
+        // Students and Teachers only see assigned notes
+        if (!note.assignedTo || !note.assignedTo.includes(currentUser.role)) {
+            return false;
+        }
+        return true;
     });
     
     if (filteredNotes.length === 0) {

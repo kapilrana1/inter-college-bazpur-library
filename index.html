@@ -187,6 +187,24 @@
                         <input type="number" id="bookRating" min="1" max="5" value="5" class="form-input">
                     </div>
                     <textarea id="bookDescription" placeholder="Book ka description" class="form-textarea"></textarea>
+                    
+                    <!-- Assign Book To -->
+                    <div class="assign-section">
+                        <label class="assign-label">
+                            <i data-lucide="users"></i>
+                            <span>Book Assign To:</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="assignStudent" checked>
+                                <span>Students</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="assignTeacher" checked>
+                                <span>Teachers</span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-actions">
                     <button onclick="saveBook()" class="save-btn">Book Save Karein</button>

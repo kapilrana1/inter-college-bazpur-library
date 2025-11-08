@@ -1,6 +1,7 @@
 // Global Variables
 let currentUser = null;
 let books = [];
+let editingBookId = null;
 let users = [
     { id: 1, name: 'Admin', email: 'admin@bazpur.edu', password: 'admin123', role: 'admin' },
     { id: 2, name: 'Student', email: 'student@bazpur.edu', password: 'student', role: 'student' }
@@ -8,55 +9,66 @@ let users = [
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if user is already logged in
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Load books from localStorage or use default books
+    const savedBooks = localStorage.getItem('libraryBooks');
+    if (savedBooks) {
+        books = JSON.parse(savedBooks);
+    } else {
+        books = [
+            {
+                id: 1,
+                title: 'The Great Gatsby',
+                author: 'F. Scott Fitzgerald',
+                year: '1925',
+                genre: 'Fiction',
+                rating: 5,
+                description: 'A classic American novel about the Jazz Age',
+                assignedTo: ['student', 'teacher']
+            },
+            {
+                id: 2,
+                title: 'To Kill a Mockingbird',
+                author: 'Harper Lee',
+                year: '1960',
+                genre: 'Fiction',
+                rating: 5,
+                description: 'A story of racial injustice and childhood innocence',
+                assignedTo: ['student', 'teacher']
+            },
+            {
+                id: 3,
+                title: '1984',
+                author: 'George Orwell',
+                year: '1949',
+                genre: 'Science Fiction',
+                rating: 5,
+                description: 'A dystopian social science fiction novel',
+                assignedTo: ['student', 'teacher']
+            },
+            {
+                id: 4,
+                title: 'Pride and Prejudice',
+                author: 'Jane Austen',
+                year: '1813',
+                genre: 'Romance',
+                rating: 5,
+                description: 'A romantic novel of manners',
+                assignedTo: ['student', 'teacher']
+            }
+        ];
+        // Save default books to localStorage
+        saveBooksToStorage();
+    }
+    
+    // Check if user is already logged in (after books are loaded)
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
         showLibraryPage();
     }
-    
-    // Initialize Lucide icons
-    lucide.createIcons();
-    
-    // Load sample books
-    books = [
-        {
-            id: 1,
-            title: 'The Great Gatsby',
-            author: 'F. Scott Fitzgerald',
-            year: '1925',
-            genre: 'Fiction',
-            rating: 5,
-            description: 'A classic American novel about the Jazz Age'
-        },
-        {
-            id: 2,
-            title: 'To Kill a Mockingbird',
-            author: 'Harper Lee',
-            year: '1960',
-            genre: 'Fiction',
-            rating: 5,
-            description: 'A story of racial injustice and childhood innocence'
-        },
-        {
-            id: 3,
-            title: '1984',
-            author: 'George Orwell',
-            year: '1949',
-            genre: 'Science Fiction',
-            rating: 5,
-            description: 'A dystopian social science fiction novel'
-        },
-        {
-            id: 4,
-            title: 'Pride and Prejudice',
-            author: 'Jane Austen',
-            year: '1813',
-            genre: 'Romance',
-            rating: 5,
-            description: 'A romantic novel of manners'
-        }
-    ];
     
     // Add search functionality
     document.getElementById('searchInput').addEventListener('input', function(e) {
@@ -77,6 +89,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+// Storage Functions
+function saveBooksToStorage() {
+    localStorage.setItem('libraryBooks', JSON.stringify(books));
+}
 
 // Login Credentials
 const TEACHER_CREDENTIALS = {
@@ -211,11 +228,18 @@ function logout() {
 // Book Management Functions
 function toggleAddForm() {
     const form = document.getElementById('addBookForm');
+    const formTitle = document.querySelector('#addBookForm .form-title span');
+    const saveBtn = document.querySelector('#addBookForm .save-btn');
+    
     if (form.style.display === 'none' || form.style.display === '') {
         form.style.display = 'block';
         clearBookForm();
+        editingBookId = null;
+        formTitle.textContent = 'Add New Book';
+        saveBtn.textContent = 'Book Save Karein';
     } else {
         form.style.display = 'none';
+        editingBookId = null;
     }
     lucide.createIcons();
 }
@@ -227,6 +251,8 @@ function clearBookForm() {
     document.getElementById('bookGenre').value = '';
     document.getElementById('bookRating').value = '5';
     document.getElementById('bookDescription').value = '';
+    document.getElementById('assignStudent').checked = true;
+    document.getElementById('assignTeacher').checked = true;
 }
 
 function saveBook() {
@@ -237,8 +263,18 @@ function saveBook() {
     const rating = parseInt(document.getElementById('bookRating').value);
     const description = document.getElementById('bookDescription').value;
     
+    // Get assigned roles
+    const assignedTo = [];
+    if (document.getElementById('assignStudent').checked) assignedTo.push('student');
+    if (document.getElementById('assignTeacher').checked) assignedTo.push('teacher');
+    
     if (!title || !author) {
         alert('Please fill in at least Title and Author!');
+        return;
+    }
+    
+    if (assignedTo.length === 0) {
+        alert('Please assign book to at least one role!');
         return;
     }
     
@@ -250,10 +286,23 @@ function saveBook() {
         genre: genre,
         rating: rating,
         description: description,
-        addedBy: currentUser.name
+        addedBy: currentUser.name,
+        assignedTo: assignedTo
     };
     
-    books.push(newBook);
+    if (editingBookId) {
+        // Update existing book
+        const bookIndex = books.findIndex(b => b.id === editingBookId);
+        if (bookIndex !== -1) {
+            books[bookIndex] = { ...books[bookIndex], ...newBook, id: editingBookId };
+        }
+        editingBookId = null;
+    } else {
+        // Add new book
+        books.push(newBook);
+    }
+    
+    saveBooksToStorage();
     displayBooks();
     toggleAddForm();
     clearBookForm();
@@ -262,6 +311,47 @@ function saveBook() {
 function deleteBook(bookId) {
     if (confirm('Are you sure you want to delete this book?')) {
         books = books.filter(book => book.id !== bookId);
+        saveBooksToStorage();
+        displayBooks();
+    }
+}
+
+function editBook(bookId) {
+    const book = books.find(b => b.id === bookId);
+    if (!book) return;
+    
+    // Fill form with book data
+    document.getElementById('bookTitle').value = book.title;
+    document.getElementById('bookAuthor').value = book.author;
+    document.getElementById('bookYear').value = book.year || '';
+    document.getElementById('bookGenre').value = book.genre || '';
+    document.getElementById('bookRating').value = book.rating || 5;
+    document.getElementById('bookDescription').value = book.description || '';
+    
+    // Set assigned roles
+    document.getElementById('assignStudent').checked = book.assignedTo?.includes('student') || false;
+    document.getElementById('assignTeacher').checked = book.assignedTo?.includes('teacher') || false;
+    
+    // Update form title and button
+    const formTitle = document.querySelector('#addBookForm .form-title span');
+    const saveBtn = document.querySelector('#addBookForm .save-btn');
+    formTitle.textContent = 'Edit Book';
+    saveBtn.textContent = 'Update Book';
+    
+    // Show form and set editing mode
+    editingBookId = bookId;
+    document.getElementById('addBookForm').style.display = 'block';
+    lucide.createIcons();
+    
+    // Scroll to form
+    document.getElementById('addBookForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateRating(bookId, newRating) {
+    const book = books.find(b => b.id === bookId);
+    if (book) {
+        book.rating = newRating;
+        saveBooksToStorage();
         displayBooks();
     }
 }
@@ -270,8 +360,12 @@ function displayBooks(searchQuery = '') {
     const grid = document.getElementById('booksGrid');
     document.getElementById('totalBooks').textContent = books.length;
     
-    // Filter books based on search query
+    // Filter books based on search query and user role
     const filteredBooks = books.filter(book => {
+        // Admin can see all books, other roles only see books assigned to them
+        const isAssigned = currentUser.role === 'admin' || !book.assignedTo || book.assignedTo.includes(currentUser.role);
+        if (!isAssigned) return false;
+        
         const query = searchQuery.toLowerCase();
         return book.title.toLowerCase().includes(query) ||
                book.author.toLowerCase().includes(query) ||
@@ -294,14 +388,25 @@ function displayBooks(searchQuery = '') {
             <div class="book-header">
                 <div class="book-header-left">
                     <i data-lucide="book-open" class="book-icon"></i>
-                    <div class="book-rating">
-                        ${Array(book.rating).fill('<i data-lucide="star" class="star-icon"></i>').join('')}
+                    <div class="book-rating ${currentUser.role === 'admin' ? 'clickable-rating' : ''}">
+                        ${currentUser.role === 'admin' ? 
+                            Array(5).fill(0).map((_, index) => `
+                                <i data-lucide="star" class="star-icon ${index < book.rating ? 'filled' : ''}" 
+                                   onclick="updateRating(${book.id}, ${index + 1})"></i>
+                            `).join('') :
+                            Array(book.rating).fill('<i data-lucide="star" class="star-icon filled"></i>').join('')
+                        }
                     </div>
                 </div>
                 ${currentUser.role === 'admin' ? `
-                    <button class="delete-btn" onclick="deleteBook(${book.id})">
-                        <i data-lucide="trash-2"></i>
-                    </button>
+                    <div class="admin-actions">
+                        <button class="edit-btn" onclick="editBook(${book.id})">
+                            <i data-lucide="edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteBook(${book.id})">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>
                 ` : ''}
             </div>
             <h3 class="book-title">${book.title}</h3>
@@ -319,6 +424,15 @@ function displayBooks(searchQuery = '') {
                 ${book.genre ? `<span class="book-genre">${book.genre}</span>` : ''}
             </div>
             ${book.description ? `<p class="book-description">${book.description}</p>` : ''}
+            ${book.assignedTo && book.assignedTo.length > 0 ? `
+                <div class="assigned-badges">
+                    ${book.assignedTo.map(role => `
+                        <span class="role-badge ${role}-badge">
+                            ${role === 'student' ? '👨‍🎓 Students' : '👨‍🏫 Teachers'}
+                        </span>
+                    `).join('')}
+                </div>
+            ` : ''}
         </div>
     `).join('');
     

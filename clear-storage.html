@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Storage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        button {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .clear-btn {
+            background: #ef4444;
+            color: white;
+        }
+        .clear-btn:hover {
+            background: #dc2626;
+        }
+        .back-btn {
+            background: #3b82f6;
+            color: white;
+        }
+        .back-btn:hover {
+            background: #2563eb;
+        }
+        .status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Clear LocalStorage</h1>
+        <p>Click the button below to clear all saved data and reset the library.</p>
+        <button class="clear-btn" onclick="clearStorage()">Clear All Data</button>
+        <button class="back-btn" onclick="goBack()">Go Back to Library</button>
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        function clearStorage() {
+            localStorage.clear();
+            const status = document.getElementById('status');
+            status.textContent = 'All data cleared successfully! You can now go back to the library.';
+            status.className = 'status success';
+            status.style.display = 'block';
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

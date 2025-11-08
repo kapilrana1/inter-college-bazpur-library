@@ -1,7 +1,9 @@
 // Global Variables
 let currentUser = null;
 let books = [];
+let notes = [];
 let editingBookId = null;
+let editingNoteId = null;
 let users = [
     { id: 1, name: 'Admin', email: 'admin@bazpur.edu', password: 'admin123', role: 'admin' },
     { id: 2, name: 'Student', email: 'student@bazpur.edu', password: 'student', role: 'student' }
@@ -63,6 +65,15 @@ document.addEventListener('DOMContentLoaded', function() {
         saveBooksToStorage();
     }
     
+    // Load notes from localStorage
+    const savedNotes = localStorage.getItem('libraryNotes');
+    if (savedNotes) {
+        notes = JSON.parse(savedNotes);
+    } else {
+        notes = [];
+        saveNotesToStorage();
+    }
+    
     // Check if user is already logged in (after books are loaded)
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
@@ -93,6 +104,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Storage Functions
 function saveBooksToStorage() {
     localStorage.setItem('libraryBooks', JSON.stringify(books));
+}
+
+function saveNotesToStorage() {
+    localStorage.setItem('libraryNotes', JSON.stringify(notes));
 }
 
 // Login Credentials
@@ -204,14 +219,22 @@ function showLibraryPage() {
     document.getElementById('userName').textContent = currentUser.name;
     document.getElementById('userRole').textContent = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
     
-    // Show add button only for admin
+    // Show admin toolbar only for admin
     if (currentUser.role === 'admin') {
-        document.getElementById('addBookBtn').style.display = 'flex';
+        document.getElementById('adminToolbar').style.display = 'flex';
     } else {
-        document.getElementById('addBookBtn').style.display = 'none';
+        document.getElementById('adminToolbar').style.display = 'none';
+    }
+    
+    // Show notes section for students and teachers
+    if (currentUser.role === 'student' || currentUser.role === 'teacher') {
+        document.getElementById('notesSection').style.display = 'block';
+    } else {
+        document.getElementById('notesSection').style.display = 'none';
     }
     
     displayBooks();
+    displayNotes();
     lucide.createIcons();
 }
 
@@ -251,6 +274,7 @@ function clearBookForm() {
     document.getElementById('bookGenre').value = '';
     document.getElementById('bookRating').value = '5';
     document.getElementById('bookDescription').value = '';
+    document.getElementById('bookPdfFile').value = '';
     document.getElementById('assignStudent').checked = true;
     document.getElementById('assignTeacher').checked = true;
 }
@@ -262,6 +286,7 @@ function saveBook() {
     const genre = document.getElementById('bookGenre').value;
     const rating = parseInt(document.getElementById('bookRating').value);
     const description = document.getElementById('bookDescription').value;
+    const pdfFile = document.getElementById('bookPdfFile').value.trim();
     
     // Get assigned roles
     const assignedTo = [];
@@ -278,6 +303,18 @@ function saveBook() {
         return;
     }
     
+    // Generate PDF URL if filename provided
+    let pdfUrl = '';
+    if (pdfFile) {
+        // Check if it's a full URL
+        if (pdfFile.startsWith('http://') || pdfFile.startsWith('https://')) {
+            pdfUrl = pdfFile;
+        } else {
+            // Generate GitHub Pages URL
+            pdfUrl = `https://kapilrana1.github.io/inter-college-bazpur-library/books/${pdfFile}`;
+        }
+    }
+    
     const newBook = {
         id: Date.now(),
         title: title,
@@ -286,6 +323,7 @@ function saveBook() {
         genre: genre,
         rating: rating,
         description: description,
+        pdfUrl: pdfUrl,
         addedBy: currentUser.name,
         assignedTo: assignedTo
     };
@@ -327,6 +365,14 @@ function editBook(bookId) {
     document.getElementById('bookGenre').value = book.genre || '';
     document.getElementById('bookRating').value = book.rating || 5;
     document.getElementById('bookDescription').value = book.description || '';
+    
+    // Extract filename from URL if it's a GitHub Pages URL
+    let pdfFile = book.pdfUrl || '';
+    if (pdfFile && pdfFile.includes('github.io')) {
+        const parts = pdfFile.split('/');
+        pdfFile = parts[parts.length - 1];
+    }
+    document.getElementById('bookPdfFile').value = pdfFile;
     
     // Set assigned roles
     document.getElementById('assignStudent').checked = book.assignedTo?.includes('student') || false;
@@ -424,9 +470,240 @@ function displayBooks(searchQuery = '') {
                 ${book.genre ? `<span class="book-genre">${book.genre}</span>` : ''}
             </div>
             ${book.description ? `<p class="book-description">${book.description}</p>` : ''}
+            ${book.pdfUrl ? `
+                <div class="book-pdf-link">
+                    <a href="${book.pdfUrl}" target="_blank" class="pdf-btn">
+                        <i data-lucide="external-link"></i>
+                        <span>View PDF</span>
+                    </a>
+                </div>
+            ` : ''}
             ${book.assignedTo && book.assignedTo.length > 0 ? `
                 <div class="assigned-badges">
                     ${book.assignedTo.map(role => `
+                        <span class="role-badge ${role}-badge">
+                            ${role === 'student' ? '👨‍🎓 Students' : '👨‍🏫 Teachers'}
+                        </span>
+                    `).join('')}
+                </div>
+            ` : ''}
+        </div>
+    `).join('');
+    
+    lucide.createIcons();
+}
+
+// Notes Management Functions
+function toggleAddNoteForm() {
+    const form = document.getElementById('addNoteForm');
+    const formTitle = document.querySelector('#addNoteForm .form-title span');
+    const saveBtn = document.querySelector('#addNoteForm .save-btn');
+    
+    if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+        clearNoteForm();
+        editingNoteId = null;
+        formTitle.textContent = 'Add New Notes';
+        saveBtn.textContent = 'Save Notes';
+    } else {
+        form.style.display = 'none';
+        editingNoteId = null;
+    }
+    lucide.createIcons();
+}
+
+function clearNoteForm() {
+    document.getElementById('noteTitle').value = '';
+    document.getElementById('noteSubject').value = '';
+    document.getElementById('noteClass').value = '';
+    document.getElementById('noteTopic').value = '';
+    document.getElementById('noteDescription').value = '';
+    document.getElementById('notePdfFile').value = '';
+    document.getElementById('assignNoteStudent').checked = true;
+    document.getElementById('assignNoteTeacher').checked = true;
+}
+
+function saveNote() {
+    const title = document.getElementById('noteTitle').value;
+    const subject = document.getElementById('noteSubject').value;
+    const classLevel = document.getElementById('noteClass').value;
+    const topic = document.getElementById('noteTopic').value;
+    const description = document.getElementById('noteDescription').value;
+    const pdfFile = document.getElementById('notePdfFile').value.trim();
+    
+    // Get assigned roles
+    const assignedTo = [];
+    if (document.getElementById('assignNoteStudent').checked) assignedTo.push('student');
+    if (document.getElementById('assignNoteTeacher').checked) assignedTo.push('teacher');
+    
+    if (!title || !subject) {
+        alert('Please fill in at least Title and Subject!');
+        return;
+    }
+    
+    if (assignedTo.length === 0) {
+        alert('Please assign notes to at least one role!');
+        return;
+    }
+    
+    // Generate PDF URL if filename provided
+    let pdfUrl = '';
+    if (pdfFile) {
+        // Check if it's a full URL
+        if (pdfFile.startsWith('http://') || pdfFile.startsWith('https://')) {
+            pdfUrl = pdfFile;
+        } else {
+            // Generate GitHub Pages URL
+            pdfUrl = `https://kapilrana1.github.io/inter-college-bazpur-library/books/${pdfFile}`;
+        }
+    }
+    
+    const newNote = {
+        id: Date.now(),
+        title: title,
+        subject: subject,
+        class: classLevel,
+        topic: topic,
+        description: description,
+        pdfUrl: pdfUrl,
+        addedBy: currentUser.name,
+        assignedTo: assignedTo
+    };
+    
+    if (editingNoteId) {
+        // Update existing note
+        const noteIndex = notes.findIndex(n => n.id === editingNoteId);
+        if (noteIndex !== -1) {
+            notes[noteIndex] = { ...notes[noteIndex], ...newNote, id: editingNoteId };
+        }
+        editingNoteId = null;
+    } else {
+        // Add new note
+        notes.push(newNote);
+    }
+    
+    saveNotesToStorage();
+    displayNotes();
+    toggleAddNoteForm();
+    clearNoteForm();
+}
+
+function deleteNote(noteId) {
+    if (confirm('Are you sure you want to delete this note?')) {
+        notes = notes.filter(note => note.id !== noteId);
+        saveNotesToStorage();
+        displayNotes();
+    }
+}
+
+function editNote(noteId) {
+    const note = notes.find(n => n.id === noteId);
+    if (!note) return;
+    
+    // Fill form with note data
+    document.getElementById('noteTitle').value = note.title;
+    document.getElementById('noteSubject').value = note.subject || '';
+    document.getElementById('noteClass').value = note.class || '';
+    document.getElementById('noteTopic').value = note.topic || '';
+    document.getElementById('noteDescription').value = note.description || '';
+    
+    // Extract filename from GitHub Pages URL or use full URL
+    if (note.pdfUrl) {
+        const githubPagesPattern = 'https://kapilrana1.github.io/inter-college-bazpur-library/books/';
+        if (note.pdfUrl.startsWith(githubPagesPattern)) {
+            document.getElementById('notePdfFile').value = note.pdfUrl.substring(githubPagesPattern.length);
+        } else {
+            document.getElementById('notePdfFile').value = note.pdfUrl;
+        }
+    } else {
+        document.getElementById('notePdfFile').value = '';
+    }
+    
+    // Set assigned roles
+    document.getElementById('assignNoteStudent').checked = note.assignedTo?.includes('student') || false;
+    document.getElementById('assignNoteTeacher').checked = note.assignedTo?.includes('teacher') || false;
+    
+    // Update form title and button
+    const formTitle = document.querySelector('#addNoteForm .form-title span');
+    const saveBtn = document.querySelector('#addNoteForm .save-btn');
+    formTitle.textContent = 'Edit Notes';
+    saveBtn.textContent = 'Update Notes';
+    
+    // Show form and set editing mode
+    editingNoteId = noteId;
+    document.getElementById('addNoteForm').style.display = 'block';
+    lucide.createIcons();
+    
+    // Scroll to form
+    document.getElementById('addNoteForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function displayNotes() {
+    const grid = document.getElementById('notesGrid');
+    if (!grid) return;
+    
+    // Filter notes based on user role
+    const filteredNotes = notes.filter(note => {
+        const isAssigned = currentUser.role === 'admin' || !note.assignedTo || note.assignedTo.includes(currentUser.role);
+        return isAssigned;
+    });
+    
+    if (filteredNotes.length === 0) {
+        grid.innerHTML = `
+            <div class="no-books">
+                <i data-lucide="file-text" class="no-books-icon"></i>
+                <p class="no-books-text">No notes available</p>
+            </div>
+        `;
+        lucide.createIcons();
+        return;
+    }
+    
+    grid.innerHTML = filteredNotes.map(note => `
+        <div class="book-card note-card">
+            <div class="book-header">
+                <div class="book-header-left">
+                    <i data-lucide="file-text" class="book-icon"></i>
+                    <span class="note-badge">${note.subject}</span>
+                </div>
+                ${currentUser.role === 'admin' ? `
+                    <div class="admin-actions">
+                        <button class="edit-btn" onclick="editNote(${note.id})">
+                            <i data-lucide="edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteNote(${note.id})">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>
+                ` : ''}
+            </div>
+            <h3 class="book-title">${note.title}</h3>
+            <div class="book-details">
+                ${note.class ? `
+                    <div class="book-detail">
+                        <i data-lucide="graduation-cap"></i>
+                        <span>Class ${note.class}</span>
+                    </div>
+                ` : ''}
+                ${note.topic ? `
+                    <div class="book-detail">
+                        <i data-lucide="bookmark"></i>
+                        <span>${note.topic}</span>
+                    </div>
+                ` : ''}
+            </div>
+            ${note.description ? `<p class="book-description">${note.description}</p>` : ''}
+            ${note.pdfUrl ? `
+                <div class="note-actions">
+                    <a href="${note.pdfUrl}" target="_blank" class="note-link">
+                        <i data-lucide="external-link"></i>
+                        <span>Open Notes</span>
+                    </a>
+                </div>
+            ` : ''}
+            ${note.assignedTo && note.assignedTo.length > 0 ? `
+                <div class="assigned-badges">
+                    ${note.assignedTo.map(role => `
                         <span class="role-badge ${role}-badge">
                             ${role === 'student' ? '👨‍🎓 Students' : '👨‍🏫 Teachers'}
                         </span>

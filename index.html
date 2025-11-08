@@ -165,10 +165,16 @@
                     <i data-lucide="search" class="search-icon"></i>
                     <input type="text" id="searchInput" placeholder="Book, Author, ya Genre search karein..." class="search-input">
                 </div>
-                <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn" style="display: none;">
-                    <i data-lucide="plus"></i>
-                    <span>Add New Book</span>
-                </button>
+                <div class="admin-toolbar-buttons" id="adminToolbar" style="display: none;">
+                    <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn">
+                        <i data-lucide="book-plus"></i>
+                        <span>Add Book</span>
+                    </button>
+                    <button id="addNoteBtn" onclick="toggleAddNoteForm()" class="add-btn note-btn">
+                        <i data-lucide="file-text"></i>
+                        <span>Add Notes</span>
+                    </button>
+                </div>
             </div>
 
             <!-- Add Book Form -->
@@ -187,6 +193,22 @@
                         <input type="number" id="bookRating" min="1" max="5" value="5" class="form-input">
                     </div>
                     <textarea id="bookDescription" placeholder="Book ka description" class="form-textarea"></textarea>
+                    
+                    <!-- PDF Upload Section -->
+                    <div class="pdf-upload-section">
+                        <label class="upload-label">
+                            <i data-lucide="file-plus"></i>
+                            <span>Upload PDF Book:</span>
+                        </label>
+                        <div class="upload-info">
+                            <p class="info-text">
+                                📁 Upload PDF to: <code>books/</code> folder in your repository<br>
+                                📝 Then enter filename below (e.g., "mybook.pdf")
+                            </p>
+                        </div>
+                        <input type="text" id="bookPdfFile" placeholder="PDF filename (e.g., chemistry-class10.pdf)" class="form-input">
+                        <small class="helper-text">Or enter full URL to external PDF</small>
+                    </div>
                     
                     <!-- Assign Book To -->
                     <div class="assign-section">
@@ -212,8 +234,70 @@
                 </div>
             </div>
 
+            <!-- Add Notes Form -->
+            <div id="addNoteForm" class="add-book-form" style="display: none;">
+                <h2 class="form-title">
+                    <i data-lucide="file-text"></i>
+                    <span>Add New Notes</span>
+                </h2>
+                <div class="form-grid">
+                    <input type="text" id="noteTitle" placeholder="Notes Title" class="form-input">
+                    <input type="text" id="noteSubject" placeholder="Subject" class="form-input">
+                    <input type="text" id="noteClass" placeholder="Class (e.g., 10, 11, 12)" class="form-input">
+                    <input type="text" id="noteTopic" placeholder="Topic/Chapter" class="form-input">
+                    <textarea id="noteDescription" placeholder="Notes description" class="form-textarea"></textarea>
+                    
+                    <!-- PDF Upload Section for Notes -->
+                    <div class="pdf-upload-section">
+                        <label class="upload-label">
+                            <i data-lucide="file-plus"></i>
+                            <span>Upload PDF Notes:</span>
+                        </label>
+                        <div class="upload-info">
+                            <p class="info-text">
+                                📁 Upload PDF to: <code>books/</code> folder in your repository<br>
+                                📝 Then enter filename below (e.g., "mynotes.pdf")
+                            </p>
+                        </div>
+                        <input type="text" id="notePdfFile" placeholder="PDF filename (e.g., math-chapter1-notes.pdf)" class="form-input">
+                        <small class="helper-text">Or enter full URL to external PDF</small>
+                    </div>
+                    
+                    <!-- Assign Notes To -->
+                    <div class="assign-section">
+                        <label class="assign-label">
+                            <i data-lucide="users"></i>
+                            <span>Notes Assign To:</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="assignNoteStudent" checked>
+                                <span>Students</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="assignNoteTeacher" checked>
+                                <span>Teachers</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button onclick="saveNote()" class="save-btn">Save Notes</button>
+                    <button onclick="toggleAddNoteForm()" class="cancel-btn">Cancel</button>
+                </div>
+            </div>
+
             <!-- Books Grid -->
             <div id="booksGrid" class="books-grid"></div>
+            
+            <!-- Notes Grid -->
+            <div id="notesSection" style="display: none;">
+                <h2 class="section-title">
+                    <i data-lucide="file-text"></i>
+                    <span>Student Notes</span>
+                </h2>
+                <div id="notesGrid" class="books-grid"></div>
+            </div>
         </main>
     </div>
 

@@ -1439,14 +1439,6 @@ function displayBooks(searchQuery = '') {
                 ${book.genre ? `<span class="book-genre">${book.genre}</span>` : ''}
             </div>
             ${book.description ? `<p class="book-description">${book.description}</p>` : ''}
-            ${book.pdfUrl ? `
-                <div class="book-pdf-link">
-                    <a href="${book.pdfUrl}" target="_blank" class="pdf-btn" onclick="event.stopPropagation()">
-                        <i data-lucide="external-link"></i>
-                        <span>View PDF</span>
-                    </a>
-                </div>
-            ` : ''}
             ${book.assignedTo && book.assignedTo.length > 0 ? `
                 <div class="assigned-badges">
                     ${book.assignedTo.map(role => `
@@ -1467,6 +1459,13 @@ function openBookReader(bookId) {
     const book = books.find(b => b.id === bookId);
     if (!book) return;
     
+    // If book has PDF, open it directly in new tab
+    if (book.pdfUrl) {
+        window.open(book.pdfUrl, '_blank');
+        return;
+    }
+    
+    // Otherwise show the book reader modal
     // Set book details
     document.getElementById('readerBookTitle').textContent = book.title;
     document.getElementById('readerAuthor').textContent = book.author;

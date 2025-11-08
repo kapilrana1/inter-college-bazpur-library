@@ -172,6 +172,12 @@
                     <span>NCERT Books</span>
                 </button>
                 
+                <!-- Dictionary Button - Visible to All Users -->
+                <button id="dictionaryBtn" onclick="toggleDictionary()" class="add-btn dict-btn">
+                    <i data-lucide="book-open-text"></i>
+                    <span>Dictionary</span>
+                </button>
+                
                 <div class="admin-toolbar-buttons" id="adminToolbar" style="display: none;">
                     <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn">
                         <i data-lucide="book-plus"></i>
@@ -280,6 +286,88 @@
                             <span>View Books</span>
                         </a>
                     </div>
+                </div>
+            </div>
+
+            <!-- Dictionary Section -->
+            <div id="dictionarySection" class="dictionary-section" style="display: none;">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <i data-lucide="book-open-text"></i>
+                        <span>Digital Dictionary</span>
+                    </h2>
+                    <button onclick="toggleDictionary()" class="close-form-btn">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                
+                <!-- Dictionary Type Tabs -->
+                <div class="dict-tabs">
+                    <button class="dict-tab active" onclick="switchDictTab('api')">
+                        <i data-lucide="globe-2"></i>
+                        <span>Dictionary</span>
+                    </button>
+                    <button class="dict-tab" onclick="switchDictTab('translate')">
+                        <i data-lucide="languages"></i>
+                        <span>Translator</span>
+                    </button>
+                    <button class="dict-tab" onclick="switchDictTab('english')">
+                        <i data-lucide="book"></i>
+                        <span>English-Hindi</span>
+                    </button>
+                </div>
+
+                <!-- Dictionary (Free Dictionary API) -->
+                <div id="apiDict" class="dict-content active">
+                    <div class="dict-search-box">
+                        <i data-lucide="search" class="dict-search-icon"></i>
+                        <input type="text" id="apiWordInput" placeholder="Enter English word..." class="dict-input" onkeypress="if(event.key==='Enter') searchDictionaryAPI()">
+                        <button onclick="searchDictionaryAPI()" class="dict-search-btn">
+                            <i data-lucide="search"></i>
+                            <span>Search</span>
+                        </button>
+                    </div>
+                    <div id="apiResult" class="dict-result"></div>
+                </div>
+
+                <!-- Translation API -->
+                <div id="translateDict" class="dict-content">
+                    <div class="translate-controls">
+                        <select id="fromLang" class="lang-select">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                        </select>
+                        <button onclick="swapLanguages()" class="swap-btn">
+                            <i data-lucide="arrow-right-left"></i>
+                        </button>
+                        <select id="toLang" class="lang-select">
+                            <option value="hi">Hindi</option>
+                            <option value="en">English</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                        </select>
+                    </div>
+                    <div class="dict-search-box">
+                        <textarea id="translateInput" placeholder="Enter text to translate..." class="translate-textarea"></textarea>
+                    </div>
+                    <button onclick="translateText()" class="dict-search-btn translate-btn-full">
+                        <i data-lucide="languages"></i>
+                        <span>Translate</span>
+                    </button>
+                    <div id="translateResult" class="dict-result"></div>
+                </div>
+
+                <!-- English to Hindi Dictionary -->
+                <div id="englishDict" class="dict-content">
+                    <div class="dict-search-box">
+                        <i data-lucide="search" class="dict-search-icon"></i>
+                        <input type="text" id="englishWordInput" placeholder="Enter English word..." class="dict-input" oninput="searchEnglishToHindi()">
+                    </div>
+                    <div id="englishResult" class="dict-result"></div>
                 </div>
             </div>
 

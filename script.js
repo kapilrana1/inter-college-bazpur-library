@@ -246,6 +246,7 @@ function logout() {
     document.getElementById('addBookForm').style.display = 'none';
     document.getElementById('addNoteForm').style.display = 'none';
     document.getElementById('ncertBooksSection').style.display = 'none';
+    document.getElementById('dictionarySection').style.display = 'none';
     document.getElementById('searchInput').value = '';
     backToOptions();
 }
@@ -255,15 +256,955 @@ function toggleNCERTBooks() {
     const ncertSection = document.getElementById('ncertBooksSection');
     const addBookForm = document.getElementById('addBookForm');
     const addNoteForm = document.getElementById('addNoteForm');
+    const dictSection = document.getElementById('dictionarySection');
     
     if (ncertSection.style.display === 'none' || ncertSection.style.display === '') {
         ncertSection.style.display = 'block';
         addBookForm.style.display = 'none';
         addNoteForm.style.display = 'none';
+        dictSection.style.display = 'none';
     } else {
         ncertSection.style.display = 'none';
     }
     lucide.createIcons();
+}
+
+// Dictionary Toggle Function
+function toggleDictionary() {
+    const dictSection = document.getElementById('dictionarySection');
+    const addBookForm = document.getElementById('addBookForm');
+    const addNoteForm = document.getElementById('addNoteForm');
+    const ncertSection = document.getElementById('ncertBooksSection');
+    
+    if (dictSection.style.display === 'none' || dictSection.style.display === '') {
+        dictSection.style.display = 'block';
+        addBookForm.style.display = 'none';
+        addNoteForm.style.display = 'none';
+        ncertSection.style.display = 'none';
+        switchDictTab('api'); // Default to Dictionary API
+    } else {
+        dictSection.style.display = 'none';
+    }
+    lucide.createIcons();
+}
+
+// Show welcome message with sample words
+function showWelcomeMessage() {
+    const resultDiv = document.getElementById('englishResult');
+    resultDiv.innerHTML = `
+        <div class="dict-welcome">
+            <h3 style="color: #a78bfa; margin-bottom: 1rem;">Welcome to Digital Dictionary! 📚</h3>
+            <p style="color: #e0e7ff; margin-bottom: 1.5rem;">Type any word in the search box above to see its Hindi translation.</p>
+            <div class="dict-samples">
+                <h4 style="color: #fbbf24; margin-bottom: 0.75rem;">Sample Words:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem;">
+                    <div class="sample-word" onclick="document.getElementById('englishWordInput').value='hello'; searchEnglishToHindi();">
+                        <strong>hello</strong> → नमस्ते
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('englishWordInput').value='book'; searchEnglishToHindi();">
+                        <strong>book</strong> → किताब
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('englishWordInput').value='student'; searchEnglishToHindi();">
+                        <strong>student</strong> → छात्र
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('englishWordInput').value='teacher'; searchEnglishToHindi();">
+                        <strong>teacher</strong> → अध्यापक
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('englishWordInput').value='school'; searchEnglishToHindi();">
+                        <strong>school</strong> → विद्यालय
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('englishWordInput').value='education'; searchEnglishToHindi();">
+                        <strong>education</strong> → शिक्षा
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// English to Hindi Dictionary - Comprehensive data
+const englishToHindi = {
+    // Common words
+    "hello": "नमस्ते / हैलो",
+    "goodbye": "अलविदा",
+    "thank you": "धन्यवाद / शुक्रिया",
+    "please": "कृपया",
+    "yes": "हाँ",
+    "no": "नहीं",
+    "good": "अच्छा",
+    "bad": "बुरा / खराब",
+    "beautiful": "सुंदर",
+    "love": "प्यार / प्रेम",
+    
+    // Educational words
+    "book": "किताब / पुस्तक",
+    "library": "पुस्तकालय",
+    "student": "छात्र / विद्यार्थी",
+    "teacher": "अध्यापक / शिक्षक",
+    "school": "विद्यालय / स्कूल",
+    "college": "महाविद्यालय / कॉलेज",
+    "education": "शिक्षा",
+    "knowledge": "ज्ञान",
+    "learning": "सीखना",
+    "study": "अध्ययन / पढ़ाई",
+    "exam": "परीक्षा",
+    "class": "कक्षा",
+    "homework": "गृहकार्य",
+    "notebook": "कॉपी / नोटबुक",
+    "pen": "कलम",
+    "pencil": "पेंसिल",
+    "paper": "कागज़",
+    "desk": "डेस्क / मेज़",
+    "chair": "कुर्सी",
+    "blackboard": "तख़्ता / श्यामपट",
+    
+    // Numbers
+    "one": "एक",
+    "two": "दो",
+    "three": "तीन",
+    "four": "चार",
+    "five": "पांच",
+    "six": "छह",
+    "seven": "सात",
+    "eight": "आठ",
+    "nine": "नौ",
+    "ten": "दस",
+    
+    // Time
+    "time": "समय / वक़्त",
+    "day": "दिन",
+    "night": "रात",
+    "morning": "सुबह",
+    "evening": "शाम",
+    "today": "आज",
+    "tomorrow": "कल",
+    "yesterday": "कल (बीता हुआ)",
+    "week": "सप्ताह / हफ़्ता",
+    "month": "महीना / माह",
+    "year": "साल / वर्ष",
+    
+    // Family
+    "mother": "माँ / माता",
+    "father": "पिता / पिताजी",
+    "brother": "भाई",
+    "sister": "बहन",
+    "son": "बेटा / पुत्र",
+    "daughter": "बेटी / पुत्री",
+    "family": "परिवार",
+    "friend": "दोस्त / मित्र",
+    
+    // Common verbs
+    "go": "जाना",
+    "come": "आना",
+    "eat": "खाना",
+    "drink": "पीना",
+    "sleep": "सोना",
+    "wake": "जागना",
+    "read": "पढ़ना",
+    "write": "लिखना",
+    "speak": "बोलना",
+    "listen": "सुनना",
+    "see": "देखना",
+    "think": "सोचना",
+    "know": "जानना",
+    "understand": "समझना",
+    "learn": "सीखना",
+    "teach": "पढ़ाना / सिखाना",
+    "work": "काम करना",
+    "play": "खेलना",
+    "run": "दौड़ना",
+    "walk": "चलना",
+    
+    // Science terms
+    "science": "विज्ञान",
+    "physics": "भौतिक विज्ञान",
+    "chemistry": "रसायन विज्ञान",
+    "biology": "जीव विज्ञान",
+    "mathematics": "गणित",
+    "history": "इतिहास",
+    "geography": "भूगोल",
+    "computer": "कंप्यूटर",
+    "experiment": "प्रयोग",
+    "theory": "सिद्धांत",
+    "formula": "सूत्र",
+    "equation": "समीकरण",
+    "problem": "समस्या",
+    "solution": "हल / समाधान",
+    "question": "प्रश्न / सवाल",
+    "answer": "उत्तर / जवाब",
+    
+    // Common adjectives
+    "big": "बड़ा",
+    "small": "छोटा",
+    "hot": "गर्म",
+    "cold": "ठंडा",
+    "new": "नया",
+    "old": "पुराना",
+    "fast": "तेज़",
+    "slow": "धीमा",
+    "high": "ऊँचा",
+    "low": "नीचा",
+    "long": "लंबा",
+    "short": "छोटा",
+    "easy": "आसान",
+    "difficult": "कठिन / मुश्किल",
+    "important": "महत्वपूर्ण / ज़रूरी",
+    "happy": "खुश",
+    "sad": "दुखी / उदास",
+    "angry": "नाराज़ / गुस्सा",
+    "tired": "थका हुआ",
+    
+    // Fruits & Food
+    "apple": "सेब",
+    "banana": "केला",
+    "mango": "आम",
+    "orange": "संतरा",
+    "grapes": "अंगूर",
+    "watermelon": "तरबूज",
+    "pineapple": "अनानास",
+    "strawberry": "स्ट्रॉबेरी",
+    "fruit": "फल",
+    "vegetable": "सब्ज़ी",
+    "rice": "चावल",
+    "bread": "रोटी / ब्रेड",
+    "water": "पानी",
+    "milk": "दूध",
+    "tea": "चाय",
+    "coffee": "कॉफ़ी",
+    
+    // Colors
+    "red": "लाल",
+    "blue": "नीला",
+    "green": "हरा",
+    "yellow": "पीला",
+    "white": "सफ़ेद",
+    "black": "काला",
+    "orange": "नारंगी",
+    "purple": "बैंगनी",
+    "pink": "गुलाबी",
+    "brown": "भूरा",
+    
+    // Animals
+    "dog": "कुत्ता",
+    "cat": "बिल्ली",
+    "cow": "गाय",
+    "horse": "घोड़ा",
+    "elephant": "हाथी",
+    "lion": "शेर",
+    "tiger": "बाघ",
+    "bird": "चिड़िया / पक्षी",
+    "fish": "मछली"
+};
+
+// Hindi to English Dictionary
+const hindiToEnglish = {
+    "नमस्ते": "Hello / Greetings",
+    "अलविदा": "Goodbye",
+    "धन्यवाद": "Thank you",
+    "शुक्रिया": "Thank you",
+    "कृपया": "Please",
+    "हाँ": "Yes",
+    "नहीं": "No",
+    "अच्छा": "Good",
+    "बुरा": "Bad",
+    "सुंदर": "Beautiful",
+    "प्यार": "Love",
+    "प्रेम": "Love",
+    
+    "किताब": "Book",
+    "पुस्तक": "Book",
+    "पुस्तकालय": "Library",
+    "छात्र": "Student",
+    "विद्यार्थी": "Student",
+    "अध्यापक": "Teacher",
+    "शिक्षक": "Teacher",
+    "विद्यालय": "School",
+    "स्कूल": "School",
+    "महाविद्यालय": "College",
+    "कॉलेज": "College",
+    "शिक्षा": "Education",
+    "ज्ञान": "Knowledge",
+    "सीखना": "Learning",
+    "अध्ययन": "Study",
+    "पढ़ाई": "Study",
+    "परीक्षा": "Exam",
+    "कक्षा": "Class",
+    "गृहकार्य": "Homework",
+    "कॉपी": "Notebook",
+    "कलम": "Pen",
+    "कागज़": "Paper",
+    "मेज़": "Desk",
+    "कुर्सी": "Chair",
+    
+    "एक": "One",
+    "दो": "Two",
+    "तीन": "Three",
+    "चार": "Four",
+    "पांच": "Five",
+    "छह": "Six",
+    "सात": "Seven",
+    "आठ": "Eight",
+    "नौ": "Nine",
+    "दस": "Ten",
+    
+    "समय": "Time",
+    "वक़्त": "Time",
+    "दिन": "Day",
+    "रात": "Night",
+    "सुबह": "Morning",
+    "शाम": "Evening",
+    "आज": "Today",
+    "कल": "Tomorrow/Yesterday",
+    "सप्ताह": "Week",
+    "हफ़्ता": "Week",
+    "महीना": "Month",
+    "माह": "Month",
+    "साल": "Year",
+    "वर्ष": "Year",
+    
+    "माँ": "Mother",
+    "माता": "Mother",
+    "पिता": "Father",
+    "भाई": "Brother",
+    "बहन": "Sister",
+    "बेटा": "Son",
+    "पुत्र": "Son",
+    "बेटी": "Daughter",
+    "पुत्री": "Daughter",
+    "परिवार": "Family",
+    "दोस्त": "Friend",
+    "मित्र": "Friend",
+    
+    "जाना": "Go",
+    "आना": "Come",
+    "खाना": "Eat / Food",
+    "पीना": "Drink",
+    "सोना": "Sleep",
+    "जागना": "Wake up",
+    "पढ़ना": "Read",
+    "लिखना": "Write",
+    "बोलना": "Speak",
+    "सुनना": "Listen",
+    "देखना": "See / Watch",
+    "सोचना": "Think",
+    "जानना": "Know",
+    "समझना": "Understand",
+    "सिखाना": "Teach",
+    "काम": "Work",
+    "खेलना": "Play",
+    "दौड़ना": "Run",
+    "चलना": "Walk",
+    
+    // Fruits in Hindi
+    "सेब": "Apple",
+    "केला": "Banana", 
+    "आम": "Mango",
+    "संतरा": "Orange",
+    "अंगूर": "Grapes",
+    "तरबूज": "Watermelon",
+    "अनानास": "Pineapple",
+    "स्ट्रॉबेरी": "Strawberry",
+    "फल": "Fruit",
+    
+    // Foods in Hindi
+    "सब्ज़ी": "Vegetable",
+    "चावल": "Rice",
+    "रोटी": "Bread",
+    "पानी": "Water",
+    "दूध": "Milk",
+    "चाय": "Tea",
+    "कॉफ़ी": "Coffee",
+    
+    // Colors in Hindi
+    "लाल": "Red",
+    "नीला": "Blue",
+    "हरा": "Green",
+    "पीला": "Yellow",
+    "सफ़ेद": "White",
+    "काला": "Black",
+    "नारंगी": "Orange",
+    "बैंगनी": "Purple",
+    "गुलाबी": "Pink",
+    "भूरा": "Brown",
+    
+    // Animals in Hindi
+    "कुत्ता": "Dog",
+    "बिल्ली": "Cat",
+    "गाय": "Cow",
+    "घोड़ा": "Horse",
+    "हाथी": "Elephant",
+    "शेर": "Lion",
+    "बाघ": "Tiger",
+    "चिड़िया": "Bird",
+    "मछली": "Fish",
+    
+    "विज्ञान": "Science",
+    "भौतिक": "Physics",
+    "रसायन": "Chemistry",
+    "जीव": "Biology",
+    "गणित": "Mathematics",
+    "इतिहास": "History",
+    "भूगोल": "Geography",
+    "प्रयोग": "Experiment",
+    "सिद्धांत": "Theory",
+    "सूत्र": "Formula",
+    "समीकरण": "Equation",
+    "समस्या": "Problem",
+    "हल": "Solution",
+    "समाधान": "Solution",
+    "प्रश्न": "Question",
+    "सवाल": "Question",
+    "उत्तर": "Answer",
+    "जवाब": "Answer",
+    
+    "बड़ा": "Big",
+    "छोटा": "Small",
+    "गर्म": "Hot",
+    "ठंडा": "Cold",
+    "नया": "New",
+    "पुराना": "Old",
+    "तेज़": "Fast",
+    "धीमा": "Slow",
+    "ऊँचा": "High",
+    "नीचा": "Low",
+    "लंबा": "Long",
+    "आसान": "Easy",
+    "कठिन": "Difficult",
+    "मुश्किल": "Difficult",
+    "महत्वपूर्ण": "Important",
+    "ज़रूरी": "Important",
+    "खुश": "Happy",
+    "दुखी": "Sad",
+    "उदास": "Sad",
+    "नाराज़": "Angry",
+    "गुस्सा": "Angry",
+    "थका": "Tired"
+};
+
+// Synonyms and Antonyms Dictionary
+const synonymsAntonyms = {
+    "happy": {
+        synonyms: ["joyful", "cheerful", "delighted", "pleased", "content", "glad"],
+        antonyms: ["sad", "unhappy", "miserable", "depressed", "sorrowful"]
+    },
+    "good": {
+        synonyms: ["excellent", "great", "fine", "nice", "wonderful", "pleasant"],
+        antonyms: ["bad", "poor", "terrible", "awful", "horrible"]
+    },
+    "big": {
+        synonyms: ["large", "huge", "enormous", "giant", "massive", "vast"],
+        antonyms: ["small", "tiny", "little", "minute", "miniature"]
+    },
+    "fast": {
+        synonyms: ["quick", "rapid", "swift", "speedy", "hasty"],
+        antonyms: ["slow", "sluggish", "gradual", "leisurely"]
+    },
+    "beautiful": {
+        synonyms: ["pretty", "lovely", "attractive", "gorgeous", "stunning"],
+        antonyms: ["ugly", "unattractive", "hideous", "plain"]
+    },
+    "smart": {
+        synonyms: ["intelligent", "clever", "bright", "brilliant", "wise"],
+        antonyms: ["stupid", "dumb", "foolish", "ignorant"]
+    },
+    "easy": {
+        synonyms: ["simple", "effortless", "straightforward", "uncomplicated"],
+        antonyms: ["difficult", "hard", "complex", "complicated", "challenging"]
+    },
+    "strong": {
+        synonyms: ["powerful", "mighty", "robust", "sturdy", "tough"],
+        antonyms: ["weak", "feeble", "frail", "fragile"]
+    },
+    "rich": {
+        synonyms: ["wealthy", "affluent", "prosperous", "well-off"],
+        antonyms: ["poor", "needy", "impoverished", "destitute"]
+    },
+    "brave": {
+        synonyms: ["courageous", "fearless", "bold", "daring", "heroic"],
+        antonyms: ["cowardly", "afraid", "timid", "fearful"]
+    },
+    "new": {
+        synonyms: ["fresh", "modern", "recent", "latest", "novel"],
+        antonyms: ["old", "ancient", "outdated", "obsolete"]
+    },
+    "clean": {
+        synonyms: ["spotless", "pure", "tidy", "neat", "immaculate"],
+        antonyms: ["dirty", "filthy", "messy", "unclean", "soiled"]
+    },
+    "hot": {
+        synonyms: ["warm", "heated", "burning", "scorching", "boiling"],
+        antonyms: ["cold", "cool", "chilly", "freezing", "icy"]
+    },
+    "important": {
+        synonyms: ["significant", "crucial", "vital", "essential", "critical"],
+        antonyms: ["unimportant", "trivial", "insignificant", "minor"]
+    },
+    "love": {
+        synonyms: ["affection", "adoration", "devotion", "fondness", "care"],
+        antonyms: ["hate", "hatred", "dislike", "loathing"]
+    }
+};
+
+// Subject-specific dictionaries
+const subjectDictionaries = {
+    physics: {
+        "force": "A push or pull that can change the motion of an object. Measured in Newtons (N).",
+        "energy": "The capacity to do work. Types include kinetic, potential, thermal, etc.",
+        "velocity": "The rate of change of displacement with time. A vector quantity.",
+        "acceleration": "The rate of change of velocity with time. Measured in m/s².",
+        "momentum": "The product of mass and velocity. p = mv",
+        "gravity": "The force of attraction between objects with mass.",
+        "friction": "The resistance force that opposes motion between surfaces.",
+        "work": "Energy transferred when a force moves an object. W = F × d",
+        "power": "The rate of doing work. P = W/t, measured in Watts.",
+        "atom": "The basic unit of matter consisting of protons, neutrons, and electrons."
+    },
+    chemistry: {
+        "atom": "The smallest unit of an element that retains its chemical properties.",
+        "molecule": "Two or more atoms chemically bonded together.",
+        "element": "A pure substance consisting of only one type of atom.",
+        "compound": "A substance made of two or more different elements chemically bonded.",
+        "acid": "A substance that donates hydrogen ions (H+) in solution. pH < 7.",
+        "base": "A substance that accepts hydrogen ions or donates hydroxide ions. pH > 7.",
+        "catalyst": "A substance that speeds up a reaction without being consumed.",
+        "oxidation": "Loss of electrons or increase in oxidation state.",
+        "reduction": "Gain of electrons or decrease in oxidation state.",
+        "ion": "An atom or molecule with a net electric charge."
+    },
+    biology: {
+        "cell": "The basic structural and functional unit of all living organisms.",
+        "DNA": "Deoxyribonucleic acid - the molecule carrying genetic instructions.",
+        "photosynthesis": "Process by which plants convert light energy into chemical energy.",
+        "enzyme": "A biological catalyst that speeds up chemical reactions in organisms.",
+        "protein": "Large biomolecules made of amino acids, essential for life.",
+        "mitochondria": "The powerhouse of the cell - produces ATP energy.",
+        "chromosome": "Thread-like structure of DNA carrying genetic information.",
+        "respiration": "Process of breaking down glucose to release energy in cells.",
+        "evolution": "Change in heritable characteristics of populations over generations.",
+        "ecosystem": "A community of living organisms interacting with their environment."
+    },
+    math: {
+        "algebra": "Branch of mathematics using symbols to represent numbers and quantities.",
+        "geometry": "Study of shapes, sizes, and properties of space.",
+        "calculus": "Study of continuous change - includes differentiation and integration.",
+        "integer": "A whole number (positive, negative, or zero).",
+        "fraction": "A number representing part of a whole. Written as a/b.",
+        "equation": "A mathematical statement showing equality between two expressions.",
+        "variable": "A symbol representing an unknown or changeable value.",
+        "function": "A relation between inputs and outputs where each input has one output.",
+        "theorem": "A mathematical statement that has been proven true.",
+        "prime": "A natural number greater than 1 divisible only by 1 and itself."
+    }
+};
+
+let currentSubject = 'physics';
+
+// Switch Dictionary Tabs
+function switchDictTab(tab) {
+    // Hide all tabs
+    document.querySelectorAll('.dict-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.querySelectorAll('.dict-tab').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    if (tab === 'api') {
+        document.getElementById('apiDict').classList.add('active');
+        document.querySelector('.dict-tab:nth-child(1)').classList.add('active');
+        showAPIWelcome();
+    } else if (tab === 'translate') {
+        document.getElementById('translateDict').classList.add('active');
+        document.querySelector('.dict-tab:nth-child(2)').classList.add('active');
+    } else if (tab === 'english') {
+        document.getElementById('englishDict').classList.add('active');
+        document.querySelector('.dict-tab:nth-child(3)').classList.add('active');
+        showWelcomeMessage();
+    }
+    lucide.createIcons();
+}
+
+// Show API Welcome Message
+function showAPIWelcome() {
+    const resultDiv = document.getElementById('apiResult');
+    resultDiv.innerHTML = `
+        <div class="dict-welcome">
+            <h3 style="color: #a78bfa; margin-bottom: 1rem;">🌐 Smart Dictionary with Hindi Translation</h3>
+            <p style="color: #e0e7ff; margin-bottom: 1.5rem;">Search any English word to get:<br>
+            ✅ Hindi Translation (Online + Offline)<br>
+            ✅ English Definitions & Examples<br>
+            ✅ Pronunciation Audio<br>
+            ✅ Synonyms & Antonyms</p>
+            <div class="dict-samples">
+                <h4 style="color: #fbbf24; margin-bottom: 0.75rem;">Try these words:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
+                    <div class="sample-word" onclick="document.getElementById('apiWordInput').value='apple'; searchDictionaryAPI();">
+                        apple
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('apiWordInput').value='knowledge'; searchDictionaryAPI();">
+                        knowledge
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('apiWordInput').value='education'; searchDictionaryAPI();">
+                        education
+                    </div>
+                    <div class="sample-word" onclick="document.getElementById('apiWordInput').value='beautiful'; searchDictionaryAPI();">
+                        beautiful
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Search Dictionary API with Hindi Translation
+async function searchDictionaryAPI() {
+    const word = document.getElementById('apiWordInput').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('apiResult');
+    
+    if (!word) {
+        resultDiv.innerHTML = '<p class="dict-error">Please enter a word to search</p>';
+        return;
+    }
+    
+    resultDiv.innerHTML = '<div class="dict-loading"><i data-lucide="loader" class="rotating"></i> Searching dictionary & getting Hindi translation...</div>';
+    lucide.createIcons();
+    
+    try {
+        // Try to get from offline dictionary first
+        let hindiTranslation = englishToHindi[word];
+        
+        // If not in offline dictionary, try online API
+        if (!hindiTranslation) {
+            try {
+                const glosbeResponse = await fetch(`https://glosbe.com/gapi/translate?from=en&dest=hi&format=json&phrase=${encodeURIComponent(word)}&pretty=true`);
+                if (glosbeResponse.ok) {
+                    const glosbeData = await glosbeResponse.json();
+                    if (glosbeData.tuc && glosbeData.tuc.length > 0 && glosbeData.tuc[0].phrase) {
+                        hindiTranslation = glosbeData.tuc[0].phrase.text;
+                    }
+                }
+            } catch (e) {
+                console.log('Glosbe API unavailable, using offline dictionary only');
+            }
+        }
+        
+        // Fetch English definition from Free Dictionary API
+        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
+        
+        if (!response.ok) {
+            // If API fails, check offline dictionary
+            if (hindiTranslation) {
+                resultDiv.innerHTML = `
+                    <div class="dict-word-card api-card">
+                        <h3 class="dict-word-title">${word.charAt(0).toUpperCase() + word.slice(1)}</h3>
+                        <div class="hindi-translation-box">
+                            <h4 style="color: #a78bfa; margin-bottom: 0.5rem;">🇮🇳 Hindi Translation</h4>
+                            <p class="dict-hindi-text" style="font-size: 2rem; font-weight: bold;">${hindiTranslation}</p>
+                        </div>
+                        <p style="color: #94a3b8; margin-top: 1rem;">English definition not available for this word.</p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `<p class="dict-error">❌ Word "${word}" not found. Please check spelling.</p>`;
+            }
+            return;
+        }
+        
+        const data = await response.json();
+        const wordData = data[0];
+        
+        let html = `<div class="dict-word-card api-card">`;
+        html += `<h3 class="dict-word-title">${wordData.word}</h3>`;
+        
+        // Show Hindi translation at the top if available
+        if (hindiTranslation) {
+            html += `<div class="hindi-translation-box">
+                <h4 style="color: #a78bfa; margin-bottom: 0.5rem;">🇮🇳 Hindi Translation</h4>
+                <p class="dict-hindi-text" style="font-size: 2rem; font-weight: bold; color: #2563eb;">${hindiTranslation}</p>
+            </div>`;
+        }
+        
+        if (wordData.phonetic) {
+            html += `<p class="dict-phonetic">📢 ${wordData.phonetic}</p>`;
+        }
+        
+        // Add audio if available
+        if (wordData.phonetics && wordData.phonetics.length > 0) {
+            const audioPhonetic = wordData.phonetics.find(p => p.audio);
+            if (audioPhonetic && audioPhonetic.audio) {
+                html += `<div class="audio-player">
+                    <button onclick="playAudio('${audioPhonetic.audio}')" class="audio-btn">
+                        <i data-lucide="volume-2"></i>
+                        <span>Listen Pronunciation</span>
+                    </button>
+                </div>`;
+            }
+        }
+        
+        wordData.meanings.forEach((meaning, index) => {
+            html += `<div class="dict-meaning">`;
+            html += `<h4 class="dict-pos">📝 ${meaning.partOfSpeech}</h4>`;
+            
+            meaning.definitions.slice(0, 3).forEach((def, idx) => {
+                html += `<div class="dict-definition">`;
+                html += `<p><strong>${idx + 1}.</strong> ${def.definition}</p>`;
+                if (def.example) {
+                    html += `<p class="dict-example">💡 Example: "${def.example}"</p>`;
+                }
+                html += `</div>`;
+            });
+            
+            if (meaning.synonyms && meaning.synonyms.length > 0) {
+                html += `<p class="dict-synonyms"><strong>✓ Synonyms:</strong> ${meaning.synonyms.slice(0, 5).join(', ')}</p>`;
+            }
+            
+            if (meaning.antonyms && meaning.antonyms.length > 0) {
+                html += `<p class="dict-antonyms"><strong>✗ Antonyms:</strong> ${meaning.antonyms.slice(0, 5).join(', ')}</p>`;
+            }
+            
+            html += `</div>`;
+        });
+        
+        html += `</div>`;
+        resultDiv.innerHTML = html;
+        
+    } catch (error) {
+        resultDiv.innerHTML = `<p class="dict-error">⚠️ Error: Unable to fetch data. Please check your internet connection.</p>`;
+    }
+    
+    lucide.createIcons();
+}
+
+// Play Audio Pronunciation
+function playAudio(audioUrl) {
+    const audio = new Audio(audioUrl);
+    audio.play().catch(err => {
+        alert('Unable to play audio');
+    });
+}
+
+// Swap Languages in Translator
+function swapLanguages() {
+    const fromLang = document.getElementById('fromLang');
+    const toLang = document.getElementById('toLang');
+    
+    const temp = fromLang.value;
+    fromLang.value = toLang.value;
+    toLang.value = temp;
+    
+    // Clear results
+    document.getElementById('translateResult').innerHTML = '';
+}
+
+// Translate Text using MyMemory API
+async function translateText() {
+    const text = document.getElementById('translateInput').value.trim();
+    const fromLang = document.getElementById('fromLang').value;
+    const toLang = document.getElementById('toLang').value;
+    const resultDiv = document.getElementById('translateResult');
+    
+    if (!text) {
+        resultDiv.innerHTML = '<p class="dict-error">Please enter text to translate</p>';
+        return;
+    }
+    
+    if (fromLang === toLang) {
+        resultDiv.innerHTML = '<p class="dict-error">Please select different languages</p>';
+        return;
+    }
+    
+    resultDiv.innerHTML = '<div class="dict-loading"><i data-lucide="loader" class="rotating"></i> Translating...</div>';
+    lucide.createIcons();
+    
+    try {
+        const response = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${fromLang}|${toLang}`
+        );
+        
+        if (!response.ok) {
+            throw new Error('Translation failed');
+        }
+        
+        const data = await response.json();
+        
+        if (data.responseStatus === 200 && data.responseData) {
+            const translation = data.responseData.translatedText;
+            
+            let html = `<div class="dict-word-card translate-card">`;
+            html += `<div class="translate-section">`;
+            html += `<h4 class="translate-label">📝 Original:</h4>`;
+            html += `<p class="translate-text">${text}</p>`;
+            html += `</div>`;
+            html += `<div class="translate-section">`;
+            html += `<h4 class="translate-label">✓ Translation:</h4>`;
+            html += `<p class="translate-result-text">${translation}</p>`;
+            html += `</div>`;
+            
+            if (data.responseData.match) {
+                html += `<p class="translate-confidence">Confidence: ${(data.responseData.match * 100).toFixed(0)}%</p>`;
+            }
+            
+            html += `</div>`;
+            resultDiv.innerHTML = html;
+        } else {
+            resultDiv.innerHTML = '<p class="dict-error">Translation not available</p>';
+        }
+        
+    } catch (error) {
+        resultDiv.innerHTML = `<p class="dict-error">⚠️ Error: Unable to translate. Please check your internet connection.</p>`;
+    }
+    
+    lucide.createIcons();
+}
+
+// Switch Subject Tabs
+function switchSubject(subject) {
+    currentSubject = subject;
+    document.querySelectorAll('.subject-tab').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('subjectWordInput').value = '';
+    document.getElementById('subjectResult').innerHTML = '';
+}
+
+// Search English to Hindi
+function searchEnglishToHindi() {
+    const word = document.getElementById('englishWordInput').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('englishResult');
+    
+    if (!word) {
+        resultDiv.innerHTML = '';
+        return;
+    }
+    
+    const matchedWords = Object.keys(englishToHindi).filter(key => 
+        key.toLowerCase().includes(word)
+    );
+    
+    if (matchedWords.length === 0) {
+        resultDiv.innerHTML = `<p class="dict-error">No translation found for "${word}"</p>`;
+        return;
+    }
+    
+    let html = '<div class="dict-results-list">';
+    matchedWords.slice(0, 10).forEach(key => {
+        html += `<div class="dict-word-card hindi-card">`;
+        html += `<h3 class="dict-word-title">${key}</h3>`;
+        html += `<p class="dict-hindi-text">${englishToHindi[key]}</p>`;
+        html += `</div>`;
+    });
+    html += '</div>';
+    
+    resultDiv.innerHTML = html;
+}
+
+// Search Hindi to English
+function searchHindiToEnglish() {
+    const word = document.getElementById('hindiWordInput').value.trim();
+    const resultDiv = document.getElementById('hindiResult');
+    
+    if (!word) {
+        resultDiv.innerHTML = '';
+        return;
+    }
+    
+    const matchedWords = Object.keys(hindiToEnglish).filter(key => 
+        key.includes(word)
+    );
+    
+    if (matchedWords.length === 0) {
+        resultDiv.innerHTML = `<p class="dict-error">No translation found for "${word}"</p>`;
+        return;
+    }
+    
+    let html = '<div class="dict-results-list">';
+    matchedWords.slice(0, 10).forEach(key => {
+        html += `<div class="dict-word-card hindi-card">`;
+        html += `<h3 class="dict-word-title dict-hindi-text">${key}</h3>`;
+        html += `<p class="dict-definition">${hindiToEnglish[key]}</p>`;
+        html += `</div>`;
+    });
+    html += '</div>';
+    
+    resultDiv.innerHTML = html;
+}
+
+// Search Synonyms & Antonyms
+function searchSynonyms() {
+    const word = document.getElementById('synonymsWordInput').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('synonymsResult');
+    
+    if (!word) {
+        resultDiv.innerHTML = '';
+        return;
+    }
+    
+    const matchedWords = Object.keys(synonymsAntonyms).filter(key => 
+        key.toLowerCase().includes(word)
+    );
+    
+    if (matchedWords.length === 0) {
+        resultDiv.innerHTML = `<p class="dict-error">No synonyms/antonyms found for "${word}"</p>`;
+        return;
+    }
+    
+    let html = '<div class="dict-results-list">';
+    matchedWords.forEach(key => {
+        const data = synonymsAntonyms[key];
+        html += `<div class="dict-word-card synonym-card">`;
+        html += `<h3 class="dict-word-title">${key.charAt(0).toUpperCase() + key.slice(1)}</h3>`;
+        
+        if (data.synonyms && data.synonyms.length > 0) {
+            html += `<div class="syn-section">`;
+            html += `<h4 class="syn-title">✓ Synonyms:</h4>`;
+            html += `<p class="syn-list">${data.synonyms.join(', ')}</p>`;
+            html += `</div>`;
+        }
+        
+        if (data.antonyms && data.antonyms.length > 0) {
+            html += `<div class="ant-section">`;
+            html += `<h4 class="ant-title">✗ Antonyms:</h4>`;
+            html += `<p class="ant-list">${data.antonyms.join(', ')}</p>`;
+            html += `</div>`;
+        }
+        
+        html += `</div>`;
+    });
+    html += '</div>';
+    
+    resultDiv.innerHTML = html;
+}
+
+// Search Subject Word
+function searchSubjectWord() {
+    const word = document.getElementById('subjectWordInput').value.trim().toLowerCase();
+    const resultDiv = document.getElementById('subjectResult');
+    
+    if (!word) {
+        resultDiv.innerHTML = '';
+        return;
+    }
+    
+    const dictionary = subjectDictionaries[currentSubject];
+    const matchedWords = Object.keys(dictionary).filter(key => 
+        key.toLowerCase().includes(word)
+    );
+    
+    if (matchedWords.length === 0) {
+        resultDiv.innerHTML = `<p class="dict-error">No ${currentSubject} terms found for "${word}"</p>`;
+        return;
+    }
+    
+    let html = '<div class="dict-results-list">';
+    matchedWords.forEach(key => {
+        html += `<div class="dict-word-card subject-card">`;
+        html += `<h3 class="dict-word-title">${key.charAt(0).toUpperCase() + key.slice(1)}</h3>`;
+        html += `<p class="dict-definition">${dictionary[key]}</p>`;
+        html += `</div>`;
+    });
+    html += '</div>';
+    
+    resultDiv.innerHTML = html;
 }
 
 // Book Management Functions

@@ -164,6 +164,12 @@
                     <span>Dictionary</span>
                 </button>
                 
+                <!-- Notice Board Button - Visible to All Users -->
+                <button id="noticeBoardBtn" onclick="toggleNoticeBoard()" class="add-btn notice-btn">
+                    <i data-lucide="bell"></i>
+                    <span>Notice Board</span>
+                </button>
+                
                 <div class="admin-toolbar-buttons" id="adminToolbar" style="display: none;">
                     <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn">
                         <i data-lucide="book-plus"></i>
@@ -172,6 +178,10 @@
                     <button id="addNoteBtn" onclick="toggleAddNoteForm()" class="add-btn note-btn">
                         <i data-lucide="file-text"></i>
                         <span>Add Notes</span>
+                    </button>
+                    <button id="addNoticeBtn" onclick="toggleAddNoticeForm()" class="add-btn notice-btn">
+                        <i data-lucide="megaphone"></i>
+                        <span>Add Notice</span>
                     </button>
                 </div>
             </div>
@@ -354,6 +364,83 @@
                         <input type="text" id="englishWordInput" placeholder="Enter English word..." class="dict-input" oninput="searchEnglishToHindi()">
                     </div>
                     <div id="englishResult" class="dict-result"></div>
+                </div>
+            </div>
+
+            <!-- Notice Board Section -->
+            <div id="noticeBoardSection" class="notice-board-section" style="display: none;">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <i data-lucide="bell"></i>
+                        <span>Notice Board</span>
+                    </h2>
+                    <button onclick="toggleNoticeBoard()" class="close-form-btn">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+                
+                <div id="noticesGrid" class="notices-grid"></div>
+            </div>
+
+            <!-- Add Notice Form -->
+            <div id="addNoticeForm" class="add-book-form" style="display: none;">
+                <h2 class="form-title">
+                    <i data-lucide="megaphone"></i>
+                    <span id="noticeFormTitle">Add New Notice</span>
+                </h2>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="type"></i>
+                            <span>Notice Title</span>
+                        </label>
+                        <input type="text" id="noticeTitle" placeholder="Enter notice title" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="users"></i>
+                            <span>Visible To</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="noticeStudents" checked>
+                                <span>Students</span>
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="noticeTeachers" checked>
+                                <span>Teachers</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i data-lucide="calendar"></i>
+                            <span>Date</span>
+                        </label>
+                        <input type="date" id="noticeDate" class="form-input" required>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label">
+                        <i data-lucide="file-text"></i>
+                        <span>Notice Description</span>
+                    </label>
+                    <textarea id="noticeDescription" placeholder="Enter notice details..." class="form-textarea" rows="20" required></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button onclick="saveNotice()" class="save-btn">
+                        <i data-lucide="check"></i>
+                        <span>Save Notice</span>
+                    </button>
+                    <button onclick="toggleAddNoticeForm()" class="cancel-btn">
+                        <i data-lucide="x"></i>
+                        <span>Cancel</span>
+                    </button>
                 </div>
             </div>
 

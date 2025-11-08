@@ -2,8 +2,10 @@
 let currentUser = null;
 let books = [];
 let notes = [];
+let notices = [];
 let editingBookId = null;
 let editingNoteId = null;
+let editingNoticeId = null;
 let users = [
     { id: 1, name: 'Admin', email: 'admin@bazpur.edu', password: 'admin123', role: 'admin' },
     { id: 2, name: 'Student', email: 'student@bazpur.edu', password: 'student', role: 'student' }
@@ -72,6 +74,24 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         notes = [];
         saveNotesToStorage();
+    }
+    
+    // Load notices from localStorage
+    const savedNotices = localStorage.getItem('libraryNotices');
+    if (savedNotices) {
+        notices = JSON.parse(savedNotices);
+    } else {
+        notices = [
+            {
+                id: 1,
+                title: 'Welcome to Inter College Bazpur Library',
+                date: '2025-11-08',
+                description: 'Digital library system is now live! Access books, notes, and resources online. Students and teachers can browse through our extensive collection of books and educational materials.',
+                visibleTo: ['student', 'teacher'],
+                createdBy: 'admin@bazpur.edu'
+            }
+        ];
+        saveNoticesToStorage();
     }
     
     // Check if user is already logged in (after books are loaded)
@@ -226,6 +246,16 @@ function showLibraryPage() {
         document.getElementById('adminToolbar').style.display = 'none';
     }
     
+    // Show/hide Add Notice button based on role
+    const addNoticeBtn = document.getElementById('addNoticeBtn');
+    if (addNoticeBtn) {
+        if (currentUser.role === 'admin') {
+            addNoticeBtn.style.display = 'flex';
+        } else {
+            addNoticeBtn.style.display = 'none';
+        }
+    }
+    
     // Show notes section for students and teachers
     if (currentUser.role === 'student' || currentUser.role === 'teacher') {
         document.getElementById('notesSection').style.display = 'block';
@@ -235,6 +265,7 @@ function showLibraryPage() {
     
     displayBooks();
     displayNotes();
+    displayNotices();
     lucide.createIcons();
 }
 
@@ -256,13 +287,17 @@ function toggleNCERTBooks() {
     const ncertSection = document.getElementById('ncertBooksSection');
     const addBookForm = document.getElementById('addBookForm');
     const addNoteForm = document.getElementById('addNoteForm');
+    const addNoticeForm = document.getElementById('addNoticeForm');
     const dictSection = document.getElementById('dictionarySection');
+    const noticeSection = document.getElementById('noticeBoardSection');
     
     if (ncertSection.style.display === 'none' || ncertSection.style.display === '') {
         ncertSection.style.display = 'block';
         addBookForm.style.display = 'none';
         addNoteForm.style.display = 'none';
+        addNoticeForm.style.display = 'none';
         dictSection.style.display = 'none';
+        noticeSection.style.display = 'none';
     } else {
         ncertSection.style.display = 'none';
     }
@@ -274,13 +309,17 @@ function toggleDictionary() {
     const dictSection = document.getElementById('dictionarySection');
     const addBookForm = document.getElementById('addBookForm');
     const addNoteForm = document.getElementById('addNoteForm');
+    const addNoticeForm = document.getElementById('addNoticeForm');
     const ncertSection = document.getElementById('ncertBooksSection');
+    const noticeSection = document.getElementById('noticeBoardSection');
     
     if (dictSection.style.display === 'none' || dictSection.style.display === '') {
         dictSection.style.display = 'block';
         addBookForm.style.display = 'none';
         addNoteForm.style.display = 'none';
+        addNoticeForm.style.display = 'none';
         ncertSection.style.display = 'none';
+        noticeSection.style.display = 'none';
         switchDictTab('api'); // Default to Dictionary API
     } else {
         dictSection.style.display = 'none';
@@ -1452,6 +1491,185 @@ function displayBooks(searchQuery = '') {
     `).join('');
     
     lucide.createIcons();
+}
+
+// Notice Board Functions
+function toggleNoticeBoard() {
+    const section = document.getElementById('noticeBoardSection');
+    const isVisible = section.style.display !== 'none';
+    
+    // Hide all sections
+    hideAllSections();
+    
+    if (!isVisible) {
+        section.style.display = 'block';
+        displayNotices();
+    }
+}
+
+function toggleAddNoticeForm() {
+    const form = document.getElementById('addNoticeForm');
+    const formTitle = document.querySelector('#addNoticeForm .form-title span');
+    
+    if (form.style.display === 'none' || form.style.display === '') {
+        form.style.display = 'block';
+        clearNoticeForm();
+        editingNoticeId = null;
+        formTitle.textContent = 'Add New Notice';
+        
+        // Set default date to today
+        document.getElementById('noticeDate').valueAsDate = new Date();
+    } else {
+        form.style.display = 'none';
+    }
+    lucide.createIcons();
+}
+
+function clearNoticeForm() {
+    document.getElementById('noticeTitle').value = '';
+    document.getElementById('noticeDate').value = '';
+    document.getElementById('noticeDescription').value = '';
+    document.getElementById('noticeStudents').checked = true;
+    document.getElementById('noticeTeachers').checked = true;
+}
+
+function saveNotice() {
+    const title = document.getElementById('noticeTitle').value.trim();
+    const date = document.getElementById('noticeDate').value;
+    const description = document.getElementById('noticeDescription').value.trim();
+    const students = document.getElementById('noticeStudents').checked;
+    const teachers = document.getElementById('noticeTeachers').checked;
+    
+    if (!title || !date || !description) {
+        alert('Please fill all required fields!');
+        return;
+    }
+    
+    const visibleTo = [];
+    if (students) visibleTo.push('student');
+    if (teachers) visibleTo.push('teacher');
+    
+    if (visibleTo.length === 0) {
+        alert('Please select at least one visibility option!');
+        return;
+    }
+    
+    const notice = {
+        id: editingNoticeId || Date.now(),
+        title,
+        date,
+        description,
+        visibleTo,
+        createdBy: currentUser.email
+    };
+    
+    if (editingNoticeId) {
+        const index = notices.findIndex(n => n.id === editingNoticeId);
+        if (index !== -1) {
+            notices[index] = notice;
+        }
+    } else {
+        notices.push(notice);
+    }
+    
+    saveNoticesToStorage();
+    clearNoticeForm();
+    editingNoticeId = null;
+    toggleAddNoticeForm();
+    
+    // Hide all sections and show notice board
+    hideAllSections();
+    const noticeBoardSection = document.getElementById('noticeBoardSection');
+    if (noticeBoardSection) {
+        noticeBoardSection.style.display = 'block';
+    }
+    
+    // Display notices after showing the board
+    displayNotices();
+    lucide.createIcons();
+}
+
+function editNotice(noticeId) {
+    const notice = notices.find(n => n.id === noticeId);
+    if (!notice) return;
+    
+    editingNoticeId = noticeId;
+    
+    document.getElementById('noticeTitle').value = notice.title;
+    document.getElementById('noticeDate').value = notice.date;
+    document.getElementById('noticeDescription').value = notice.description;
+    document.getElementById('noticeStudents').checked = notice.visibleTo.includes('student');
+    document.getElementById('noticeTeachers').checked = notice.visibleTo.includes('teacher');
+    
+    document.querySelector('#addNoticeForm .form-title span').textContent = 'Edit Notice';
+    document.getElementById('addNoticeForm').style.display = 'block';
+    
+    lucide.createIcons();
+}
+
+function deleteNotice(noticeId) {
+    if (confirm('Are you sure you want to delete this notice?')) {
+        notices = notices.filter(n => n.id !== noticeId);
+        saveNoticesToStorage();
+        displayNotices();
+    }
+}
+
+function displayNotices() {
+    const grid = document.getElementById('noticesGrid');
+    if (!grid) return;
+    
+    // Filter notices based on user role
+    const filteredNotices = notices.filter(notice => {
+        if (currentUser.role === 'admin') return true;
+        return notice.visibleTo && notice.visibleTo.includes(currentUser.role);
+    }).sort((a, b) => new Date(b.date) - new Date(a.date));
+    
+    if (filteredNotices.length === 0) {
+        grid.innerHTML = `
+            <div class="no-notices">
+                <i data-lucide="bell-off" class="no-notices-icon"></i>
+                <p class="no-notices-text">No notices available</p>
+            </div>
+        `;
+        lucide.createIcons();
+        return;
+    }
+    
+    grid.innerHTML = filteredNotices.map(notice => `
+        <div class="notice-card">
+            <div class="notice-header">
+                ${currentUser.role === 'admin' ? `
+                    <div class="admin-actions">
+                        <button class="edit-btn" onclick="editNotice(${notice.id})">
+                            <i data-lucide="edit"></i>
+                        </button>
+                        <button class="delete-btn" onclick="deleteNotice(${notice.id})">
+                            <i data-lucide="trash-2"></i>
+                        </button>
+                    </div>
+                ` : ''}
+            </div>
+            <h3 class="notice-title">${notice.title}</h3>
+            <div class="notice-date">
+                <i data-lucide="calendar"></i>
+                <span>${new Date(notice.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            </div>
+            <p class="notice-description">${notice.description}</p>
+            ${notice.visibleTo && notice.visibleTo.length > 0 ? `
+                <div class="notice-visibility">
+                    <i data-lucide="eye"></i>
+                    <span>Visible to: ${notice.visibleTo.map(role => role.charAt(0).toUpperCase() + role.slice(1)).join(', ')}</span>
+                </div>
+            ` : ''}
+        </div>
+    `).join('');
+    
+    lucide.createIcons();
+}
+
+function saveNoticesToStorage() {
+    localStorage.setItem('libraryNotices', JSON.stringify(notices));
 }
 
 // Book Reader Functions

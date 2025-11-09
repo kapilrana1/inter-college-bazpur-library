@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     lucide.createIcons();
     
     // Force reload books (version 2.0 - 100 books)
-    const BOOKS_VERSION = '3.0';
+    const BOOKS_VERSION = '4.0';
     const savedVersion = localStorage.getItem('booksVersion');
     
     // Load books from localStorage or use default books
@@ -187,7 +187,29 @@ document.addEventListener('DOMContentLoaded', function() {
             { id: 147, title: 'Chaos Making a New Science', author: 'James Gleick', year: '1987', genre: 'Mathematics', rating: 5, description: 'Introduction to chaos theory', assignedTo: ['student', 'teacher'] },
             { id: 148, title: 'Fermat Last Theorem', author: 'Simon Singh', year: '1997', genre: 'Mathematics', rating: 5, description: 'Epic quest to solve', assignedTo: ['student', 'teacher'] },
             { id: 149, title: 'The Man Who Knew Infinity', author: 'Robert Kanigel', year: '1991', genre: 'Mathematics', rating: 5, description: 'Life of genius Ramanujan', assignedTo: ['student', 'teacher'] },
-            { id: 150, title: 'A Beautiful Mind', author: 'Sylvia Nasar', year: '1998', genre: 'Mathematics', rating: 5, description: 'Life of John Nash', assignedTo: ['student', 'teacher'] }
+            { id: 150, title: 'A Beautiful Mind', author: 'Sylvia Nasar', year: '1998', genre: 'Mathematics', rating: 5, description: 'Life of John Nash', assignedTo: ['student', 'teacher'] },
+            
+            // AI/ML Books (151-170) - Artificial Intelligence and Machine Learning
+            { id: 151, title: 'Artificial Intelligence A Modern Approach', author: 'Stuart Russell', year: '2020', genre: 'AI/ML', rating: 5, description: 'Comprehensive AI textbook and reference', assignedTo: ['student', 'teacher'] },
+            { id: 152, title: 'Deep Learning', author: 'Ian Goodfellow', year: '2016', genre: 'AI/ML', rating: 5, description: 'MIT Press deep learning bible', assignedTo: ['student', 'teacher'] },
+            { id: 153, title: 'Pattern Recognition and Machine Learning', author: 'Christopher Bishop', year: '2006', genre: 'AI/ML', rating: 5, description: 'Classic ML textbook', assignedTo: ['student', 'teacher'] },
+            { id: 154, title: 'Hands-On Machine Learning', author: 'Aurélien Géron', year: '2022', genre: 'AI/ML', rating: 5, description: 'Scikit-Learn Keras and TensorFlow', assignedTo: ['student', 'teacher'] },
+            { id: 155, title: 'The Hundred-Page Machine Learning Book', author: 'Andriy Burkov', year: '2019', genre: 'AI/ML', rating: 5, description: 'Concise ML fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 156, title: 'Machine Learning Yearning', author: 'Andrew Ng', year: '2018', genre: 'AI/ML', rating: 5, description: 'Technical strategy for AI engineers', assignedTo: ['student', 'teacher'] },
+            { id: 157, title: 'Neural Networks and Deep Learning', author: 'Michael Nielsen', year: '2015', genre: 'AI/ML', rating: 5, description: 'Visual introduction to neural networks', assignedTo: ['student', 'teacher'] },
+            { id: 158, title: 'Reinforcement Learning An Introduction', author: 'Richard Sutton', year: '2018', genre: 'AI/ML', rating: 5, description: 'Foundation of RL algorithms', assignedTo: ['student', 'teacher'] },
+            { id: 159, title: 'The Master Algorithm', author: 'Pedro Domingos', year: '2015', genre: 'AI/ML', rating: 5, description: 'Quest for ultimate learning machine', assignedTo: ['student', 'teacher'] },
+            { id: 160, title: 'Life 3.0', author: 'Max Tegmark', year: '2017', genre: 'AI/ML', rating: 5, description: 'Being human in age of AI', assignedTo: ['student', 'teacher'] },
+            { id: 161, title: 'Superintelligence', author: 'Nick Bostrom', year: '2014', genre: 'AI/ML', rating: 5, description: 'Paths dangers strategies', assignedTo: ['student', 'teacher'] },
+            { id: 162, title: 'Human Compatible', author: 'Stuart Russell', year: '2019', genre: 'AI/ML', rating: 5, description: 'AI and problem of control', assignedTo: ['student', 'teacher'] },
+            { id: 163, title: 'Prediction Machines', author: 'Ajay Agrawal', year: '2018', genre: 'AI/ML', rating: 5, description: 'Simple economics of AI', assignedTo: ['student', 'teacher'] },
+            { id: 164, title: 'AI Superpowers', author: 'Kai-Fu Lee', year: '2018', genre: 'AI/ML', rating: 5, description: 'China Silicon Valley and new world', assignedTo: ['student', 'teacher'] },
+            { id: 165, title: 'The Alignment Problem', author: 'Brian Christian', year: '2020', genre: 'AI/ML', rating: 5, description: 'Machine learning and human values', assignedTo: ['student', 'teacher'] },
+            { id: 166, title: 'Weapons of Math Destruction', author: 'Cathy O Neil', year: '2016', genre: 'AI/ML', rating: 5, description: 'How big data increases inequality', assignedTo: ['student', 'teacher'] },
+            { id: 167, title: 'Machine Learning for Absolute Beginners', author: 'Oliver Theobald', year: '2020', genre: 'AI/ML', rating: 5, description: 'Plain English introduction', assignedTo: ['student', 'teacher'] },
+            { id: 168, title: 'Grokking Deep Learning', author: 'Andrew Trask', year: '2019', genre: 'AI/ML', rating: 5, description: 'Build neural networks from scratch', assignedTo: ['student', 'teacher'] },
+            { id: 169, title: 'Deep Learning with Python', author: 'François Chollet', year: '2021', genre: 'AI/ML', rating: 5, description: 'Keras creator teaches deep learning', assignedTo: ['student', 'teacher'] },
+            { id: 170, title: 'Natural Language Processing with Transformers', author: 'Lewis Tunstall', year: '2022', genre: 'AI/ML', rating: 5, description: 'Building language applications with Hugging Face', assignedTo: ['student', 'teacher'] }
         ];
         // Save default books to localStorage
         saveBooksToStorage();
@@ -411,6 +433,8 @@ function toggleNCERTBooks() {
     const addNoticeForm = document.getElementById('addNoticeForm');
     const dictSection = document.getElementById('dictionarySection');
     const noticeSection = document.getElementById('noticeBoardSection');
+    const booksGrid = document.getElementById('booksGrid');
+    const notesSection = document.getElementById('notesSection');
     
     if (ncertSection.style.display === 'none' || ncertSection.style.display === '') {
         ncertSection.style.display = 'block';
@@ -419,9 +443,43 @@ function toggleNCERTBooks() {
         addNoticeForm.style.display = 'none';
         dictSection.style.display = 'none';
         noticeSection.style.display = 'none';
+        booksGrid.style.display = 'none';
+        notesSection.style.display = 'none';
     } else {
         ncertSection.style.display = 'none';
+        booksGrid.style.display = 'grid';
     }
+    lucide.createIcons();
+}
+
+// Show All Books Function (Return to main books view)
+function showAllBooks() {
+    const ncertSection = document.getElementById('ncertBooksSection');
+    const addBookForm = document.getElementById('addBookForm');
+    const addNoteForm = document.getElementById('addNoteForm');
+    const addNoticeForm = document.getElementById('addNoticeForm');
+    const dictSection = document.getElementById('dictionarySection');
+    const noticeSection = document.getElementById('noticeBoardSection');
+    const booksGrid = document.getElementById('booksGrid');
+    const notesSection = document.getElementById('notesSection');
+    
+    // Hide all other sections
+    ncertSection.style.display = 'none';
+    addBookForm.style.display = 'none';
+    addNoteForm.style.display = 'none';
+    addNoticeForm.style.display = 'none';
+    dictSection.style.display = 'none';
+    noticeSection.style.display = 'none';
+    notesSection.style.display = 'none';
+    
+    // Show books grid
+    booksGrid.style.display = 'grid';
+    
+    // Reset search and category filter
+    document.getElementById('searchInput').value = '';
+    document.getElementById('categoryFilter').value = 'all';
+    displayBooks('', 'all');
+    
     lucide.createIcons();
 }
 
@@ -433,6 +491,8 @@ function toggleDictionary() {
     const addNoticeForm = document.getElementById('addNoticeForm');
     const ncertSection = document.getElementById('ncertBooksSection');
     const noticeSection = document.getElementById('noticeBoardSection');
+    const booksGrid = document.getElementById('booksGrid');
+    const notesSection = document.getElementById('notesSection');
     
     if (dictSection.style.display === 'none' || dictSection.style.display === '') {
         dictSection.style.display = 'block';
@@ -441,9 +501,12 @@ function toggleDictionary() {
         addNoticeForm.style.display = 'none';
         ncertSection.style.display = 'none';
         noticeSection.style.display = 'none';
+        booksGrid.style.display = 'none';
+        notesSection.style.display = 'none';
         switchDictTab('api'); // Default to Dictionary API
     } else {
         dictSection.style.display = 'none';
+        booksGrid.style.display = 'grid';
     }
     lucide.createIcons();
 }

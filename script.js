@@ -61,6 +61,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 rating: 5,
                 description: 'A romantic novel of manners',
                 assignedTo: ['student', 'teacher']
+            },
+            {
+                id: 5,
+                title: "Grandma's Bag of Stories",
+                author: 'Sudha Murthy',
+                year: '2015',
+                genre: 'Children Fiction',
+                rating: 5,
+                description: 'A delightful collection of stories told by a grandmother to her grandchildren during summer vacation',
+                assignedTo: ['student', 'teacher'],
+                pdf: 'books/Grandma\'s Bag of Stories by Sudha Murthy.pdf'
             }
         ];
         // Save default books to localStorage

@@ -1,0 +1,9 @@
+{
+  "id": 2,
+  "title": "Library Timings",
+  "date": "2025-11-09",
+  "description": "Library will be open from 9:00 AM to 5:00 PM on all working days. Please maintain silence in the library premises.",
+  "visibleTo": ["student", "teacher"],
+  "createdBy": "Admin",
+  "postedBy": "admin@bazpur.edu"
+}

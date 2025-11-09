@@ -81,16 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (savedNotices) {
         notices = JSON.parse(savedNotices);
     } else {
-        notices = [
-            {
-                id: 1,
-                title: 'Welcome to Inter College Bazpur Library',
-                date: '2025-11-08',
-                description: 'Digital library system is now live! Access books, notes, and resources online. Students and teachers can browse through our extensive collection of books and educational materials.',
-                visibleTo: ['student', 'teacher'],
-                createdBy: 'admin@bazpur.edu'
-            }
-        ];
+        notices = [];
         saveNoticesToStorage();
     }
     
@@ -1619,24 +1610,18 @@ function displayNotices() {
     const grid = document.getElementById('noticesGrid');
     if (!grid) return;
     
+    // Get existing hardcoded notices (first 2 children)
+    const existingNotices = grid.querySelectorAll('.notice-card');
+    const hardcodedNoticesHTML = Array.from(existingNotices).map(card => card.outerHTML).join('');
+    
     // Filter notices based on user role
     const filteredNotices = notices.filter(notice => {
         if (currentUser.role === 'admin') return true;
         return notice.visibleTo && notice.visibleTo.includes(currentUser.role);
     }).sort((a, b) => new Date(b.date) - new Date(a.date));
     
-    if (filteredNotices.length === 0) {
-        grid.innerHTML = `
-            <div class="no-notices">
-                <i data-lucide="bell-off" class="no-notices-icon"></i>
-                <p class="no-notices-text">No notices available</p>
-            </div>
-        `;
-        lucide.createIcons();
-        return;
-    }
-    
-    grid.innerHTML = filteredNotices.map(notice => `
+    // Generate dynamic notices HTML
+    const dynamicNoticesHTML = filteredNotices.map(notice => `
         <div class="notice-card">
             <div class="notice-header">
                 ${currentUser.role === 'admin' ? `
@@ -1650,10 +1635,18 @@ function displayNotices() {
                     </div>
                 ` : ''}
             </div>
-            <h3 class="notice-title">${notice.title}</h3>
-            <div class="notice-date">
-                <i data-lucide="calendar"></i>
-                <span>${new Date(notice.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            <div class="notice-header-info">
+                <h3 class="notice-title">${notice.title}</h3>
+            </div>
+            <div class="notice-meta">
+                <div class="notice-date">
+                    <i data-lucide="calendar"></i>
+                    <span>${new Date(notice.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                </div>
+                <div class="notice-author">
+                    <i data-lucide="user"></i>
+                    <span>Posted by: ${notice.createdBy ? notice.createdBy.split('@')[0].charAt(0).toUpperCase() + notice.createdBy.split('@')[0].slice(1) : 'Admin'}</span>
+                </div>
             </div>
             <p class="notice-description">${notice.description}</p>
             ${notice.visibleTo && notice.visibleTo.length > 0 ? `
@@ -1664,6 +1657,9 @@ function displayNotices() {
             ` : ''}
         </div>
     `).join('');
+    
+    // Combine hardcoded and dynamic notices
+    grid.innerHTML = hardcodedNoticesHTML + dynamicNoticesHTML;
     
     lucide.createIcons();
 }

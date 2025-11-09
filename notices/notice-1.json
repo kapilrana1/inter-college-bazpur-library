@@ -1,0 +1,9 @@
+{
+  "id": 1,
+  "title": "Welcome to Inter College Bazpur Library",
+  "date": "2025-11-08",
+  "description": "Digital library system is now live! Access books, notes, and resources online. Students and teachers can browse through our extensive collection of books and educational materials.",
+  "visibleTo": ["student", "teacher"],
+  "createdBy": "Admin",
+  "postedBy": "admin@bazpur.edu"
+}

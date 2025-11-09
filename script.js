@@ -71,7 +71,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 rating: 5,
                 description: 'A delightful collection of stories told by a grandmother to her grandchildren during summer vacation',
                 assignedTo: ['student', 'teacher'],
-                pdf: 'books/Grandma\'s Bag of Stories by Sudha Murthy.pdf'
+                pdf: 'https://kapilrana1.github.io/inter-college-bazpur-library/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf',
+                pdfRaw: 'https://raw.githubusercontent.com/kapilrana1/inter-college-bazpur-library/main/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf'
             }
         ];
         // Save default books to localStorage

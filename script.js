@@ -1522,6 +1522,21 @@ function clearNoticeForm() {
     document.getElementById('noticeDescription').value = '';
     document.getElementById('noticeStudents').checked = true;
     document.getElementById('noticeTeachers').checked = true;
+    document.getElementById('noticeImage').value = '';
+    document.getElementById('noticeImagePreview').style.display = 'none';
+    document.getElementById('previewImg').src = '';
+}
+
+function previewNoticeImage(event) {
+    const file = event.target.files[0];
+    if (file && file.type.match('image.*')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImg').src = e.target.result;
+            document.getElementById('noticeImagePreview').style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
 }
 
 function saveNotice() {
@@ -1530,6 +1545,8 @@ function saveNotice() {
     const description = document.getElementById('noticeDescription').value.trim();
     const students = document.getElementById('noticeStudents').checked;
     const teachers = document.getElementById('noticeTeachers').checked;
+    const imageInput = document.getElementById('noticeImage');
+    const imagePreview = document.getElementById('previewImg').src;
     
     if (!title || !date || !description) {
         alert('Please fill all required fields!');
@@ -1551,7 +1568,8 @@ function saveNotice() {
         date,
         description,
         visibleTo,
-        createdBy: currentUser.email
+        createdBy: currentUser.email,
+        image: imagePreview || null
     };
     
     if (editingNoticeId) {
@@ -1591,6 +1609,14 @@ function editNotice(noticeId) {
     document.getElementById('noticeDescription').value = notice.description;
     document.getElementById('noticeStudents').checked = notice.visibleTo.includes('student');
     document.getElementById('noticeTeachers').checked = notice.visibleTo.includes('teacher');
+    
+    // Load image if exists
+    if (notice.image) {
+        document.getElementById('previewImg').src = notice.image;
+        document.getElementById('noticeImagePreview').style.display = 'block';
+    } else {
+        document.getElementById('noticeImagePreview').style.display = 'none';
+    }
     
     document.querySelector('#addNoticeForm .form-title span').textContent = 'Edit Notice';
     document.getElementById('addNoticeForm').style.display = 'block';
@@ -1648,6 +1674,11 @@ function displayNotices() {
                     <span>Posted by: ${notice.createdBy ? notice.createdBy.split('@')[0].charAt(0).toUpperCase() + notice.createdBy.split('@')[0].slice(1) : 'Admin'}</span>
                 </div>
             </div>
+            ${notice.image ? `
+                <div class="notice-image">
+                    <img src="${notice.image}" alt="${notice.title}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin: 1rem 0;">
+                </div>
+            ` : ''}
             <p class="notice-description">${notice.description}</p>
             ${notice.visibleTo && notice.visibleTo.length > 0 ? `
                 <div class="notice-visibility">

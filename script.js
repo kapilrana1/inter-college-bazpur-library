@@ -72,6 +72,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 description: 'A delightful collection of stories told by a grandmother to her grandchildren during summer vacation',
                 assignedTo: ['student', 'teacher'],
                 pdf: 'https://raw.githubusercontent.com/kapilrana1/inter-college-bazpur-library/main/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf'
+            },
+            {
+                id: 6,
+                title: "The Magic Drum and Other Stories",
+                author: 'Sudha Murthy',
+                year: '2016',
+                genre: 'Children Fiction',
+                rating: 5,
+                description: 'A collection of enchanting tales and moral stories for children',
+                assignedTo: ['student', 'teacher'],
+                pdf: 'https://raw.githubusercontent.com/kapilrana1/inter-college-bazpur-library/main/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf'
             }
         ];
         // Save default books to localStorage

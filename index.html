@@ -164,6 +164,29 @@
                     <span>Dictionary</span>
                 </button>
                 
+                <!-- Category Filter Dropdown -->
+                <select id="categoryFilter" onchange="filterBooksByCategory()" class="category-filter">
+                    <option value="all">All Books</option>
+                    <option value="Fiction">Story & Fiction</option>
+                    <option value="Science">Science</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Quantum Physics">Quantum Physics</option>
+                    <option value="Astrophysics">Astrophysics</option>
+                    <option value="Cosmology">Cosmology</option>
+                    <option value="Astronomy">Astronomy</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Biology">Biology</option>
+                    <option value="Medicine">Medicine</option>
+                    <option value="Neuroscience">Neuroscience</option>
+                    <option value="Evolution">Evolution</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Yoga">Yoga & Wellness</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="AI/ML">AI/ML</option>
+                    <option value="DevOps">DevOps</option>
+                </select>
+                
                 <div class="admin-toolbar-buttons" id="adminToolbar" style="display: none;">
                     <button id="addBookBtn" onclick="toggleAddForm()" class="add-btn">
                         <i data-lucide="book-plus"></i>

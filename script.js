@@ -16,74 +16,178 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Lucide icons
     lucide.createIcons();
     
+    // Force reload books (version 2.0 - 100 books)
+    const BOOKS_VERSION = '3.0';
+    const savedVersion = localStorage.getItem('booksVersion');
+    
     // Load books from localStorage or use default books
     const savedBooks = localStorage.getItem('libraryBooks');
-    if (savedBooks) {
+    if (savedBooks && savedVersion === BOOKS_VERSION) {
         books = JSON.parse(savedBooks);
     } else {
+        // Clear old data and load new 100 books
+        localStorage.removeItem('libraryBooks');
+        localStorage.setItem('booksVersion', BOOKS_VERSION);
         books = [
-            {
-                id: 1,
-                title: 'The Great Gatsby',
-                author: 'F. Scott Fitzgerald',
-                year: '1925',
-                genre: 'Fiction',
-                rating: 5,
-                description: 'A classic American novel about the Jazz Age',
-                assignedTo: ['student', 'teacher']
-            },
-            {
-                id: 2,
-                title: 'To Kill a Mockingbird',
-                author: 'Harper Lee',
-                year: '1960',
-                genre: 'Fiction',
-                rating: 5,
-                description: 'A story of racial injustice and childhood innocence',
-                assignedTo: ['student', 'teacher']
-            },
-            {
-                id: 3,
-                title: '1984',
-                author: 'George Orwell',
-                year: '1949',
-                genre: 'Science Fiction',
-                rating: 5,
-                description: 'A dystopian social science fiction novel',
-                assignedTo: ['student', 'teacher']
-            },
-            {
-                id: 4,
-                title: 'Pride and Prejudice',
-                author: 'Jane Austen',
-                year: '1813',
-                genre: 'Romance',
-                rating: 5,
-                description: 'A romantic novel of manners',
-                assignedTo: ['student', 'teacher']
-            },
-            {
-                id: 5,
-                title: "Grandma's Bag of Stories",
-                author: 'Sudha Murthy',
-                year: '2015',
-                genre: 'Children Fiction',
-                rating: 5,
-                description: 'A delightful collection of stories told by a grandmother to her grandchildren during summer vacation',
-                assignedTo: ['student', 'teacher'],
-                pdf: 'https://raw.githubusercontent.com/kapilrana1/inter-college-bazpur-library/main/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf'
-            },
-            {
-                id: 6,
-                title: "The Magic Drum and Other Stories",
-                author: 'Sudha Murthy',
-                year: '2016',
-                genre: 'Children Fiction',
-                rating: 5,
-                description: 'A collection of enchanting tales and moral stories for children',
-                assignedTo: ['student', 'teacher'],
-                pdf: 'https://raw.githubusercontent.com/kapilrana1/inter-college-bazpur-library/main/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf'
-            }
+            // Story Books (1-20)
+            { id: 1, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', year: '1925', genre: 'Fiction', rating: 5, description: 'A classic American novel about the Jazz Age', assignedTo: ['student', 'teacher'] },
+            { id: 2, title: 'To Kill a Mockingbird', author: 'Harper Lee', year: '1960', genre: 'Fiction', rating: 5, description: 'A story of racial injustice and childhood innocence', assignedTo: ['student', 'teacher'] },
+            { id: 3, title: '1984', author: 'George Orwell', year: '1949', genre: 'Fiction', rating: 5, description: 'A dystopian social science fiction novel', assignedTo: ['student', 'teacher'] },
+            { id: 4, title: 'Pride and Prejudice', author: 'Jane Austen', year: '1813', genre: 'Romance', rating: 5, description: 'A romantic novel of manners', assignedTo: ['student', 'teacher'] },
+            { id: 5, title: "Grandma's Bag of Stories", author: 'Sudha Murthy', year: '2015', genre: 'Children Fiction', rating: 5, description: 'A delightful collection of stories told by a grandmother', assignedTo: ['student', 'teacher'], pdf: 'https://raw.githubusercontent.com/kapilrana1/inter-college-bazpur-library/main/books/Grandma%27s%20Bag%20of%20Stories%20by%20Sudha%20Murthy.pdf' },
+            { id: 6, title: 'The Magic Drum', author: 'Sudha Murthy', year: '2016', genre: 'Children Fiction', rating: 5, description: 'Enchanting tales and moral stories for children', assignedTo: ['student', 'teacher'] },
+            { id: 7, title: 'Harry Potter and the Philosopher Stone', author: 'J.K. Rowling', year: '1997', genre: 'Fantasy', rating: 5, description: 'A young wizard discovers his magical heritage', assignedTo: ['student', 'teacher'] },
+            { id: 8, title: 'The Alchemist', author: 'Paulo Coelho', year: '1988', genre: 'Fiction', rating: 5, description: 'A shepherd boy journey to find treasure', assignedTo: ['student', 'teacher'] },
+            { id: 9, title: 'The Little Prince', author: 'Antoine de Saint-Exupéry', year: '1943', genre: 'Children Fiction', rating: 5, description: 'A story about love, loss, and human nature', assignedTo: ['student', 'teacher'] },
+            { id: 10, title: 'Charlotte Web', author: 'E.B. White', year: '1952', genre: 'Children Fiction', rating: 5, description: 'A story of friendship between a pig and a spider', assignedTo: ['student', 'teacher'] },
+            { id: 11, title: 'The Jungle Book', author: 'Rudyard Kipling', year: '1894', genre: 'Adventure', rating: 5, description: 'Adventures of Mowgli in the Indian jungle', assignedTo: ['student', 'teacher'] },
+            { id: 12, title: 'Alice in Wonderland', author: 'Lewis Carroll', year: '1865', genre: 'Fantasy', rating: 5, description: 'A girl falls down a rabbit hole into a fantasy world', assignedTo: ['student', 'teacher'] },
+            { id: 13, title: 'The Adventures of Tom Sawyer', author: 'Mark Twain', year: '1876', genre: 'Adventure', rating: 5, description: 'Adventures of a mischievous boy in Missouri', assignedTo: ['student', 'teacher'] },
+            { id: 14, title: 'Treasure Island', author: 'Robert Louis Stevenson', year: '1883', genre: 'Adventure', rating: 5, description: 'A quest for buried treasure', assignedTo: ['student', 'teacher'] },
+            { id: 15, title: 'The Secret Garden', author: 'Frances Hodgson Burnett', year: '1911', genre: 'Children Fiction', rating: 5, description: 'A girl discovers a magical garden', assignedTo: ['student', 'teacher'] },
+            { id: 16, title: 'Anne of Green Gables', author: 'L.M. Montgomery', year: '1908', genre: 'Fiction', rating: 5, description: 'An orphan girl journey to find a home', assignedTo: ['student', 'teacher'] },
+            { id: 17, title: 'Heidi', author: 'Johanna Spyri', year: '1881', genre: 'Children Fiction', rating: 5, description: 'A Swiss girl life in the Alps', assignedTo: ['student', 'teacher'] },
+            { id: 18, title: 'The Wind in the Willows', author: 'Kenneth Grahame', year: '1908', genre: 'Children Fiction', rating: 5, description: 'Adventures of anthropomorphic animals', assignedTo: ['student', 'teacher'] },
+            { id: 19, title: 'Peter Pan', author: 'J.M. Barrie', year: '1911', genre: 'Fantasy', rating: 5, description: 'The boy who never grows up', assignedTo: ['student', 'teacher'] },
+            { id: 20, title: 'The Chronicles of Narnia', author: 'C.S. Lewis', year: '1950', genre: 'Fantasy', rating: 5, description: 'Children discover a magical world', assignedTo: ['student', 'teacher'] },
+            
+            // Science Books (21-40)
+            { id: 21, title: 'A Brief History of Time', author: 'Stephen Hawking', year: '1988', genre: 'Science', rating: 5, description: 'Cosmology and the universe explained', assignedTo: ['student', 'teacher'] },
+            { id: 22, title: 'Cosmos', author: 'Carl Sagan', year: '1980', genre: 'Science', rating: 5, description: 'Journey through space and time', assignedTo: ['student', 'teacher'] },
+            { id: 23, title: 'The Origin of Species', author: 'Charles Darwin', year: '1859', genre: 'Science', rating: 5, description: 'Foundation of evolutionary biology', assignedTo: ['student', 'teacher'] },
+            { id: 24, title: 'The Selfish Gene', author: 'Richard Dawkins', year: '1976', genre: 'Science', rating: 5, description: 'Gene-centered view of evolution', assignedTo: ['student', 'teacher'] },
+            { id: 25, title: 'Sapiens', author: 'Yuval Noah Harari', year: '2011', genre: 'Science', rating: 5, description: 'A brief history of humankind', assignedTo: ['student', 'teacher'] },
+            { id: 26, title: 'The Double Helix', author: 'James Watson', year: '1968', genre: 'Science', rating: 5, description: 'Discovery of DNA structure', assignedTo: ['student', 'teacher'] },
+            { id: 27, title: 'The Elegant Universe', author: 'Brian Greene', year: '1999', genre: 'Science', rating: 5, description: 'String theory and physics', assignedTo: ['student', 'teacher'] },
+            { id: 28, title: 'The Demon-Haunted World', author: 'Carl Sagan', year: '1995', genre: 'Science', rating: 5, description: 'Science as a candle in the dark', assignedTo: ['student', 'teacher'] },
+            { id: 29, title: 'Relativity', author: 'Albert Einstein', year: '1916', genre: 'Science', rating: 5, description: 'The special and general theory', assignedTo: ['student', 'teacher'] },
+            { id: 30, title: 'The Feynman Lectures on Physics', author: 'Richard Feynman', year: '1964', genre: 'Science', rating: 5, description: 'Comprehensive physics lectures', assignedTo: ['student', 'teacher'] },
+            { id: 31, title: 'The Structure of Scientific Revolutions', author: 'Thomas Kuhn', year: '1962', genre: 'Science', rating: 5, description: 'How science progresses', assignedTo: ['student', 'teacher'] },
+            { id: 32, title: 'Silent Spring', author: 'Rachel Carson', year: '1962', genre: 'Science', rating: 5, description: 'Environmental science classic', assignedTo: ['student', 'teacher'] },
+            { id: 33, title: 'The Emperor New Mind', author: 'Roger Penrose', year: '1989', genre: 'Science', rating: 5, description: 'Consciousness and quantum mechanics', assignedTo: ['student', 'teacher'] },
+            { id: 34, title: 'Gödel Escher Bach', author: 'Douglas Hofstadter', year: '1979', genre: 'Science', rating: 5, description: 'An eternal golden braid', assignedTo: ['student', 'teacher'] },
+            { id: 35, title: 'The First Three Minutes', author: 'Steven Weinberg', year: '1977', genre: 'Science', rating: 5, description: 'Modern view of origin of universe', assignedTo: ['student', 'teacher'] },
+            { id: 36, title: 'The Gene', author: 'Siddhartha Mukherjee', year: '2016', genre: 'Science', rating: 5, description: 'An intimate history', assignedTo: ['student', 'teacher'] },
+            { id: 37, title: 'The Hidden Life of Trees', author: 'Peter Wohlleben', year: '2015', genre: 'Science', rating: 5, description: 'What they feel and communicate', assignedTo: ['student', 'teacher'] },
+            { id: 38, title: 'The Sixth Extinction', author: 'Elizabeth Kolbert', year: '2014', genre: 'Science', rating: 5, description: 'An unnatural history', assignedTo: ['student', 'teacher'] },
+            { id: 39, title: 'Lab Girl', author: 'Hope Jahren', year: '2016', genre: 'Science', rating: 5, description: 'A story of plants and science', assignedTo: ['student', 'teacher'] },
+            { id: 40, title: 'The Immortal Life of Henrietta Lacks', author: 'Rebecca Skloot', year: '2010', genre: 'Science', rating: 5, description: 'Medical ethics and HeLa cells', assignedTo: ['student', 'teacher'] },
+            
+            // Yoga & Wellness Books (41-55)
+            { id: 41, title: 'Light on Yoga', author: 'B.K.S. Iyengar', year: '1966', genre: 'Yoga', rating: 5, description: 'Comprehensive guide to yoga', assignedTo: ['student', 'teacher'] },
+            { id: 42, title: 'The Yoga Sutras of Patanjali', author: 'Patanjali', year: '400', genre: 'Yoga', rating: 5, description: 'Ancient yoga philosophy', assignedTo: ['student', 'teacher'] },
+            { id: 43, title: 'Autobiography of a Yogi', author: 'Paramahansa Yogananda', year: '1946', genre: 'Yoga', rating: 5, description: 'Spiritual journey and yoga', assignedTo: ['student', 'teacher'] },
+            { id: 44, title: 'The Heart of Yoga', author: 'T.K.V. Desikachar', year: '1995', genre: 'Yoga', rating: 5, description: 'Developing personal practice', assignedTo: ['student', 'teacher'] },
+            { id: 45, title: 'Asana Pranayama Mudra Bandha', author: 'Swami Satyananda Saraswati', year: '1969', genre: 'Yoga', rating: 5, description: 'Yoga techniques guide', assignedTo: ['student', 'teacher'] },
+            { id: 46, title: 'The Complete Illustrated Book of Yoga', author: 'Swami Vishnu-devananda', year: '1960', genre: 'Yoga', rating: 5, description: 'Comprehensive yoga manual', assignedTo: ['student', 'teacher'] },
+            { id: 47, title: 'Yoga Anatomy', author: 'Leslie Kaminoff', year: '2007', genre: 'Yoga', rating: 5, description: 'Understanding yoga postures', assignedTo: ['student', 'teacher'] },
+            { id: 48, title: 'The Science of Yoga', author: 'William J. Broad', year: '2012', genre: 'Yoga', rating: 5, description: 'Risks and rewards', assignedTo: ['student', 'teacher'] },
+            { id: 49, title: 'Bhagavad Gita', author: 'Vyasa', year: '500 BCE', genre: 'Philosophy', rating: 5, description: 'Ancient Hindu scripture', assignedTo: ['student', 'teacher'] },
+            { id: 50, title: 'The Miracle of Mindfulness', author: 'Thich Nhat Hanh', year: '1975', genre: 'Mindfulness', rating: 5, description: 'Introduction to meditation', assignedTo: ['student', 'teacher'] },
+            { id: 51, title: 'Wherever You Go There You Are', author: 'Jon Kabat-Zinn', year: '1994', genre: 'Mindfulness', rating: 5, description: 'Mindfulness meditation guide', assignedTo: ['student', 'teacher'] },
+            { id: 52, title: 'The Power of Now', author: 'Eckhart Tolle', year: '1997', genre: 'Spirituality', rating: 5, description: 'Guide to spiritual enlightenment', assignedTo: ['student', 'teacher'] },
+            { id: 53, title: 'Meditation for Beginners', author: 'Jack Kornfield', year: '2004', genre: 'Meditation', rating: 5, description: 'Starting meditation practice', assignedTo: ['student', 'teacher'] },
+            { id: 54, title: 'The Relaxation Response', author: 'Herbert Benson', year: '1975', genre: 'Wellness', rating: 5, description: 'Stress reduction techniques', assignedTo: ['student', 'teacher'] },
+            { id: 55, title: 'Pranayama The Breath of Yoga', author: 'Gregor Maehle', year: '2012', genre: 'Yoga', rating: 5, description: 'Breathing techniques in yoga', assignedTo: ['student', 'teacher'] },
+            
+            // Computer Programming Books (56-100)
+            { id: 56, title: 'Clean Code', author: 'Robert C. Martin', year: '2008', genre: 'Programming', rating: 5, description: 'A handbook of agile software craftsmanship', assignedTo: ['student', 'teacher'] },
+            { id: 57, title: 'The Pragmatic Programmer', author: 'Andrew Hunt', year: '1999', genre: 'Programming', rating: 5, description: 'From journeyman to master', assignedTo: ['student', 'teacher'] },
+            { id: 58, title: 'Code Complete', author: 'Steve McConnell', year: '1993', genre: 'Programming', rating: 5, description: 'A practical handbook', assignedTo: ['student', 'teacher'] },
+            { id: 59, title: 'Introduction to Algorithms', author: 'Thomas H. Cormen', year: '1990', genre: 'Computer Science', rating: 5, description: 'Comprehensive algorithms textbook', assignedTo: ['student', 'teacher'] },
+            { id: 60, title: 'Design Patterns', author: 'Gang of Four', year: '1994', genre: 'Programming', rating: 5, description: 'Elements of reusable software', assignedTo: ['student', 'teacher'] },
+            { id: 61, title: 'Structure and Interpretation of Computer Programs', author: 'Harold Abelson', year: '1985', genre: 'Computer Science', rating: 5, description: 'SICP programming fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 62, title: 'The Art of Computer Programming', author: 'Donald Knuth', year: '1968', genre: 'Computer Science', rating: 5, description: 'Comprehensive programming treatise', assignedTo: ['student', 'teacher'] },
+            { id: 63, title: 'Cracking the Coding Interview', author: 'Gayle Laakmann McDowell', year: '2008', genre: 'Programming', rating: 5, description: 'Tech interview preparation', assignedTo: ['student', 'teacher'] },
+            { id: 64, title: 'You Don Know JS', author: 'Kyle Simpson', year: '2014', genre: 'JavaScript', rating: 5, description: 'Deep JavaScript knowledge', assignedTo: ['student', 'teacher'] },
+            { id: 65, title: 'Eloquent JavaScript', author: 'Marijn Haverbeke', year: '2011', genre: 'JavaScript', rating: 5, description: 'Modern introduction to programming', assignedTo: ['student', 'teacher'] },
+            { id: 66, title: 'Python Crash Course', author: 'Eric Matthes', year: '2015', genre: 'Python', rating: 5, description: 'Hands-on project-based intro', assignedTo: ['student', 'teacher'] },
+            { id: 67, title: 'Automate the Boring Stuff with Python', author: 'Al Sweigart', year: '2015', genre: 'Python', rating: 5, description: 'Practical programming for beginners', assignedTo: ['student', 'teacher'] },
+            { id: 68, title: 'Learning Python', author: 'Mark Lutz', year: '1999', genre: 'Python', rating: 5, description: 'Comprehensive Python guide', assignedTo: ['student', 'teacher'] },
+            { id: 69, title: 'Effective Java', author: 'Joshua Bloch', year: '2001', genre: 'Java', rating: 5, description: 'Best practices for Java', assignedTo: ['student', 'teacher'] },
+            { id: 70, title: 'Head First Java', author: 'Kathy Sierra', year: '2003', genre: 'Java', rating: 5, description: 'Brain-friendly Java guide', assignedTo: ['student', 'teacher'] },
+            { id: 71, title: 'Java The Complete Reference', author: 'Herbert Schildt', year: '1996', genre: 'Java', rating: 5, description: 'Comprehensive Java handbook', assignedTo: ['student', 'teacher'] },
+            { id: 72, title: 'The C Programming Language', author: 'Brian Kernighan', year: '1978', genre: 'C Programming', rating: 5, description: 'Definitive C language guide', assignedTo: ['student', 'teacher'] },
+            { id: 73, title: 'C++ Primer', author: 'Stanley Lippman', year: '1989', genre: 'C++', rating: 5, description: 'Comprehensive C++ introduction', assignedTo: ['student', 'teacher'] },
+            { id: 74, title: 'Effective Modern C++', author: 'Scott Meyers', year: '2014', genre: 'C++', rating: 5, description: 'Modern C++ best practices', assignedTo: ['student', 'teacher'] },
+            { id: 75, title: 'Learning SQL', author: 'Alan Beaulieu', year: '2005', genre: 'Database', rating: 5, description: 'Master SQL fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 76, title: 'SQL in 10 Minutes', author: 'Ben Forta', year: '1999', genre: 'Database', rating: 5, description: 'Quick SQL tutorial', assignedTo: ['student', 'teacher'] },
+            { id: 77, title: 'Database System Concepts', author: 'Abraham Silberschatz', year: '1986', genre: 'Database', rating: 5, description: 'Database fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 78, title: 'Web Development with Node and Express', author: 'Ethan Brown', year: '2014', genre: 'Web Development', rating: 5, description: 'Building web applications', assignedTo: ['student', 'teacher'] },
+            { id: 79, title: 'HTML and CSS', author: 'Jon Duckett', year: '2011', genre: 'Web Development', rating: 5, description: 'Design and build websites', assignedTo: ['student', 'teacher'] },
+            { id: 80, title: 'JavaScript and jQuery', author: 'Jon Duckett', year: '2014', genre: 'Web Development', rating: 5, description: 'Interactive front-end development', assignedTo: ['student', 'teacher'] },
+            { id: 81, title: 'React Up and Running', author: 'Stoyan Stefanov', year: '2016', genre: 'Web Development', rating: 5, description: 'Building web applications', assignedTo: ['student', 'teacher'] },
+            { id: 82, title: 'Learning React', author: 'Alex Banks', year: '2017', genre: 'Web Development', rating: 5, description: 'Modern patterns for developing', assignedTo: ['student', 'teacher'] },
+            { id: 83, title: 'Pro Git', author: 'Scott Chacon', year: '2009', genre: 'Version Control', rating: 5, description: 'Everything about Git', assignedTo: ['student', 'teacher'] },
+            { id: 84, title: 'The Linux Command Line', author: 'William Shotts', year: '2012', genre: 'Linux', rating: 5, description: 'Complete introduction to Linux', assignedTo: ['student', 'teacher'] },
+            { id: 85, title: 'Linux Pocket Guide', author: 'Daniel J. Barrett', year: '2004', genre: 'Linux', rating: 5, description: 'Essential commands', assignedTo: ['student', 'teacher'] },
+            { id: 86, title: 'Operating System Concepts', author: 'Abraham Silberschatz', year: '1983', genre: 'Computer Science', rating: 5, description: 'OS fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 87, title: 'Computer Networks', author: 'Andrew Tanenbaum', year: '1981', genre: 'Networking', rating: 5, description: 'Network fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 88, title: 'Computer Organization and Design', author: 'David Patterson', year: '1994', genre: 'Computer Science', rating: 5, description: 'Hardware/software interface', assignedTo: ['student', 'teacher'] },
+            { id: 89, title: 'Artificial Intelligence A Modern Approach', author: 'Stuart Russell', year: '1995', genre: 'AI', rating: 5, description: 'Comprehensive AI textbook', assignedTo: ['student', 'teacher'] },
+            { id: 90, title: 'Deep Learning', author: 'Ian Goodfellow', year: '2016', genre: 'Machine Learning', rating: 5, description: 'Neural networks guide', assignedTo: ['student', 'teacher'] },
+            { id: 91, title: 'Hands-On Machine Learning', author: 'Aurélien Géron', year: '2017', genre: 'Machine Learning', rating: 5, description: 'Scikit-Learn and TensorFlow', assignedTo: ['student', 'teacher'] },
+            { id: 92, title: 'Pattern Recognition and Machine Learning', author: 'Christopher Bishop', year: '2006', genre: 'Machine Learning', rating: 5, description: 'ML fundamentals', assignedTo: ['student', 'teacher'] },
+            { id: 93, title: 'Data Science from Scratch', author: 'Joel Grus', year: '2015', genre: 'Data Science', rating: 5, description: 'First principles with Python', assignedTo: ['student', 'teacher'] },
+            { id: 94, title: 'Python for Data Analysis', author: 'Wes McKinney', year: '2012', genre: 'Data Science', rating: 5, description: 'Data wrangling with Pandas', assignedTo: ['student', 'teacher'] },
+            { id: 95, title: 'The Elements of Statistical Learning', author: 'Trevor Hastie', year: '2001', genre: 'Statistics', rating: 5, description: 'Data mining and prediction', assignedTo: ['student', 'teacher'] },
+            { id: 96, title: 'Algorithms to Live By', author: 'Brian Christian', year: '2016', genre: 'Computer Science', rating: 5, description: 'Computer science in everyday life', assignedTo: ['student', 'teacher'] },
+            { id: 97, title: 'The Code Book', author: 'Simon Singh', year: '1999', genre: 'Cryptography', rating: 5, description: 'Science of secrecy', assignedTo: ['student', 'teacher'] },
+            { id: 98, title: 'Cryptography and Network Security', author: 'William Stallings', year: '1998', genre: 'Security', rating: 5, description: 'Principles and practice', assignedTo: ['student', 'teacher'] },
+            { id: 99, title: 'The Phoenix Project', author: 'Gene Kim', year: '2013', genre: 'DevOps', rating: 5, description: 'IT revolution novel', assignedTo: ['student', 'teacher'] },
+            { id: 100, title: 'Site Reliability Engineering', author: 'Betsy Beyer', year: '2016', genre: 'DevOps', rating: 5, description: 'How Google runs production', assignedTo: ['student', 'teacher'] },
+            
+            // Additional Science Books (101-150) - Physics, Chemistry, Biology, Astronomy, etc.
+            { id: 101, title: 'The Grand Design', author: 'Stephen Hawking', year: '2010', genre: 'Physics', rating: 5, description: 'New answers to ultimate questions', assignedTo: ['student', 'teacher'] },
+            { id: 102, title: 'QED The Strange Theory', author: 'Richard Feynman', year: '1985', genre: 'Physics', rating: 5, description: 'Quantum electrodynamics explained', assignedTo: ['student', 'teacher'] },
+            { id: 103, title: 'The Fabric of the Cosmos', author: 'Brian Greene', year: '2004', genre: 'Physics', rating: 5, description: 'Space time and texture of reality', assignedTo: ['student', 'teacher'] },
+            { id: 104, title: 'Seven Brief Lessons on Physics', author: 'Carlo Rovelli', year: '2014', genre: 'Physics', rating: 5, description: 'Beautiful introduction to physics', assignedTo: ['student', 'teacher'] },
+            { id: 105, title: 'The Order of Time', author: 'Carlo Rovelli', year: '2017', genre: 'Physics', rating: 5, description: 'Understanding time in physics', assignedTo: ['student', 'teacher'] },
+            { id: 106, title: 'Black Holes and Time Warps', author: 'Kip Thorne', year: '1994', genre: 'Astrophysics', rating: 5, description: 'Einstein outrageous legacy', assignedTo: ['student', 'teacher'] },
+            { id: 107, title: 'Astrophysics for People in a Hurry', author: 'Neil deGrasse Tyson', year: '2017', genre: 'Astrophysics', rating: 5, description: 'Quick universe overview', assignedTo: ['student', 'teacher'] },
+            { id: 108, title: 'The Big Picture', author: 'Sean Carroll', year: '2016', genre: 'Physics', rating: 5, description: 'Origins of life meaning and universe', assignedTo: ['student', 'teacher'] },
+            { id: 109, title: 'Something Deeply Hidden', author: 'Sean Carroll', year: '2019', genre: 'Quantum Physics', rating: 5, description: 'Quantum worlds and emergence', assignedTo: ['student', 'teacher'] },
+            { id: 110, title: 'The Quantum Universe', author: 'Brian Cox', year: '2011', genre: 'Quantum Physics', rating: 5, description: 'Everything that can happen does', assignedTo: ['student', 'teacher'] },
+            { id: 111, title: 'Periodic Tales', author: 'Hugh Aldersey-Williams', year: '2011', genre: 'Chemistry', rating: 5, description: 'Cultural history of elements', assignedTo: ['student', 'teacher'] },
+            { id: 112, title: 'The Disappearing Spoon', author: 'Sam Kean', year: '2010', genre: 'Chemistry', rating: 5, description: 'Madness love and history', assignedTo: ['student', 'teacher'] },
+            { id: 113, title: 'Napoleon Button', author: 'Penny Le Couteur', year: '2003', genre: 'Chemistry', rating: 5, description: 'How molecules changed history', assignedTo: ['student', 'teacher'] },
+            { id: 114, title: 'The Chemistry Book', author: 'Derek Lowe', year: '2016', genre: 'Chemistry', rating: 5, description: 'Big ideas simply explained', assignedTo: ['student', 'teacher'] },
+            { id: 115, title: 'Stuff Matters', author: 'Mark Miodownik', year: '2013', genre: 'Materials Science', rating: 5, description: 'Exploring marvelous materials', assignedTo: ['student', 'teacher'] },
+            { id: 116, title: 'The Cell', author: 'Joshua Z. Rappoport', year: '2016', genre: 'Biology', rating: 5, description: 'Inside the microscopic world', assignedTo: ['student', 'teacher'] },
+            { id: 117, title: 'The Song of the Cell', author: 'Siddhartha Mukherjee', year: '2022', genre: 'Biology', rating: 5, description: 'Exploration of medicine and biology', assignedTo: ['student', 'teacher'] },
+            { id: 118, title: 'Life on the Edge', author: 'Johnjoe McFadden', year: '2014', genre: 'Biology', rating: 5, description: 'Quantum biology revolution', assignedTo: ['student', 'teacher'] },
+            { id: 119, title: 'The Vital Question', author: 'Nick Lane', year: '2015', genre: 'Biology', rating: 5, description: 'Energy evolution and origins', assignedTo: ['student', 'teacher'] },
+            { id: 120, title: 'The Body', author: 'Bill Bryson', year: '2019', genre: 'Biology', rating: 5, description: 'Guide for occupants', assignedTo: ['student', 'teacher'] },
+            { id: 121, title: 'I Contain Multitudes', author: 'Ed Yong', year: '2016', genre: 'Microbiology', rating: 5, description: 'Microbes within us', assignedTo: ['student', 'teacher'] },
+            { id: 122, title: 'The Emperor of All Maladies', author: 'Siddhartha Mukherjee', year: '2010', genre: 'Medicine', rating: 5, description: 'Biography of cancer', assignedTo: ['student', 'teacher'] },
+            { id: 123, title: 'Being Mortal', author: 'Atul Gawande', year: '2014', genre: 'Medicine', rating: 5, description: 'Medicine and what matters', assignedTo: ['student', 'teacher'] },
+            { id: 124, title: 'The Man Who Mistook His Wife', author: 'Oliver Sacks', year: '1985', genre: 'Neuroscience', rating: 5, description: 'Clinical tales', assignedTo: ['student', 'teacher'] },
+            { id: 125, title: 'The Brain That Changes Itself', author: 'Norman Doidge', year: '2007', genre: 'Neuroscience', rating: 5, description: 'Stories of neuroplasticity', assignedTo: ['student', 'teacher'] },
+            { id: 126, title: 'Behave', author: 'Robert Sapolsky', year: '2017', genre: 'Neuroscience', rating: 5, description: 'Biology of humans at best and worst', assignedTo: ['student', 'teacher'] },
+            { id: 127, title: 'The Tell-Tale Brain', author: 'V.S. Ramachandran', year: '2011', genre: 'Neuroscience', rating: 5, description: 'Neuroscientist quest', assignedTo: ['student', 'teacher'] },
+            { id: 128, title: 'Thinking Fast and Slow', author: 'Daniel Kahneman', year: '2011', genre: 'Psychology', rating: 5, description: 'Two systems of thinking', assignedTo: ['student', 'teacher'] },
+            { id: 129, title: 'The Ancestor Tale', author: 'Richard Dawkins', year: '2004', genre: 'Evolution', rating: 5, description: 'Pilgrimage to dawn of life', assignedTo: ['student', 'teacher'] },
+            { id: 130, title: 'Your Inner Fish', author: 'Neil Shubin', year: '2008', genre: 'Evolution', rating: 5, description: 'Journey into 3.5 billion years', assignedTo: ['student', 'teacher'] },
+            { id: 131, title: 'The Beak of the Finch', author: 'Jonathan Weiner', year: '1994', genre: 'Evolution', rating: 5, description: 'Evolution in real time', assignedTo: ['student', 'teacher'] },
+            { id: 132, title: 'The Third Chimpanzee', author: 'Jared Diamond', year: '1991', genre: 'Anthropology', rating: 5, description: 'Evolution and future', assignedTo: ['student', 'teacher'] },
+            { id: 133, title: 'Guns Germs and Steel', author: 'Jared Diamond', year: '1997', genre: 'Anthropology', rating: 5, description: 'Fates of human societies', assignedTo: ['student', 'teacher'] },
+            { id: 134, title: 'The Social Animal', author: 'Elliot Aronson', year: '1972', genre: 'Social Science', rating: 5, description: 'Introduction to social psychology', assignedTo: ['student', 'teacher'] },
+            { id: 135, title: 'Pale Blue Dot', author: 'Carl Sagan', year: '1994', genre: 'Astronomy', rating: 5, description: 'Vision of human future in space', assignedTo: ['student', 'teacher'] },
+            { id: 136, title: 'The 4 Percent Universe', author: 'Richard Panek', year: '2011', genre: 'Cosmology', rating: 5, description: 'Dark matter dark energy', assignedTo: ['student', 'teacher'] },
+            { id: 137, title: 'The Illustrated Theory of Everything', author: 'Stephen Hawking', year: '2003', genre: 'Cosmology', rating: 5, description: 'Origin and fate of universe', assignedTo: ['student', 'teacher'] },
+            { id: 138, title: 'The Day We Found the Universe', author: 'Marcia Bartusiak', year: '2009', genre: 'Astronomy', rating: 5, description: 'Discovery of galaxies', assignedTo: ['student', 'teacher'] },
+            { id: 139, title: 'Coming of Age in the Milky Way', author: 'Timothy Ferris', year: '1988', genre: 'Astronomy', rating: 5, description: 'History of cosmology', assignedTo: ['student', 'teacher'] },
+            { id: 140, title: 'The Perfect Theory', author: 'Pedro Ferreira', year: '2014', genre: 'Physics', rating: 5, description: 'Century of general relativity', assignedTo: ['student', 'teacher'] },
+            { id: 141, title: 'The Greatest Show on Earth', author: 'Richard Dawkins', year: '2009', genre: 'Evolution', rating: 5, description: 'Evidence for evolution', assignedTo: ['student', 'teacher'] },
+            { id: 142, title: 'The Dinosaur Heresies', author: 'Robert Bakker', year: '1986', genre: 'Paleontology', rating: 5, description: 'New theories about dinosaurs', assignedTo: ['student', 'teacher'] },
+            { id: 143, title: 'The Rise and Fall of the Dinosaurs', author: 'Steve Brusatte', year: '2018', genre: 'Paleontology', rating: 5, description: 'New history of lost world', assignedTo: ['student', 'teacher'] },
+            { id: 144, title: 'The Alchemy of Air', author: 'Thomas Hager', year: '2008', genre: 'Chemistry', rating: 5, description: 'Jewish genius and scientific discovery', assignedTo: ['student', 'teacher'] },
+            { id: 145, title: 'The Making of the Atomic Bomb', author: 'Richard Rhodes', year: '1986', genre: 'Physics', rating: 5, description: 'History of nuclear weapons', assignedTo: ['student', 'teacher'] },
+            { id: 146, title: 'The Information', author: 'James Gleick', year: '2011', genre: 'Information Theory', rating: 5, description: 'History theory flood', assignedTo: ['student', 'teacher'] },
+            { id: 147, title: 'Chaos Making a New Science', author: 'James Gleick', year: '1987', genre: 'Mathematics', rating: 5, description: 'Introduction to chaos theory', assignedTo: ['student', 'teacher'] },
+            { id: 148, title: 'Fermat Last Theorem', author: 'Simon Singh', year: '1997', genre: 'Mathematics', rating: 5, description: 'Epic quest to solve', assignedTo: ['student', 'teacher'] },
+            { id: 149, title: 'The Man Who Knew Infinity', author: 'Robert Kanigel', year: '1991', genre: 'Mathematics', rating: 5, description: 'Life of genius Ramanujan', assignedTo: ['student', 'teacher'] },
+            { id: 150, title: 'A Beautiful Mind', author: 'Sylvia Nasar', year: '1998', genre: 'Mathematics', rating: 5, description: 'Life of John Nash', assignedTo: ['student', 'teacher'] }
         ];
         // Save default books to localStorage
         saveBooksToStorage();
@@ -115,8 +219,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Add search functionality
-    document.getElementById('searchInput').addEventListener('input', function(e) {
-        displayBooks(e.target.value);
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    
+    searchInput.addEventListener('input', function(e) {
+        const selectedCategory = categoryFilter.value;
+        displayBooks(e.target.value, selectedCategory);
     });
     
     // Add Enter key support for admin login
@@ -1413,10 +1521,10 @@ function updateRating(bookId, newRating) {
     }
 }
 
-function displayBooks(searchQuery = '') {
+function displayBooks(searchQuery = '', categoryFilter = 'all') {
     const grid = document.getElementById('booksGrid');
     
-    // Filter books based on search query and user role
+    // Filter books based on search query, category and user role
     const filteredBooks = books.filter(book => {
         // Admin can see all books
         // Students can only see books assigned to them
@@ -1426,6 +1534,13 @@ function displayBooks(searchQuery = '') {
         } else {
             // Students and Teachers only see assigned books
             if (!book.assignedTo || !book.assignedTo.includes(currentUser.role)) {
+                return false;
+            }
+        }
+        
+        // Category filter
+        if (categoryFilter !== 'all') {
+            if (book.genre !== categoryFilter) {
                 return false;
             }
         }
@@ -1504,6 +1619,16 @@ function displayBooks(searchQuery = '') {
     `).join('');
     
     lucide.createIcons();
+}
+
+// Category Filter Function
+function filterBooksByCategory() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const searchInput = document.getElementById('searchInput');
+    const selectedCategory = categoryFilter.value;
+    const searchQuery = searchInput.value;
+    
+    displayBooks(searchQuery, selectedCategory);
 }
 
 // Notice Board Functions

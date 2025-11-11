@@ -511,12 +511,396 @@ function toggleDictionary() {
     lucide.createIcons();
 }
 
+// Learning Games Toggle Function
+function toggleLearningGames() {
+    const gamesSection = document.getElementById('learningGamesSection');
+    const addBookForm = document.getElementById('addBookForm');
+    const addNoteForm = document.getElementById('addNoteForm');
+    const dictSection = document.getElementById('dictionarySection');
+    const ncertSection = document.getElementById('ncertBooksSection');
+    const booksGrid = document.getElementById('booksGrid');
+    const notesSection = document.getElementById('notesSection');
+    
+    if (gamesSection.style.display === 'none' || gamesSection.style.display === '') {
+        gamesSection.style.display = 'block';
+        addBookForm.style.display = 'none';
+        addNoteForm.style.display = 'none';
+        dictSection.style.display = 'none';
+        ncertSection.style.display = 'none';
+        booksGrid.style.display = 'none';
+        notesSection.style.display = 'none';
+        document.getElementById('gamePlayArea').style.display = 'none';
+    } else {
+        gamesSection.style.display = 'none';
+        booksGrid.style.display = 'grid';
+    }
+    lucide.createIcons();
+}
+
+// Start Game Function
+function startGame(gameType) {
+    const gamePlayArea = document.getElementById('gamePlayArea');
+    const gameContent = document.getElementById('gameContent');
+    const gameTitle = document.getElementById('currentGameTitle');
+    
+    gamePlayArea.style.display = 'block';
+    document.querySelector('.games-grid').style.display = 'none';
+    
+    switch(gameType) {
+        case 'memory':
+            gameTitle.textContent = '🧠 Memory Match Game';
+            initMemoryGame(gameContent);
+            break;
+        case 'math':
+            gameTitle.textContent = '➕ Math Challenge';
+            initMathGame(gameContent);
+            break;
+        case 'word':
+            gameTitle.textContent = '📝 Word Builder';
+            initWordGame(gameContent);
+            break;
+        case 'typing':
+            gameTitle.textContent = '⌨️ Typing Master';
+            initTypingGame(gameContent);
+            break;
+        case 'science':
+            gameTitle.textContent = '🔬 Science Explorer';
+            initScienceGame(gameContent);
+            break;
+        case 'logic':
+            gameTitle.textContent = '🧩 Logic Master';
+            initLogicGame(gameContent);
+            break;
+    }
+    lucide.createIcons();
+}
+
+// Close Game Function
+function closeGame() {
+    document.getElementById('gamePlayArea').style.display = 'none';
+    document.querySelector('.games-grid').style.display = 'grid';
+}
+
+// Memory Match Game
+function initMemoryGame(container) {
+    const cards = ['🍎', '🍌', '🍇', '🍊', '🍓', '🍉', '🍎', '🍌', '🍇', '🍊', '🍓', '🍉'];
+    let shuffled = cards.sort(() => Math.random() - 0.5);
+    let flipped = [];
+    let matched = [];
+    
+    container.innerHTML = `
+        <div style="text-align: center; margin-bottom: 1rem;">
+            <h4 style="color: #ffffff;">Matched: <span id="matchCount">0</span> / 6</h4>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 500px; margin: 0 auto;">
+            ${shuffled.map((card, i) => `
+                <div class="memory-card" data-index="${i}" onclick="flipCard(${i})" 
+                     style="background: linear-gradient(135deg, #ec4899, #db2777); 
+                            border-radius: 12px; padding: 2rem; font-size: 2rem; 
+                            text-align: center; cursor: pointer; transition: all 0.3s;">
+                    <span class="card-content" style="display: none;">${card}</span>
+                    <span class="card-back">?</span>
+                </div>
+            `).join('')}
+        </div>
+    `;
+    
+    window.flipCard = function(index) {
+        if (flipped.length < 2 && !flipped.includes(index) && !matched.includes(index)) {
+            const card = container.querySelectorAll('.memory-card')[index];
+            card.querySelector('.card-content').style.display = 'block';
+            card.querySelector('.card-back').style.display = 'none';
+            flipped.push(index);
+            
+            if (flipped.length === 2) {
+                const card1 = shuffled[flipped[0]];
+                const card2 = shuffled[flipped[1]];
+                
+                setTimeout(() => {
+                    if (card1 === card2) {
+                        matched.push(flipped[0], flipped[1]);
+                        document.getElementById('matchCount').textContent = matched.length / 2;
+                        if (matched.length === 12) {
+                            setTimeout(() => alert('🎉 Congratulations! You won!'), 300);
+                        }
+                    } else {
+                        container.querySelectorAll('.memory-card')[flipped[0]].querySelector('.card-content').style.display = 'none';
+                        container.querySelectorAll('.memory-card')[flipped[0]].querySelector('.card-back').style.display = 'block';
+                        container.querySelectorAll('.memory-card')[flipped[1]].querySelector('.card-content').style.display = 'none';
+                        container.querySelectorAll('.memory-card')[flipped[1]].querySelector('.card-back').style.display = 'block';
+                    }
+                    flipped = [];
+                }, 800);
+            }
+        }
+    };
+}
+
+// Math Challenge Game
+function initMathGame(container) {
+    let score = 0;
+    let question = generateMathQuestion();
+    
+    function generateMathQuestion() {
+        const num1 = Math.floor(Math.random() * 50) + 1;
+        const num2 = Math.floor(Math.random() * 50) + 1;
+        const operations = ['+', '-', '×'];
+        const op = operations[Math.floor(Math.random() * operations.length)];
+        let answer;
+        
+        switch(op) {
+            case '+': answer = num1 + num2; break;
+            case '-': answer = num1 - num2; break;
+            case '×': answer = num1 * num2; break;
+        }
+        
+        return { num1, num2, op, answer };
+    }
+    
+    function renderQuestion() {
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h3 style="color: #ffffff; margin-bottom: 2rem;">Score: ${score}</h3>
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <h2 style="color: #ffffff; font-size: 3rem;">${question.num1} ${question.op} ${question.num2} = ?</h2>
+                </div>
+                <input type="number" id="mathAnswer" placeholder="Your answer" 
+                       style="padding: 1rem; font-size: 1.5rem; border-radius: 8px; border: 2px solid #ec4899; 
+                              background: rgba(255,255,255,0.1); color: white; text-align: center; width: 200px;">
+                <br><br>
+                <button onclick="checkMathAnswer()" 
+                        style="padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #db2777); 
+                               border: none; border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer;">
+                    Submit Answer
+                </button>
+                <p id="mathFeedback" style="color: #ffffff; margin-top: 1rem; font-size: 1.2rem;"></p>
+            </div>
+        `;
+        
+        document.getElementById('mathAnswer').focus();
+        document.getElementById('mathAnswer').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkMathAnswer();
+        });
+    }
+    
+    window.checkMathAnswer = function() {
+        const userAnswer = parseInt(document.getElementById('mathAnswer').value);
+        const feedback = document.getElementById('mathFeedback');
+        
+        if (userAnswer === question.answer) {
+            score += 10;
+            feedback.textContent = '✅ Correct! +10 points';
+            feedback.style.color = '#10b981';
+            setTimeout(() => {
+                question = generateMathQuestion();
+                renderQuestion();
+            }, 1000);
+        } else {
+            feedback.textContent = `❌ Wrong! Correct answer: ${question.answer}`;
+            feedback.style.color = '#ef4444';
+        }
+    };
+    
+    renderQuestion();
+}
+
+// Word Builder Game
+function initWordGame(container) {
+    const words = ['LIBRARY', 'EDUCATION', 'LEARNING', 'KNOWLEDGE', 'STUDENT', 'TEACHER'];
+    const targetWord = words[Math.floor(Math.random() * words.length)];
+    const scrambled = targetWord.split('').sort(() => Math.random() - 0.5).join('');
+    
+    container.innerHTML = `
+        <div style="text-align: center;">
+            <h3 style="color: #ffffff; margin-bottom: 2rem;">Unscramble the word!</h3>
+            <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                <h2 style="color: #fbbf24; font-size: 3rem; letter-spacing: 0.5rem;">${scrambled}</h2>
+            </div>
+            <input type="text" id="wordAnswer" placeholder="Type the word" 
+                   style="padding: 1rem; font-size: 1.5rem; border-radius: 8px; border: 2px solid #ec4899; 
+                          background: rgba(255,255,255,0.1); color: white; text-align: center; width: 300px; text-transform: uppercase;">
+            <br><br>
+            <button onclick="checkWordAnswer('${targetWord}')" 
+                    style="padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #db2777); 
+                           border: none; border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer;">
+                Check Answer
+            </button>
+            <p id="wordFeedback" style="color: #ffffff; margin-top: 1rem; font-size: 1.2rem;"></p>
+        </div>
+    `;
+    
+    window.checkWordAnswer = function(correct) {
+        const userAnswer = document.getElementById('wordAnswer').value.toUpperCase();
+        const feedback = document.getElementById('wordFeedback');
+        
+        if (userAnswer === correct) {
+            feedback.textContent = '🎉 Correct! Well done!';
+            feedback.style.color = '#10b981';
+        } else {
+            feedback.textContent = `❌ Try again! Hint: It starts with "${correct[0]}"`;
+            feedback.style.color = '#ef4444';
+        }
+    };
+}
+
+// Typing Master Game
+function initTypingGame(container) {
+    const sentences = [
+        'The quick brown fox jumps over the lazy dog',
+        'Learning is a treasure that will follow its owner everywhere',
+        'Education is the most powerful weapon you can use to change the world'
+    ];
+    const sentence = sentences[Math.floor(Math.random() * sentences.length)];
+    let startTime;
+    
+    container.innerHTML = `
+        <div style="text-align: center;">
+            <h3 style="color: #ffffff; margin-bottom: 2rem;">Type this sentence as fast as you can!</h3>
+            <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                <p style="color: #ffffff; font-size: 1.5rem; line-height: 2;">${sentence}</p>
+            </div>
+            <textarea id="typingInput" placeholder="Start typing here..." 
+                      style="padding: 1rem; font-size: 1.2rem; border-radius: 8px; border: 2px solid #ec4899; 
+                             background: rgba(255,255,255,0.1); color: white; width: 100%; min-height: 100px; resize: vertical;"></textarea>
+            <p id="typingStats" style="color: #ffffff; margin-top: 1rem; font-size: 1.2rem;"></p>
+        </div>
+    `;
+    
+    const input = document.getElementById('typingInput');
+    input.addEventListener('input', function() {
+        if (!startTime) startTime = Date.now();
+        
+        const typed = input.value;
+        const stats = document.getElementById('typingStats');
+        
+        if (typed === sentence) {
+            const timeTaken = ((Date.now() - startTime) / 1000).toFixed(2);
+            const wpm = Math.round((sentence.split(' ').length / timeTaken) * 60);
+            stats.innerHTML = `✅ <span style="color: #10b981;">Completed in ${timeTaken}s! Speed: ${wpm} WPM</span>`;
+        } else {
+            const accuracy = typed.split('').filter((char, i) => char === sentence[i]).length / typed.length * 100;
+            stats.textContent = `Accuracy: ${accuracy.toFixed(0)}%`;
+        }
+    });
+}
+
+// Science Explorer Game
+function initScienceGame(container) {
+    const questions = [
+        { q: 'What is the chemical symbol for water?', a: 'H2O', options: ['H2O', 'O2', 'CO2', 'N2'] },
+        { q: 'What planet is known as the Red Planet?', a: 'Mars', options: ['Mars', 'Venus', 'Jupiter', 'Saturn'] },
+        { q: 'What is the speed of light?', a: '300,000 km/s', options: ['300,000 km/s', '150,000 km/s', '500,000 km/s', '100,000 km/s'] },
+        { q: 'What is the largest organ in human body?', a: 'Skin', options: ['Skin', 'Liver', 'Heart', 'Brain'] }
+    ];
+    
+    let currentQ = 0;
+    let score = 0;
+    
+    function showQuestion() {
+        if (currentQ >= questions.length) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">🎉 Quiz Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${questions.length}</p>
+                    <button onclick="location.reload()" 
+                            style="padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #db2777); 
+                                   border: none; border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer;">
+                        Play Again
+                    </button>
+                </div>
+            `;
+            return;
+        }
+        
+        const q = questions[currentQ];
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Question ${currentQ + 1}/${questions.length}</h4>
+                <h3 style="color: #ffffff; margin-bottom: 2rem; font-size: 1.5rem;">${q.q}</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 500px; margin: 0 auto;">
+                    ${q.options.map(opt => `
+                        <button onclick="checkScience('${opt}', '${q.a}')" 
+                                style="padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid #ec4899; 
+                                       border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s;">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="color: #ffffff; margin-top: 2rem;">Score: ${score}</p>
+            </div>
+        `;
+    }
+    
+    window.checkScience = function(selected, correct) {
+        if (selected === correct) {
+            score++;
+        }
+        currentQ++;
+        showQuestion();
+    };
+    
+    showQuestion();
+}
+
+// Logic Master Game
+function initLogicGame(container) {
+    const puzzles = [
+        { q: 'If 2 + 3 = 10, 3 + 4 = 21, then 4 + 5 = ?', a: '36', hint: 'Multiply and add' },
+        { q: 'What comes next: 2, 4, 8, 16, __?', a: '32', hint: 'Double each time' },
+        { q: 'If all Bloops are Razzies and all Razzies are Lazzies, are all Bloops Lazzies?', a: 'Yes', hint: 'Think logically' }
+    ];
+    
+    const puzzle = puzzles[Math.floor(Math.random() * puzzles.length)];
+    
+    container.innerHTML = `
+        <div style="text-align: center;">
+            <h3 style="color: #ffffff; margin-bottom: 2rem;">Solve this puzzle!</h3>
+            <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                <p style="color: #ffffff; font-size: 1.5rem; line-height: 2;">${puzzle.q}</p>
+            </div>
+            <input type="text" id="logicAnswer" placeholder="Your answer" 
+                   style="padding: 1rem; font-size: 1.5rem; border-radius: 8px; border: 2px solid #ec4899; 
+                          background: rgba(255,255,255,0.1); color: white; text-align: center; width: 200px;">
+            <br><br>
+            <button onclick="checkLogic('${puzzle.a}')" 
+                    style="padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #db2777); 
+                           border: none; border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer; margin-right: 1rem;">
+                Submit
+            </button>
+            <button onclick="showHint('${puzzle.hint}')" 
+                    style="padding: 1rem 2rem; background: rgba(255,255,255,0.1); border: 2px solid #fbbf24; 
+                           border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer;">
+                Hint
+            </button>
+            <p id="logicFeedback" style="color: #ffffff; margin-top: 1rem; font-size: 1.2rem;"></p>
+        </div>
+    `;
+    
+    window.checkLogic = function(correct) {
+        const userAnswer = document.getElementById('logicAnswer').value;
+        const feedback = document.getElementById('logicFeedback');
+        
+        if (userAnswer.toLowerCase() === correct.toLowerCase()) {
+            feedback.textContent = '🎉 Brilliant! You solved it!';
+            feedback.style.color = '#10b981';
+        } else {
+            feedback.textContent = '❌ Not quite! Try again or use the hint.';
+            feedback.style.color = '#ef4444';
+        }
+    };
+    
+    window.showHint = function(hint) {
+        document.getElementById('logicFeedback').textContent = `💡 Hint: ${hint}`;
+        document.getElementById('logicFeedback').style.color = '#fbbf24';
+    };
+}
+
 // Show welcome message with sample words
 function showWelcomeMessage() {
     const resultDiv = document.getElementById('englishResult');
     resultDiv.innerHTML = `
         <div class="dict-welcome">
-            <h3 style="color: #a78bfa; margin-bottom: 1rem;">Welcome to Digital Dictionary! 📚</h3>
+            <h3 style="color: #fdfdfdff; margin-bottom: 1rem;">Welcome to Digital Dictionary! 📚</h3>
             <p style="color: #e0e7ff; margin-bottom: 1.5rem;">Type any word in the search box above to see its Hindi translation.</p>
             <div class="dict-samples">
                 <h4 style="color: #fbbf24; margin-bottom: 0.75rem;">Sample Words:</h4>

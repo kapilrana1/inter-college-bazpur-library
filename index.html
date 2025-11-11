@@ -164,6 +164,12 @@
                     <span>NCERT Books</span>
                 </button>
                 
+                <!-- Learning Games Button - Visible to All Users -->
+                <button id="learningGamesBtn" onclick="toggleLearningGames()" class="add-btn games-btn">
+                    <i data-lucide="gamepad-2"></i>
+                    <span>Learning Games</span>
+                </button>
+                
                 <!-- Category Filter Dropdown -->
                 <select id="categoryFilter" onchange="filterBooksByCategory()" class="category-filter">
                     <option value="all">All Books</option>
@@ -295,6 +301,99 @@
                             <span>View Books</span>
                         </a>
                     </div>
+                </div>
+            </div>
+
+            <!-- Learning Games Section -->
+            <div id="learningGamesSection" class="games-section" style="display: none;">
+                <div class="form-header">
+                    <h2 class="form-title">
+                        <i data-lucide="gamepad-2"></i>
+                        Learning Games - Skill Development
+                    </h2>
+                    <button onclick="toggleLearningGames()" class="close-btn">
+                        <i data-lucide="x"></i>
+                    </button>
+                </div>
+
+                <div class="games-grid">
+                    <!-- Game 1: Memory Card Game -->
+                    <div class="game-card">
+                        <div class="game-icon">🧠</div>
+                        <h3 class="game-title">Memory Match</h3>
+                        <p class="game-description">Match pairs of cards to improve memory and concentration</p>
+                        <button onclick="startGame('memory')" class="game-btn">
+                            <i data-lucide="play"></i>
+                            <span>Play Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Game 2: Math Quiz -->
+                    <div class="game-card">
+                        <div class="game-icon">➕</div>
+                        <h3 class="game-title">Math Challenge</h3>
+                        <p class="game-description">Solve arithmetic problems to enhance calculation speed</p>
+                        <button onclick="startGame('math')" class="game-btn">
+                            <i data-lucide="play"></i>
+                            <span>Play Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Game 3: Word Puzzle -->
+                    <div class="game-card">
+                        <div class="game-icon">📝</div>
+                        <h3 class="game-title">Word Builder</h3>
+                        <p class="game-description">Create words from letters to improve vocabulary</p>
+                        <button onclick="startGame('word')" class="game-btn">
+                            <i data-lucide="play"></i>
+                            <span>Play Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Game 4: Typing Speed -->
+                    <div class="game-card">
+                        <div class="game-icon">⌨️</div>
+                        <h3 class="game-title">Typing Master</h3>
+                        <p class="game-description">Practice typing to increase speed and accuracy</p>
+                        <button onclick="startGame('typing')" class="game-btn">
+                            <i data-lucide="play"></i>
+                            <span>Play Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Game 5: Science Quiz -->
+                    <div class="game-card">
+                        <div class="game-icon">🔬</div>
+                        <h3 class="game-title">Science Explorer</h3>
+                        <p class="game-description">Answer science questions to boost knowledge</p>
+                        <button onclick="startGame('science')" class="game-btn">
+                            <i data-lucide="play"></i>
+                            <span>Play Now</span>
+                        </button>
+                    </div>
+
+                    <!-- Game 6: Logic Puzzle -->
+                    <div class="game-card">
+                        <div class="game-icon">🧩</div>
+                        <h3 class="game-title">Logic Master</h3>
+                        <p class="game-description">Solve puzzles to develop logical thinking</p>
+                        <button onclick="startGame('logic')" class="game-btn">
+                            <i data-lucide="play"></i>
+                            <span>Play Now</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Game Play Area -->
+                <div id="gamePlayArea" style="display: none;">
+                    <div class="game-header">
+                        <h3 id="currentGameTitle"></h3>
+                        <button onclick="closeGame()" class="close-game-btn">
+                            <i data-lucide="x"></i>
+                            Close Game
+                        </button>
+                    </div>
+                    <div id="gameContent" class="game-content"></div>
                 </div>
             </div>
 

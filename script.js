@@ -571,6 +571,30 @@ function startGame(gameType) {
             gameTitle.textContent = '🧩 Logic Master';
             initLogicGame(gameContent);
             break;
+        case 'grammar':
+            gameTitle.textContent = '📖 Grammar Guru';
+            initGrammarGame(gameContent);
+            break;
+        case 'gk':
+            gameTitle.textContent = '🌍 GK Champion';
+            initGKGame(gameContent);
+            break;
+        case 'spelling':
+            gameTitle.textContent = '🐝 Spelling Bee';
+            initSpellingGame(gameContent);
+            break;
+        case 'tables':
+            gameTitle.textContent = '✖️ Table Master';
+            initTablesGame(gameContent);
+            break;
+        case 'geography':
+            gameTitle.textContent = '🗺️ Geography Pro';
+            initGeographyGame(gameContent);
+            break;
+        case 'hindi':
+            gameTitle.textContent = '🇮🇳 Hindi Master';
+            initHindiGame(gameContent);
+            break;
     }
     lucide.createIcons();
 }
@@ -893,6 +917,384 @@ function initLogicGame(container) {
         document.getElementById('logicFeedback').textContent = `💡 Hint: ${hint}`;
         document.getElementById('logicFeedback').style.color = '#fbbf24';
     };
+}
+
+// Grammar Guru Game
+function initGrammarGame(container) {
+    const questions = [
+        { q: 'Choose the correct verb: "She ___ to school every day."', a: 'goes', options: ['go', 'goes', 'going', 'gone'] },
+        { q: 'Select the correct article: "___ apple a day keeps the doctor away."', a: 'An', options: ['A', 'An', 'The', 'No article'] },
+        { q: 'Which is correct: "He ___ playing cricket yesterday."', a: 'was', options: ['is', 'was', 'were', 'been'] },
+        { q: 'Choose correct: "They have ___ finished their homework."', a: 'already', options: ['already', 'yet', 'still', 'ever'] },
+        { q: 'Correct plural of "child" is:', a: 'children', options: ['childs', 'children', 'childes', 'child'] }
+    ];
+    
+    let currentQ = 0;
+    let score = 0;
+    
+    function showQuestion() {
+        if (currentQ >= questions.length) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">📖 Grammar Test Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${questions.length}</p>
+                    <p style="color: #fbbf24; font-size: 1.2rem;">Keep practicing to improve!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const q = questions[currentQ];
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Question ${currentQ + 1}/${questions.length}</h4>
+                <h3 style="color: #ffffff; margin-bottom: 2rem; font-size: 1.5rem;">${q.q}</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 600px; margin: 0 auto;">
+                    ${q.options.map(opt => `
+                        <button onclick="checkGrammar('${opt}', '${q.a}')" 
+                                style="padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid #ec4899; 
+                                       border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s;">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="color: #ffffff; margin-top: 2rem;">Score: ${score}</p>
+            </div>
+        `;
+    }
+    
+    window.checkGrammar = function(selected, correct) {
+        if (selected === correct) {
+            score++;
+        }
+        currentQ++;
+        showQuestion();
+    };
+    
+    showQuestion();
+}
+
+// GK Champion Game
+function initGKGame(container) {
+    const questions = [
+        { q: 'Who is the Father of the Nation in India?', a: 'Mahatma Gandhi', options: ['Jawaharlal Nehru', 'Mahatma Gandhi', 'Bhagat Singh', 'Subhash Chandra Bose'] },
+        { q: 'What is the capital of India?', a: 'New Delhi', options: ['Mumbai', 'New Delhi', 'Kolkata', 'Bangalore'] },
+        { q: 'How many states are there in India?', a: '28', options: ['26', '27', '28', '29'] },
+        { q: 'National bird of India is:', a: 'Peacock', options: ['Parrot', 'Peacock', 'Sparrow', 'Eagle'] },
+        { q: 'Who wrote the Indian National Anthem?', a: 'Rabindranath Tagore', options: ['Bankim Chandra Chatterjee', 'Rabindranath Tagore', 'Sarojini Naidu', 'Subramanya Bharathi'] },
+        { q: 'Largest planet in our solar system:', a: 'Jupiter', options: ['Earth', 'Mars', 'Jupiter', 'Saturn'] }
+    ];
+    
+    let currentQ = 0;
+    let score = 0;
+    
+    function showQuestion() {
+        if (currentQ >= questions.length) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">🌍 GK Quiz Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${questions.length}</p>
+                    <p style="color: #fbbf24; font-size: 1.2rem;">${score >= 4 ? 'Excellent Knowledge!' : 'Keep Learning!'}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const q = questions[currentQ];
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Question ${currentQ + 1}/${questions.length}</h4>
+                <h3 style="color: #ffffff; margin-bottom: 2rem; font-size: 1.5rem;">${q.q}</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 600px; margin: 0 auto;">
+                    ${q.options.map(opt => `
+                        <button onclick="checkGK('${opt}', '${q.a}')" 
+                                style="padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid #ec4899; 
+                                       border-radius: 8px; color: white; font-size: 1.1rem; cursor: pointer; transition: all 0.3s;">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="color: #ffffff; margin-top: 2rem;">Score: ${score}</p>
+            </div>
+        `;
+    }
+    
+    window.checkGK = function(selected, correct) {
+        if (selected === correct) {
+            score++;
+        }
+        currentQ++;
+        showQuestion();
+    };
+    
+    showQuestion();
+}
+
+// Spelling Bee Game
+function initSpellingGame(container) {
+    const words = [
+        { word: 'ACCOMMODATION', hint: 'A place to stay' },
+        { word: 'BEAUTIFUL', hint: 'Pleasant to look at' },
+        { word: 'NECESSARY', hint: 'Required or needed' },
+        { word: 'EMBARRASS', hint: 'To make someone feel awkward' },
+        { word: 'OPPORTUNITY', hint: 'A chance to do something' },
+        { word: 'RESTAURANT', hint: 'Place to eat food' },
+        { word: 'ENVIRONMENT', hint: 'Natural world around us' }
+    ];
+    
+    let currentWord = 0;
+    let score = 0;
+    
+    function showWord() {
+        if (currentWord >= words.length) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">🐝 Spelling Test Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${words.length}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const w = words[currentWord];
+        const scrambled = w.word.split('').sort(() => Math.random() - 0.5).join('');
+        
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Word ${currentWord + 1}/${words.length}</h4>
+                <p style="color: #ffffff; font-size: 1.3rem; margin-bottom: 1rem;">💡 Hint: ${w.hint}</p>
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <h3 style="color: #fbbf24; font-size: 2rem; letter-spacing: 0.5rem;">${scrambled}</h3>
+                </div>
+                <input type="text" id="spellingAnswer" placeholder="Spell the word correctly" 
+                       style="padding: 1rem; font-size: 1.3rem; border-radius: 8px; border: 2px solid #ec4899; 
+                              background: rgba(255,255,255,0.1); color: white; text-align: center; width: 350px; text-transform: uppercase;">
+                <br><br>
+                <button onclick="checkSpelling('${w.word}')" 
+                        style="padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #db2777); 
+                               border: none; border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer;">
+                    Check Spelling
+                </button>
+                <p id="spellingFeedback" style="color: #ffffff; margin-top: 1rem; font-size: 1.2rem;"></p>
+                <p style="color: #ffffff; margin-top: 1rem;">Score: ${score}</p>
+            </div>
+        `;
+        
+        document.getElementById('spellingAnswer').focus();
+    }
+    
+    window.checkSpelling = function(correct) {
+        const userAnswer = document.getElementById('spellingAnswer').value.toUpperCase();
+        const feedback = document.getElementById('spellingFeedback');
+        
+        if (userAnswer === correct) {
+            feedback.textContent = '✅ Perfect Spelling!';
+            feedback.style.color = '#10b981';
+            score++;
+            setTimeout(() => {
+                currentWord++;
+                showWord();
+            }, 1500);
+        } else {
+            feedback.textContent = `❌ Incorrect! Correct: ${correct}`;
+            feedback.style.color = '#ef4444';
+        }
+    };
+    
+    showWord();
+}
+
+// Table Master Game
+function initTablesGame(container) {
+    let score = 0;
+    let questionsAsked = 0;
+    const totalQuestions = 10;
+    
+    function generateQuestion() {
+        const table = Math.floor(Math.random() * 20) + 1;
+        const multiplier = Math.floor(Math.random() * 10) + 1;
+        const answer = table * multiplier;
+        return { table, multiplier, answer };
+    }
+    
+    let currentQ = generateQuestion();
+    
+    function showQuestion() {
+        if (questionsAsked >= totalQuestions) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">✖️ Tables Practice Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${totalQuestions}</p>
+                    <p style="color: #fbbf24; font-size: 1.2rem;">${score >= 7 ? 'Excellent!' : 'Keep Practicing!'}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Question ${questionsAsked + 1}/${totalQuestions}</h4>
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <h2 style="color: #ffffff; font-size: 3rem;">${currentQ.table} × ${currentQ.multiplier} = ?</h2>
+                </div>
+                <input type="number" id="tableAnswer" placeholder="Your answer" 
+                       style="padding: 1rem; font-size: 1.5rem; border-radius: 8px; border: 2px solid #ec4899; 
+                              background: rgba(255,255,255,0.1); color: white; text-align: center; width: 200px;">
+                <br><br>
+                <button onclick="checkTable(${currentQ.answer})" 
+                        style="padding: 1rem 2rem; background: linear-gradient(135deg, #ec4899, #db2777); 
+                               border: none; border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer;">
+                    Submit
+                </button>
+                <p id="tableFeedback" style="color: #ffffff; margin-top: 1rem; font-size: 1.2rem;"></p>
+                <p style="color: #ffffff; margin-top: 1rem;">Score: ${score}</p>
+            </div>
+        `;
+        
+        document.getElementById('tableAnswer').focus();
+        document.getElementById('tableAnswer').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkTable(currentQ.answer);
+        });
+    }
+    
+    window.checkTable = function(correct) {
+        const userAnswer = parseInt(document.getElementById('tableAnswer').value);
+        const feedback = document.getElementById('tableFeedback');
+        
+        if (userAnswer === correct) {
+            feedback.textContent = '✅ Correct!';
+            feedback.style.color = '#10b981';
+            score++;
+        } else {
+            feedback.textContent = `❌ Wrong! Answer: ${correct}`;
+            feedback.style.color = '#ef4444';
+        }
+        
+        questionsAsked++;
+        setTimeout(() => {
+            currentQ = generateQuestion();
+            showQuestion();
+        }, 1500);
+    };
+    
+    showQuestion();
+}
+
+// Geography Pro Game
+function initGeographyGame(container) {
+    const questions = [
+        { q: 'Capital of France is:', a: 'Paris', options: ['London', 'Paris', 'Rome', 'Berlin'] },
+        { q: 'Longest river in the world:', a: 'Nile', options: ['Amazon', 'Nile', 'Ganges', 'Yangtze'] },
+        { q: 'Mount Everest is in which mountain range?', a: 'Himalayas', options: ['Alps', 'Andes', 'Himalayas', 'Rockies'] },
+        { q: 'Largest ocean in the world:', a: 'Pacific', options: ['Atlantic', 'Indian', 'Pacific', 'Arctic'] },
+        { q: 'Largest country by area:', a: 'Russia', options: ['China', 'USA', 'Russia', 'Canada'] },
+        { q: 'Capital of Japan:', a: 'Tokyo', options: ['Beijing', 'Seoul', 'Tokyo', 'Bangkok'] }
+    ];
+    
+    let currentQ = 0;
+    let score = 0;
+    
+    function showQuestion() {
+        if (currentQ >= questions.length) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">🗺️ Geography Quiz Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${questions.length}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const q = questions[currentQ];
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Question ${currentQ + 1}/${questions.length}</h4>
+                <h3 style="color: #ffffff; margin-bottom: 2rem; font-size: 1.5rem;">${q.q}</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 600px; margin: 0 auto;">
+                    ${q.options.map(opt => `
+                        <button onclick="checkGeo('${opt}', '${q.a}')" 
+                                style="padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid #ec4899; 
+                                       border-radius: 8px; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.3s;">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="color: #ffffff; margin-top: 2rem;">Score: ${score}</p>
+            </div>
+        `;
+    }
+    
+    window.checkGeo = function(selected, correct) {
+        if (selected === correct) {
+            score++;
+        }
+        currentQ++;
+        showQuestion();
+    };
+    
+    showQuestion();
+}
+
+// Hindi Master Game
+function initHindiGame(container) {
+    const words = [
+        { english: 'Book', hindi: 'किताब' },
+        { english: 'School', hindi: 'स्कूल' },
+        { english: 'Teacher', hindi: 'शिक्षक' },
+        { english: 'Student', hindi: 'छात्र' },
+        { english: 'Water', hindi: 'पानी' },
+        { english: 'Food', hindi: 'खाना' },
+        { english: 'Friend', hindi: 'दोस्त' },
+        { english: 'House', hindi: 'घर' }
+    ];
+    
+    let currentWord = 0;
+    let score = 0;
+    
+    function showWord() {
+        if (currentWord >= words.length) {
+            container.innerHTML = `
+                <div style="text-align: center;">
+                    <h2 style="color: #10b981; font-size: 3rem;">🇮🇳 Hindi Learning Complete!</h2>
+                    <p style="color: #ffffff; font-size: 2rem; margin: 2rem 0;">Score: ${score}/${words.length}</p>
+                </div>
+            `;
+            return;
+        }
+        
+        const w = words[currentWord];
+        const options = [w.hindi, ...words.filter(x => x !== w).slice(0, 3).map(x => x.hindi)].sort(() => Math.random() - 0.5);
+        
+        container.innerHTML = `
+            <div style="text-align: center;">
+                <h4 style="color: #fbbf24; margin-bottom: 2rem;">Word ${currentWord + 1}/${words.length}</h4>
+                <h3 style="color: #ffffff; margin-bottom: 2rem;">What is Hindi for:</h3>
+                <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 12px; margin-bottom: 2rem;">
+                    <h2 style="color: #fbbf24; font-size: 3rem;">${w.english}</h2>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; max-width: 500px; margin: 0 auto;">
+                    ${options.map(opt => `
+                        <button onclick="checkHindi('${opt}', '${w.hindi}')" 
+                                style="padding: 1.5rem; background: rgba(255,255,255,0.1); border: 2px solid #ec4899; 
+                                       border-radius: 8px; color: white; font-size: 2rem; cursor: pointer; transition: all 0.3s;">
+                            ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <p style="color: #ffffff; margin-top: 2rem;">Score: ${score}</p>
+            </div>
+        `;
+    }
+    
+    window.checkHindi = function(selected, correct) {
+        if (selected === correct) {
+            score++;
+        }
+        currentWord++;
+        setTimeout(() => showWord(), 500);
+    };
+    
+    showWord();
 }
 
 // Show welcome message with sample words

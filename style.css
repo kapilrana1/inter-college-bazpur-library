@@ -1326,12 +1326,12 @@ body {
 
 .dict-word-title {
     font-size: 1.75rem;
-    color: #a78bfa;
+    color: #ffffff;
     margin-bottom: 0.5rem;
 }
 
 .dict-phonetic {
-    color: #c4b5fd;
+    color: #ffffff;
     font-style: italic;
     margin-bottom: 1rem;
 }
@@ -1344,19 +1344,19 @@ body {
 }
 
 .dict-pos {
-    color: #fbbf24;
+    color: #ffffff;
     font-size: 1.1rem;
     margin-bottom: 0.75rem;
 }
 
 .dict-definition {
     margin: 0.75rem 0;
-    color: #e0e7ff;
+    color: #ffffff;
     line-height: 1.6;
 }
 
 .dict-example {
-    color: #c4b5fd;
+    color: #ffffff;
     margin-top: 0.5rem;
     padding-left: 1rem;
     border-left: 3px solid #8b5cf6;
@@ -1408,7 +1408,7 @@ body {
 }
 
 .subject-card .dict-word-title {
-    color: #fbbf24;
+    color: #ffffff;
 }
 
 /* Hindi Dictionary Styles */
@@ -1418,7 +1418,7 @@ body {
 
 .dict-hindi-text {
     font-size: 1.5rem;
-    color: #60a5fa;
+    color: #ffffff;
     font-weight: 600;
     margin: 0.75rem 0;
     line-height: 1.8;

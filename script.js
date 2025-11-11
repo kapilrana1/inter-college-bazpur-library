@@ -1122,10 +1122,10 @@ async function searchDictionaryAPI() {
                     <div class="dict-word-card api-card">
                         <h3 class="dict-word-title">${word.charAt(0).toUpperCase() + word.slice(1)}</h3>
                         <div class="hindi-translation-box">
-                            <h4 style="color: #a78bfa; margin-bottom: 0.5rem;">🇮🇳 Hindi Translation</h4>
-                            <p class="dict-hindi-text" style="font-size: 2rem; font-weight: bold;">${hindiTranslation}</p>
+                            <h4 style="color: #ffffff; margin-bottom: 0.5rem;">🇮🇳 Hindi Translation</h4>
+                            <p class="dict-hindi-text" style="font-size: 2rem; font-weight: bold; color: #ffffff;">${hindiTranslation}</p>
                         </div>
-                        <p style="color: #94a3b8; margin-top: 1rem;">English definition not available for this word.</p>
+                        <p style="color: #ffffff; margin-top: 1rem;">English definition not available for this word.</p>
                     </div>
                 `;
             } else {
@@ -1143,8 +1143,8 @@ async function searchDictionaryAPI() {
         // Show Hindi translation at the top if available
         if (hindiTranslation) {
             html += `<div class="hindi-translation-box">
-                <h4 style="color: #a78bfa; margin-bottom: 0.5rem;">🇮🇳 Hindi Translation</h4>
-                <p class="dict-hindi-text" style="font-size: 2rem; font-weight: bold; color: #2563eb;">${hindiTranslation}</p>
+                <h4 style="color: #ffffff; margin-bottom: 0.5rem;">🇮🇳 Hindi Translation</h4>
+                <p class="dict-hindi-text" style="font-size: 2rem; font-weight: bold; color: #ffffff;">${hindiTranslation}</p>
             </div>`;
         }
         
